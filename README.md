@@ -36,6 +36,7 @@ Here we're beginning to nest rules.
     // true
   
 In an infix language (like JavaScript) this could be written as:
+
     ( (3 > 1) && (1 < 3) )
     
 ### Data-Driven
@@ -60,7 +61,7 @@ Here's a complex rule that mixes literals and data. The pie isn't ready to eat u
 
     var rules = { "and" : [
       {"<" : [ { "var" : "temp" }, 110 ]},
-      {"==" : [ { "var" : "pie.filling" }, "apple" }
+      {"==" : [ { "var" : "pie.filling" }, "apple" ] }
     ] };
 
     var data = { "temp" : 100, "pie" : { "filling" : "apple" } };

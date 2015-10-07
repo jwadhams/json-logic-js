@@ -19,7 +19,7 @@ var jsonLogic = function(tests, data){
 		//TODO: Lazy evaluation when op is AND or OR
 		values = values.map(function(val){
 			if( typeof val === "object" ){
-				return LOGIC(val, data); //Recursion!
+				return jsonLogic(val, data); //Recursion!
 			}else{
 				return val;
 			}
@@ -29,15 +29,15 @@ var jsonLogic = function(tests, data){
 
 		if(op === "=="){        fun = function(a,b){ return a == b; };
 		}else if(op === "==="){ fun = function(a,b){ return a === b; };
-		}else if(op === "!="){  fun = function(a,b){ return a != b; };
+		}else if(op === "!=" ){ fun = function(a,b){ return a != b; };
 		}else if(op === "!=="){ fun = function(a,b){ return a !== b; };
-		}else if(op === ">"){   fun = function(a,b){ return a > b; };
-		}else if(op === ">="){  fun = function(a,b){ return a >= b; };
-		}else if(op === "<"){   fun = function(a,b){ return a < b; };
-		}else if(op === "<="){  fun = function(a,b){ return a <= b; };
-		}else if(op === "!"){   fun = function(a){ return !a; };
+		}else if(op === ">"  ){ fun = function(a,b){ return a > b; };
+		}else if(op === ">=" ){ fun = function(a,b){ return a >= b; };
+		}else if(op === "<"  ){ fun = function(a,b){ return a < b; };
+		}else if(op === "<=" ){ fun = function(a,b){ return a <= b; };
+		}else if(op === "!"  ){ fun = function(a){ return !a; };
 		}else if(op === "and"){ fun = function(a,b){ return a && b; };
-		}else if(op === "or"){  fun = function(a,b){ return a || b; };
+		}else if(op === "or" ){ fun = function(a,b){ return a || b; };
 		}else if(op === "var"){ 
 			fun = function(a){ 
 				var sub_props = a.split(".");
