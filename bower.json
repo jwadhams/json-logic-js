@@ -1,6 +1,6 @@
 {
   "name": "json-logic-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/jwadhams/json-logic-js",
   "authors": [
     "Jeremy Wadhams <jwadhams@dealerinspire.com>"
@@ -15,7 +15,7 @@
     "logic"
   ],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
