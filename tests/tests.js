@@ -51,7 +51,7 @@ QUnit.test( "single operands", function( assert ) {
 
 });
 
-QUnit.test( "compound operands", function( assert ) {
+QUnit.test( "compound logic", function( assert ) {
 
   assert.equal( jsonLogic( {"and" : [ { ">" : [3,1] }, true ] }), true);
   assert.equal( jsonLogic( {"and" : [ { ">" : [3,1] }, false ] }), false);
@@ -62,7 +62,7 @@ QUnit.test( "compound operands", function( assert ) {
 
 });
 
-QUnit.test( "data driven", function( assert ) {
+QUnit.test( "data-driven", function( assert ) {
 
   assert.equal( jsonLogic({"var" : ["a"]}, {a:1}), 1 );
   assert.equal( jsonLogic({"var" : ["a"]}), undefined ); //Missing Data argument

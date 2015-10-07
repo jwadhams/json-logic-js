@@ -2,13 +2,13 @@
 
 The goal of this project is to share complex logical expressions between front-end and back-end code.
 
-The format explicitly takes inspiration from [function calls in Amazon CloudFormation JSON templates](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/gettingstarted.templatebasics.html#gettingstarted.templatebasics.mappings).
+The format takes inspiration from [function calls in Amazon CloudFormation JSON templates](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/gettingstarted.templatebasics.html#gettingstarted.templatebasics.mappings).
 
 ## Virtues
 
   1. Terse.
   1. Consistent. `{"operator" : ["values" ... ]}`  Always.
-  1. Secure. We never execute or `eval()` anything in your rules or data.
+  1. Secure. We never `eval()`. Rules only have access to data you provide.
   1. Flexible. Most operands are 1 line of code.
 
 
@@ -69,3 +69,18 @@ Here's a complex rule that mixes literals and data. The pie isn't ready to eat u
     jsonLogic(rules, data);
     // true
     
+## Supported Operations
+
+  - `==` 
+  - `===` 
+  - `!=`
+  - `!==`
+  - `>`
+  - `>=`
+  - `<`
+  - `<=`
+  - `!` - Unary negation
+  - `and`
+  - `or`
+  - `var` - Retrieve data from the provided data object
+  
