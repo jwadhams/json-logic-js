@@ -49,6 +49,10 @@ QUnit.test( "single operands", function( assert ) {
   assert.equal( jsonLogic({"and" : [true, false]}), false );
   assert.equal( jsonLogic({"and" : [false, false]}), false );
 
+  assert.equal( jsonLogic({"?:" : [true, 1, 2]}), 1 );
+  assert.equal( jsonLogic({"?:" : [false, 1, 2]}), 2 );
+  assert.equal( jsonLogic({"?:" : [false, 1]}), undefined );
+
 });
 
 QUnit.test( "compound logic", function( assert ) {
@@ -60,6 +64,8 @@ QUnit.test( "compound logic", function( assert ) {
   
   assert.equal( jsonLogic( {"and" : [ { ">" : [3,1] }, { "<" : [1,3] } ] }), true);
 
+  assert.equal( jsonLogic({"?:" : [ {">":[3,1]}, "visible", "hidden"]}), "visible" );
+  
 });
 
 QUnit.test( "data-driven", function( assert ) {

@@ -38,6 +38,7 @@ var jsonLogic = function(tests, data){
 		}else if(op === "!"  ){ fun = function(a){ return !a; };
 		}else if(op === "and"){ fun = function(a,b){ return a && b; };
 		}else if(op === "or" ){ fun = function(a,b){ return a || b; };
+		}else if(op === "?:" ){ fun = function(a,b,c){ return a ? b : c; };
 		}else if(op === "var"){ 
 			fun = function(a){ 
 				var sub_props = a.split(".");

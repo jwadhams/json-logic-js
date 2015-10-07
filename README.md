@@ -94,5 +94,6 @@ jsonLogic(rules, data);
   - `!` - Unary negation
   - `and`
   - `or`
+  - `?:` - [ternary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator), like `a ? b : c;`
   - `var` - Retrieve data from the provided data object
   
