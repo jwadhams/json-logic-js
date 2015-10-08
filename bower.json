@@ -1,6 +1,6 @@
 {
   "name": "json-logic-js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/jwadhams/json-logic-js",
   "authors": [
     "Jeremy Wadhams <jwadhams@dealerinspire.com>"
@@ -21,6 +21,6 @@
     "node_modules",
     "bower_components",
     "tests",
-	"gulpfile.js"
+    "gulpfile.js"
   ]
 }
