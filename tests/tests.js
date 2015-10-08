@@ -1,3 +1,7 @@
+var real_console = console.log, last_console;
+console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); }
+
+
 QUnit.test( "single operands", function( assert ) {
   assert.equal( jsonLogic({"==" : [1, 1]}), true );
   assert.equal( jsonLogic({"==" : [1, 2]}), false );
@@ -53,6 +57,10 @@ QUnit.test( "single operands", function( assert ) {
   assert.equal( jsonLogic({"?:" : [false, 1, 2]}), 2 );
   assert.equal( jsonLogic({"?:" : [false, 1]}), undefined );
 
+  assert.equal( jsonLogic({"log" : [1]}), 1 );
+  assert.equal( last_console, 1 );
+
+
 });
 
 QUnit.test( "compound logic", function( assert ) {
@@ -71,7 +79,7 @@ QUnit.test( "compound logic", function( assert ) {
 QUnit.test( "data-driven", function( assert ) {
 
   assert.equal( jsonLogic({"var" : ["a"]}, {a:1}), 1 );
-  assert.equal( jsonLogic({"var" : ["a"]}), undefined ); //Missing Data argument
+  assert.equal( jsonLogic({"var" : ["a"]}), undefined , "Missing Data argument"); 
   assert.equal( jsonLogic({"var" : ["b"]}, {a:1}), undefined );
   assert.equal( jsonLogic({"var" : "a"}, {a:1}), 1 );
   assert.equal( jsonLogic({"var" : "a"}), undefined );
@@ -87,6 +95,39 @@ QUnit.test( "data-driven", function( assert ) {
 		),
 		true
 	);
+
+	assert.equal(
+		jsonLogic(
+			{"var" : 
+				{ "?:": [
+					{"<": [{"var":"temp"}, 110]}, 
+					"pie.filling",
+					"pie.eta"
+				] }
+			},
+			{ "temp" : 100, "pie" : { "filling" : "apple", "eta" : "60s" } }
+		),
+		"apple",
+		"Getting different data based on ternary"
+	);
+
+
+	assert.equal(
+		jsonLogic(
+			{"var" : 1 },
+			[ "apple", "banana", "carrot" ]
+		),
+		"banana",
+		"Extracting data from an array by index"
+	);
+
+
+
 });
 
 
+QUnit.test( "edge cases", function( assert ) {
+  assert.equal( jsonLogic(), undefined, "Called with no arguments" );
+  assert.equal( jsonLogic(true), true );
+	
+});

@@ -67,6 +67,16 @@ jsonLogic(
 // 1
 ```
 
+You can also use the `var` operator to access an array by numeric index:
+
+```js
+jsonLogic(
+	{"var" : 1 },
+	[ "apple", "banana", "carrot" ]
+);
+// "banana"
+```
+
 Here's a complex rule that mixes literals and data. The pie isn't ready to eat unless it's cooler than 110 degrees, *and* filled with apples.
 
 ```js
@@ -79,6 +89,19 @@ var data = { "temp" : 100, "pie" : { "filling" : "apple" } };
 
 jsonLogic(rules, data);
 // true
+```
+
+### Always and Never
+Sometimes the rule you want to process is "Always" or "Never."  If `jsonLogic()` is called with a non-object, it just returns it.
+
+```js
+//Always
+jsonLogic(true, data_will_be_ignored);
+// true
+
+//Never
+jsonLogic(false, i_wasnt_even_supposed_to_be_here);
+// false
 ```
     
 ## Supported Operations
@@ -96,4 +119,5 @@ jsonLogic(rules, data);
   - `or`
   - `?:` - [ternary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator), like `a ? b : c;`
   - `var` - Retrieve data from the provided data object
+  - `log` - Logs the first value to console, then passes it through unmodified.
   
