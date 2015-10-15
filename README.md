@@ -23,11 +23,11 @@ jsonLogic( { "==" : [1, 1] } );
 // true
 ```
 
-This is a nice, simple test. Does 1 equal 1?  A few things about the format:
+This is a simple test, equivalent to `1 == 1`.  A few things about the format:
 
-  1. The operator is always in the "key" position. There is only one key per object.
+  1. The operator is always in the "key" position. There is only one key per JsonLogic rule.
   1. The values are typically an array.
-  1. Values can be any valid JSON type. (Strings usually, but also numbers, booleans, etc)
+  1. Each value can be any JSON primitive: string, number, boolean, or null
 
 ### Compound
 Here we're beginning to nest rules. 
@@ -95,7 +95,7 @@ jsonLogic(rules, data);
 ```
 
 ### Always and Never
-Sometimes the rule you want to process is "Always" or "Never."  If `jsonLogic()` is called with a non-object, it just returns it.
+Sometimes the rule you want to process is "Always" or "Never."  If the first parameter passed to `jsonLogic` is a non-object, non-associative-array, it is returned immediately.
 
 ```js
 //Always
