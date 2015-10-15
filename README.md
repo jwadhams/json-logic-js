@@ -4,6 +4,9 @@ The goal of this project is to share complex logical expressions between front-e
 
 The format takes inspiration from [function calls in Amazon CloudFormation JSON templates](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/gettingstarted.templatebasics.html#gettingstarted.templatebasics.mappings).
 
+The same format can also be executed in PHP by the library [json-logic-php](https://github.com/jwadhams/json-logic-php/)
+
+
 ## Virtues
 
   1. **Terse.**

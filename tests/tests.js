@@ -85,6 +85,11 @@ QUnit.test( "data-driven", function( assert ) {
   assert.equal( jsonLogic({"var" : "a"}), undefined );
   assert.equal( jsonLogic({"var" : "b"}, {a:1}), undefined );
 
+
+  assert.equal( jsonLogic({"var" : "a.b"}, {a:{b:1}}), 1 );
+  assert.equal( jsonLogic({"var" : "a.q"}, {a:{b:1}}), undefined );
+
+
 	assert.equal(
 		jsonLogic(
 			{ "and": [
