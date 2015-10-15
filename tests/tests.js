@@ -117,16 +117,10 @@ QUnit.test( "data-driven", function( assert ) {
 	);
 
 
-	assert.equal(
-		jsonLogic(
-			{"var" : 1 },
-			[ "apple", "banana", "carrot" ]
-		),
-		"banana",
-		"Extracting data from an array by index"
-	);
-
-
+	//Data from arrays by index
+	assert.equal( jsonLogic( {"var" : 1 }, [ "apple", "banana", "carrot" ]), "banana");
+	assert.equal( jsonLogic( {"var" : "1" }, [ "apple", "banana", "carrot" ]), "banana");
+	assert.equal( jsonLogic( {"var" : "1.1" }, [ "apple", ["banana", "beer"] ]), "beer");
 
 });
 
