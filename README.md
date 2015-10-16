@@ -131,7 +131,7 @@ jsonLogic(false, i_wasnt_even_supposed_to_be_here);
 The best way to install this library is via [Bower](http://bower.io/):
 
 ```bash
-bower install --save jwadhams/json-logic-js
+bower install --save json-logic-js
 ```
 
 If that doesn't suit you, and you want to manage updates yourself, the entire library is self-contained in `logic.js` and you can download it straight into your project as you see fit.
