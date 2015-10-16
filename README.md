@@ -121,6 +121,24 @@ jsonLogic(false, i_wasnt_even_supposed_to_be_here);
   - `and`
   - `or`
   - `?:` - [ternary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator), like `a ? b : c;`
+  - `in` - Value in array (e.g., `{"in":[ "Ringo", ["John", "Paul", "George", "Ringo"] ]}`) 
+    - *or* substring in string (e.g., `{"in":["Spring", "Springfield"]}`)
   - `var` - Retrieve data from the provided data object
   - `log` - Logs the first value to console, then passes it through unmodified.
   
+## Installation
+
+The best way to install this library is via [Bower](http://bower.io/):
+
+```bash
+bower install --save jwadhams/json-logic-js
+```
+
+If that doesn't suit you, and you want to manage updates yourself, the entire library is self-contained in `logic.js` and you can download it straight into your project as you see fit.
+
+```bash
+curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
+
+https://raw.githubusercontent.com/jwadhams/json-logic-php/master/src/JWadhams/JsonLogic.php
+```
+

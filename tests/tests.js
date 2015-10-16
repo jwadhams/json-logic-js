@@ -1,5 +1,5 @@
 var real_console = console.log, last_console;
-console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); }
+console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
 
 
 QUnit.test( "single operands", function( assert ) {
@@ -121,6 +121,13 @@ QUnit.test( "data-driven", function( assert ) {
 	assert.equal( jsonLogic( {"var" : 1 }, [ "apple", "banana", "carrot" ]), "banana");
 	assert.equal( jsonLogic( {"var" : "1" }, [ "apple", "banana", "carrot" ]), "banana");
 	assert.equal( jsonLogic( {"var" : "1.1" }, [ "apple", ["banana", "beer"] ]), "beer");
+
+	//Data in array
+	assert.equal( jsonLogic( {"in" : [{"var" : "pie"}, ['apple', 'pumpkin']] }, {"pie" : "apple"}), true);
+	assert.equal( jsonLogic( {"in" : [{"var" : "pie"}, ['cherry', 'pumpkin']] }, {"pie" : "apple"}), false);
+	assert.equal( jsonLogic( {"in" : [{"var" : "pie"}, []] }, {"pie" : "apple"}), false);
+	assert.equal( jsonLogic( {"in" : ["Spring","Springfield"] }), true);
+	assert.equal( jsonLogic( {"in" : ["f","way"] }), false, "There is no f in way");
 
 });
 
