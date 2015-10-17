@@ -2,6 +2,15 @@ var real_console = console.log, last_console;
 console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
 
 
+QUnit.test( "non-operands pass thru", function( assert ) {
+  assert.equal( jsonLogic(true), true );
+  assert.equal( jsonLogic(false), false );
+  assert.equal( jsonLogic("apple"), "apple" );
+  assert.equal( jsonLogic(17), 17 );
+  assert.equal( jsonLogic(null), null);
+  assert.deepEqual( jsonLogic(["a","b"]), ["a","b"] );
+});
+
 QUnit.test( "single operands", function( assert ) {
   assert.equal( jsonLogic({"==" : [1, 1]}), true );
   assert.equal( jsonLogic({"==" : [1, 2]}), false );
@@ -56,6 +65,13 @@ QUnit.test( "single operands", function( assert ) {
   assert.equal( jsonLogic({"?:" : [true, 1, 2]}), 1 );
   assert.equal( jsonLogic({"?:" : [false, 1, 2]}), 2 );
   assert.equal( jsonLogic({"?:" : [false, 1]}), undefined );
+
+
+  assert.equal( jsonLogic( {"in" : ["Spring","Springfield"] }), true);
+  assert.equal( jsonLogic( {"in" : ["f","way"] }), false, "There is no f in way");
+
+  assert.equal( jsonLogic( {"in" : ["a",["a", "b"]] }), true);
+  assert.equal( jsonLogic( {"in" : ["c",["a", "b"]] }), false);
 
   assert.equal( jsonLogic({"log" : [1]}), 1 );
   assert.equal( last_console, 1 );
@@ -126,9 +142,6 @@ QUnit.test( "data-driven", function( assert ) {
 	assert.equal( jsonLogic( {"in" : [{"var" : "pie"}, ['apple', 'pumpkin']] }, {"pie" : "apple"}), true);
 	assert.equal( jsonLogic( {"in" : [{"var" : "pie"}, ['cherry', 'pumpkin']] }, {"pie" : "apple"}), false);
 	assert.equal( jsonLogic( {"in" : [{"var" : "pie"}, []] }, {"pie" : "apple"}), false);
-	assert.equal( jsonLogic( {"in" : ["Spring","Springfield"] }), true);
-	assert.equal( jsonLogic( {"in" : ["f","way"] }), false, "There is no f in way");
-
 });
 
 

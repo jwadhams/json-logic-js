@@ -9,7 +9,9 @@ if (!Array.isArray) {
 
 var jsonLogic = function(tests, data){
 	//You've recursed to a primitive, stop!
-	if( typeof tests !== "object" || Array.isArray(tests) ){ return tests; }
+	if(tests === null || typeof tests !== "object" || Array.isArray(tests) ){
+		return tests; 
+	}
 
 	data = data || {};
 

@@ -27,7 +27,7 @@ This is a simple test, equivalent to `1 == 1`.  A few things about the format:
 
   1. The operator is always in the "key" position. There is only one key per JsonLogic rule.
   1. The values are typically an array.
-  1. Each value can be any JSON primitive: string, number, boolean, or null
+  1. Each value can be a string, number, boolean, array (non-associative), or null
 
 ### Compound
 Here we're beginning to nest rules. 
