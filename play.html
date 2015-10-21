@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/png" href="http://jsonlogic.com/images/favicon.png?v=1445437254" />
+
+	<title>Test JsonLogic in the Browser</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<style>
+		#rule, #data, #output{
+			height:300px;
+			margin:0 0 10px;
+		}
+	</style>
+</head>
+<body>
+	<div style="background-color:#337ab7;color:white;">
+		<div class="container">
+			<img src="http://jsonlogic.com/images/jsonlogic-white.png" style="height:70px;float:right;"/>
+			<h1>Test JsonLogic in your Browser</h1>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="rule">Rule:</label>
+					<textarea required class="form-control" id="rule"></textarea>
+					<div class="btn btn-default" id="lint-rule">Lint</div>
+					<div class="alert" id="message-rule" style="display:none;"></div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="rule">Data:</label>
+					<textarea class="form-control" id="data"></textarea>
+					<div class="btn btn-default" id="lint-data">Lint</div>
+					<div class="alert" id="message-data" style="display:none;"></div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="rule">Output:</label>
+					<pre id="output"></pre>
+					<div class="btn btn-primary" id="compute">Compute</div>
+					<div class="alert alert-danger" id="message-compute" style="display:none;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="logic.js"></script>
+	<script>
+		function lint(element){
+			var $element = $(element),
+				text = $element.val(),
+				output,
+				$message = $("#message-" + $element.attr("id") );
+
+			if(text === ""){
+				if($element.attr("required")){
+					$message.removeClass("alert-success").addClass("alert-danger")
+						.text("Can't be blank").fadeIn();
+					return false;
+				}else{
+					$message.removeClass("alert-danger").addClass("alert-success").text("OK (null)").fadeIn();
+					return true;
+				}
+			}
+
+			try{
+				output = JSON.parse(text);
+				$message.removeClass("alert-danger").addClass("alert-success").text("OK").fadeIn();
+				return true;
+			}catch(e){
+				$message.removeClass("alert-success").addClass("alert-danger").text(e.message).fadeIn();
+				return false;	
+			}
+
+		}
+
+		$("#compute").click(function(){
+			if(lint("#rule") && lint("#data")){
+				var rule = JSON.parse($("#rule").val()),
+					data = $("#data").val() === "" ? null : JSON.parse($("#data").val()),
+					output;
+				try{
+					output = jsonLogic(rule, data);
+					console.log(output);
+					$("#message-compute").fadeOut();
+					$("#output").text( JSON.stringify(output, null, 4) );
+				}catch(e){
+					$("#output").text("");
+					$("#message-compute").text(e.message).fadeIn();
+				}
+			}
+			//else: They make their own noise.
+		});
+
+		$("#lint-rule").click(function(){ lint("#rule"); });
+		$("#lint-data").click(function(){ lint("#data"); });
+
+	</script>
+</body>
+</html>

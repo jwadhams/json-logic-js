@@ -2,6 +2,13 @@ var real_console = console.log, last_console;
 console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
 
 
+QUnit.test( "Bad operator", function( assert ) {
+	assert.throws(
+		function(){ jsonLogic({"fubar": []}); }, 
+		/Unrecognized operation/
+	);
+});
+
 QUnit.test( "non-operands pass thru", function( assert ) {
   assert.equal( jsonLogic(true), true );
   assert.equal( jsonLogic(false), false );
@@ -57,10 +64,21 @@ QUnit.test( "single operands", function( assert ) {
   assert.equal( jsonLogic({"or" : [true, false]}), true );
   assert.equal( jsonLogic({"or" : [false, false]}), false );
 
+  assert.equal( jsonLogic({"or" : [false, false, true]}), true, "More than two args" );
+  assert.equal( jsonLogic({"or" : [false, 3]}), 3, "Data types other than bool" );
+  assert.equal( jsonLogic({"or" : [3, false]}), 3, "Data types other than bool" );
+  assert.equal( jsonLogic({"or" : [3, 4]}), 3, "Data types other than bool" );
+
   assert.equal( jsonLogic({"and" : [true, true]}), true );
   assert.equal( jsonLogic({"and" : [false, true]}), false );
   assert.equal( jsonLogic({"and" : [true, false]}), false );
   assert.equal( jsonLogic({"and" : [false, false]}), false );
+
+  assert.equal( jsonLogic({"and" : [true, true, false]}), false, "More than two args" );
+  assert.equal( jsonLogic({"and" : [false, 3]}), false, "Data types other than bool" );
+  assert.equal( jsonLogic({"and" : [3, false]}), false, "Data types other than bool" );
+  assert.equal( jsonLogic({"and" : [3, 4]}), 4, "Data types other than bool" );
+  
 
   assert.equal( jsonLogic({"?:" : [true, 1, 2]}), 1 );
   assert.equal( jsonLogic({"?:" : [false, 1, 2]}), 2 );
@@ -72,6 +90,16 @@ QUnit.test( "single operands", function( assert ) {
 
   assert.equal( jsonLogic( {"in" : ["a",["a", "b"]] }), true);
   assert.equal( jsonLogic( {"in" : ["c",["a", "b"]] }), false);
+
+
+  assert.equal( jsonLogic({"cat" : "apple"}), "apple" );
+  assert.equal( jsonLogic({"cat" : ["apple"] }), "apple" );
+  assert.equal( jsonLogic({"cat" : ["apple", "pie"] }), "applepie" );
+  assert.equal( jsonLogic({"cat" : ["apple", " ", "pie"] }), "apple pie" );
+
+  assert.equal( jsonLogic({"%" : [1, 2]}), 1 );
+  assert.equal( jsonLogic({"%" : [2, 2]}), 0 );
+  assert.equal( jsonLogic({"%" : [3, 2]}), 1 );
 
   assert.equal( jsonLogic({"log" : [1]}), 1 );
   assert.equal( last_console, 1 );

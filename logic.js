@@ -27,8 +27,13 @@ var jsonLogic = function(tests, data){
 			"<"   : function(a,b){ return a < b; },
 			"<="  : function(a,b){ return a <= b; },
 			"!"   : function(a){ return !a; },
-			"and" : function(a,b){ return a && b; },
-			"or"  : function(a,b){ return a || b; },
+			"%"  : function(a,b){ return a % b; },
+			"and" : function(){ 
+				return Array.prototype.reduce.call(arguments, function(a,b){ return a && b; });
+			},
+			"or"  : function(){
+				return Array.prototype.reduce.call(arguments, function(a,b){ return a || b; });
+			},
 			"?:"  : function(a,b,c){ return a ? b : c; },
 			"log" : function(a){ console.log(a); return a; },
 			"in"  : function(a, b){ 
@@ -45,11 +50,14 @@ var jsonLogic = function(tests, data){
 					if(data === undefined){ break; }
 				}
 				return data;
+			},
+			"cat" : function(){
+				return Array.prototype.join.call(arguments, "");
 			}
 		};
 
 	if(undefined === operations[op]){
-		throw "Unrecognized operation " + op ;
+		throw new Error("Unrecognized operation " + op );
 	}
 
 	//easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
