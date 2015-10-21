@@ -2,16 +2,9 @@
 
 This parser accepts [JsonLogic](http://jsonlogic.com) rules and executes them in JavaScript.
 
+The JsonLogic format is designed to allow you to share rules (logic) between front-end and back-end code (regardless of language difference), even to store logic along with a record in a database.  JsonLogic is documented extensively at [JsonLogic.com](http://jsonlogic.com), including examples of every [supported operation](http://jsonlogic.com/operations.html) and a place to [try out rules in your browser](http://jsonlogic.com/play.html).
+
 The same format can also be executed in PHP by the library [json-logic-php](https://github.com/jwadhams/json-logic-php/)
-
-
-## Virtues
-
-  1. **Terse.**
-  1. **Consistent.** `{"operator" : ["values" ... ]}`  Always.
-  1. **Secure.** We never `eval()`. Rules only have access to data you provide.
-  1. **Flexible.** Most operands are 1 line of code.
-
 
 ## Examples
 
@@ -104,10 +97,6 @@ jsonLogic(true, data_will_be_ignored);
 jsonLogic(false, i_wasnt_even_supposed_to_be_here);
 // false
 ```
-    
-## More Documentation
-
-The JsonLogic format is documented extensively at [JsonLogic.com](http://jsonlogic.com), including examples of every [supported operation](http://jsonlogic.com/operations.html) and a place to [try out rules in your browser](http://jsonlogic.com/play.html).
 
 ## Installation
 
