@@ -1,8 +1,6 @@
 # json-logic-js
 
-The goal of this project is to share complex logical expressions between front-end and back-end code.
-
-The format takes inspiration from [function calls in Amazon CloudFormation JSON templates](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/gettingstarted.templatebasics.html#gettingstarted.templatebasics.mappings).
+This parser accepts [JsonLogic](http://jsonlogic.com) rules and executes them in JavaScript.
 
 The same format can also be executed in PHP by the library [json-logic-php](https://github.com/jwadhams/json-logic-php/)
 
@@ -107,25 +105,10 @@ jsonLogic(false, i_wasnt_even_supposed_to_be_here);
 // false
 ```
     
-## Supported Operations
+## More Documentation
 
-  - `==` 
-  - `===` 
-  - `!=`
-  - `!==`
-  - `>`
-  - `>=`
-  - `<`
-  - `<=`
-  - `!` - Unary negation
-  - `and`
-  - `or`
-  - `?:` - [ternary](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator), like `a ? b : c;`
-  - `in` - Value in array (e.g., `{"in":[ "Ringo", ["John", "Paul", "George", "Ringo"] ]}`) 
-    - *or* substring in string (e.g., `{"in":["Spring", "Springfield"]}`)
-  - `var` - Retrieve data from the provided data object
-  - `log` - Logs the first value to console, then passes it through unmodified.
-  
+The JsonLogic format is documented extensively at [JsonLogic.com](http://jsonlogic.com), including examples of every [supported operation](http://jsonlogic.com/operations.html) and a place to [try out rules in your browser](http://jsonlogic.com/play.html).
+
 ## Installation
 
 The best way to install this library is via [Bower](http://bower.io/):
@@ -138,7 +121,5 @@ If that doesn't suit you, and you want to manage updates yourself, the entire li
 
 ```bash
 curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
-
-https://raw.githubusercontent.com/jwadhams/json-logic-php/master/src/JWadhams/JsonLogic.php
 ```
 
