@@ -1,8 +1,16 @@
 var gulp = require('gulp'),
-    qunit = require('node-qunit-phantomjs');
+    exec = require('child_process').exec;
  
-gulp.task('test', function() {
-    qunit('./tests/index.html');
+gulp.task('test', function(cb) {
+    exec(
+		'node testrunner.js',
+		{ cwd : 'tests' },
+		function (err, stdout, stderr) {
+			console.log(stdout);
+			console.log(stderr);
+			cb(err);
+		}
+	);
 });
 
 gulp.task('watch', function() {

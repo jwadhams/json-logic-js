@@ -1,3 +1,4 @@
+(function(global) {
 'use strict';
 /*globals console:false */
 
@@ -7,7 +8,7 @@ if (!Array.isArray) {
 	};
 }
 
-var jsonLogic = function(tests, data){
+global.jsonLogic = function(tests, data){
 	//You've recursed to a primitive, stop!
 	if(tests === null || typeof tests !== "object" || Array.isArray(tests) ){
 		return tests; 
@@ -41,13 +42,12 @@ var jsonLogic = function(tests, data){
 				return (b.indexOf(a) !== -1);
 			},
 			"var" : function(a){ 
-				if(typeof a !== "string") return data[a]; //Numeric index for arrays
-
-				var sub_props = a.split(".");
+				var sub_props = String(a).split(".");
 				for(var i = 0 ; i < sub_props.length ; i++){
 					//Descending into data
 					data = data[ sub_props[i] ];
-					if(data === undefined){ break; }
+					//Standardizing response across languages with no 'undefined' type
+					if(data === undefined){ return null; } 
 				}
 				return data;
 			},
@@ -69,4 +69,5 @@ var jsonLogic = function(tests, data){
 	return operations[op].apply({}, values);
 };
 
+}(this));
 
