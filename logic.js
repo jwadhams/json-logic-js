@@ -25,8 +25,12 @@ global.jsonLogic = function(tests, data){
 			"!==" : function(a,b){ return a !== b; },
 			">"   : function(a,b){ return a > b; },
 			">="  : function(a,b){ return a >= b; },
-			"<"   : function(a,b){ return a < b; },
-			"<="  : function(a,b){ return a <= b; },
+			"<"   : function(a,b,c){
+				return (c === undefined) ?  a < b : (a < b) && (b < c);
+			},
+			"<="  : function(a,b,c){ 
+				return (c === undefined) ?  a <= b : (a <= b) && (b <= c);
+			},
 			"!"   : function(a){ return !a; },
 			"%"  : function(a,b){ return a % b; },
 			"and" : function(){ 
