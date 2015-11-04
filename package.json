@@ -6,13 +6,10 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "gulp": "^3.9.0",
     "qunit": "^0.7.7",
-    "babyparse": "^0.4.3",
-    "qunit-parameterize": "^0.4.0",
     "request": "^2.65.0"
   },
   "scripts": {

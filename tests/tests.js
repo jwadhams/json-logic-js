@@ -10,51 +10,51 @@ QUnit.test( "Bad operator", function( assert ) {
 });
 
 
-var request = require('request');
-var Baby = require('babyparse');
-request('http://jsonlogic.com/tests.csv', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
 
-	var tests = Baby.parse(body, {
-		skipEmptyLines:true,
-		comments:"#"
+QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
+	//Only waiting on the request() is async
+	stop();
+
+	/*
+	var fs = require('fs');
+	fs.readFile('tests.json', 'utf8', function (error, body) {
+		var response = { statusCode : 200 };
+	*/
+	var request = require('request');
+	request('http://jsonlogic.com/tests.json', function (error, response, body) {
+		if (error || response.statusCode != 200) {
+			console.log("Failed to load tests from JsonLogic.com:", error, response.statusCode);
+			start();
+			return;
+		}
+
+		try{
+			tests = JSON.parse(body);
+		}catch(e){
+			console.log("Trouble parsing shared test: ", body);
+			start();
+			return;
+		}
+
+		console.log("Including "+tests.length+" shared tests from JsonLogic.com");
+
+		for(var i = 0 ; i < tests.length ; i+=1){
+			var test = tests[i];
+			if(typeof test === "string") continue; //Comment
+
+			var rule = test[0],
+				data = test[1],
+				expected = test[2];
+
+			assert.deepEqual(
+				jsonLogic(rule, data), 
+				expected,
+				"jsonLogic("+ JSON.stringify(rule) +","+ JSON.stringify( data ) +") = " + expected
+			);
+		}
+
+		start();
 	});
-
-	for(var i = 0 ; i < tests.data.length ; i+=1){
-		var test = tests.data[i];
-		test.title = "jsonLogic("+test[0]+","+test[1]+") = " + test[2];
-	}
-    console.log("Including "+tests.data.length+" shared tests from JsonLogic.com");
-
-	QUnit
-		.cases( tests.data )
-		.test( "Shared JsonLogic.com tests ", function(test){
-			var rule = {},
-				data = null,
-				expected = null;
-
-			try{
-				rule = JSON.parse(test[0]),
-				data = (test[1] === "") ? null : JSON.parse(test[1]),
-				expected = JSON.parse(test[2]);
-	
-			}catch(e){
-				console.log("Trouble parsing shared test: ", rule, data, expected);
-			}
-
-			if(typeof expected === "object"){
-				assert.deepEqual( jsonLogic(rule, data), expected );
-			}else{
-				assert.equal( jsonLogic(rule, data), expected );
-			}
-		});
-
-
-
-  }else{
-	console.log("Failed to load tests from JsonLogic.com:", error, response.statusCode);
-  }
-
 });
 
 QUnit.test( "logging", function( assert ) {
