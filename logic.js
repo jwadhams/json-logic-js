@@ -68,7 +68,7 @@ global.jsonLogic = function(tests, data){
 					return parseFloat(a,10) * parseFloat(b, 10);
 				});
 			},
-			"-" : function(a,b){ if(b === undefined){return a;}else{return a - b;} },
+			"-" : function(a,b){ if(b === undefined){return -a;}else{return a - b;} },
 			"/" : function(a,b){ if(b === undefined){return a;}else{return a / b;} },
 			"min" : function(){ return Math.min.apply(this,arguments); },
 			"max" : function(){ return Math.max.apply(this,arguments); }
