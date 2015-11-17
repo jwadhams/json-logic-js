@@ -45,13 +45,13 @@ global.jsonLogic = function(tests, data){
 				if(typeof b.indexOf === 'undefined') return false;
 				return (b.indexOf(a) !== -1);
 			},
-			"var" : function(a){ 
+			"var" : function(a, not_found){ 
+				if(not_found === undefined) not_found = null;
 				var sub_props = String(a).split(".");
 				for(var i = 0 ; i < sub_props.length ; i++){
 					//Descending into data
 					data = data[ sub_props[i] ];
-					//Standardizing response across languages with no 'undefined' type
-					if(data === undefined){ return null; } 
+					if(data === undefined){ return not_found; } 
 				}
 				return data;
 			},
