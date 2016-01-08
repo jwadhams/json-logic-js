@@ -8,7 +8,7 @@ if (!Array.isArray) {
 	};
 }
 
-global.jsonLogic = function(tests, data){
+global.jsonLogic = function jsonLogic (tests, data){
 	//You've recursed to a primitive, stop!
 	if(tests === null || typeof tests !== "object" || Array.isArray(tests) ){
 		return tests; 
@@ -87,5 +87,4 @@ global.jsonLogic = function(tests, data){
 	return operations[op].apply({}, values);
 };
 
-}(this));
-
+}(typeof require === 'function' ? module.exports : this));
