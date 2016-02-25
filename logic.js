@@ -77,7 +77,12 @@ var jsonLogic = {},
 		"-" : function(a,b){ if(b === undefined){return -a;}else{return a - b;} },
 		"/" : function(a,b){ if(b === undefined){return a;}else{return a / b;} },
 		"min" : function(){ return Math.min.apply(this,arguments); },
-		"max" : function(){ return Math.max.apply(this,arguments); }
+		"max" : function(){ return Math.max.apply(this,arguments); },
+		"merge" : function(){
+			return Array.prototype.reduce.call(arguments, function(a,b){
+				return a.concat(b);
+			}, []);
+		}
 	};
 
 jsonLogic.is_logic = function(logic){
@@ -144,7 +149,7 @@ jsonLogic.apply = function(logic, data){
 	// Everyone else gets immediate depth-first recursion
 	values = values.map(function(val){ return jsonLogic.apply(val, data); });
 
-	// 'var' needs access to data, only available in this scope
+	// 'var' and 'missing' need access to data, only available in this scope
 	if(op === "var"){
 		var not_found = values[1] || null,
 			sub_props = String(values[0]).split(".");
@@ -154,6 +159,16 @@ jsonLogic.apply = function(logic, data){
 			if(data === undefined){ return not_found; } 
 		}
 		return data;
+
+	}else if(op === "missing"){
+		var missing = [];
+		values.map(function(data_key){ 
+			if(jsonLogic.apply({'var':data_key}, data) === null){
+				missing.push(data_key);
+			}
+		});
+		
+		return missing;
 	}
 	
 	if(undefined === operations[op]){

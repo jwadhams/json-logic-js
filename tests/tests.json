@@ -60,6 +60,38 @@
 [{"if":[true, "apple", false, "banana", false, "carrot", "date"]}, null, "apple"],
 [{"if":[true, "apple", false, "banana", true, "carrot", "date"]}, null, "apple"],
 [{"if":[true, "apple", true, "banana", false, "carrot", "date"]}, null, "apple"],
-[{"if":[true, "apple", true, "banana", true, "carrot", "date"]}, null, "apple"]
+[{"if":[true, "apple", true, "banana", true, "carrot", "date"]}, null, "apple"],
 
+"Missing",
+
+[{"missing":[]}, null, []],
+[{"missing":["a"]}, null, ["a"]],
+[{"missing":"a"}, null, ["a"]],
+[{"missing":"a"}, {"a":"apple"}, []],
+[{"missing":["a"]}, {"a":"apple"}, []],
+[{"missing":["a","b"]}, {"a":"apple"}, ["b"]],
+[{"missing":["a","b"]}, {"b":"banana"}, ["a"]],
+[{"missing":["a","b"]}, {"a":"apple", "b":"banana"}, []],
+[{"missing":["a","b"]}, {}, ["a","b"]],
+[{"missing":["a","b"]}, null, ["a","b"]],
+
+[{"missing":["a.b"]}, null, ["a.b"]],
+[{"missing":["a.b"]}, {"a":"apple"}, ["a.b"]],
+[{"missing":["a.b"]}, {"a":{"c":"apple cake"}}, ["a.b"]],
+[{"missing":["a.b"]}, {"a":{"b":"apple brownie"}}, []],
+[{"missing":["a.b", "a.c"]}, {"a":{"b":"apple brownie"}}, ["a.c"]],
+
+"Missing and If are friends",
+[{"if":[ {"missing":"a"}, "missed it", "found it" ]}, {"a":"apple"}, "found it"],
+[{"if":[ {"missing":"a"}, "missed it", "found it" ]}, {"b":"banana"}, "missed it"],
+
+"Merge arrays",
+[{"merge":[]}, null, []],
+[{"merge":[["a"]]}, null, ["a"]],
+[{"merge":[["a"], ["b"]]}, null, ["a","b"]],
+[{"merge":[["a"], ["b"], ["c"]]}, null, ["a","b","c"]],
+[{"merge":[["a", "b"], ["c"]]}, null, ["a","b","c"]],
+[{"merge":[["a"], ["b", "c"]]}, null, ["a","b","c"]],
+
+"END"
 ]
