@@ -1,10 +1,11 @@
+var jsonLogic = require('../logic.js');
+
 var real_console = console.log, last_console;
 console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
 
-
 QUnit.test( "Bad operator", function( assert ) {
 	assert.throws(
-		function(){ jsonLogic({"fubar": []}); }, 
+		function(){ jsonLogic.apply({"fubar": []}); }, 
 		/Unrecognized operation/
 	);
 });
@@ -47,7 +48,7 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 				expected = test[2];
 
 			assert.deepEqual(
-				jsonLogic(rule, data), 
+				jsonLogic.apply(rule, data), 
 				expected,
 				"jsonLogic("+ JSON.stringify(rule) +","+ JSON.stringify( data ) +") = " + expected
 			);
@@ -58,10 +59,10 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 });
 
 QUnit.test( "logging", function( assert ) {
-  assert.equal( jsonLogic({"log" : [1]}), 1 );
+  assert.equal( jsonLogic.apply({"log" : [1]}), 1 );
   assert.equal( last_console, 1 );
 });
 
 QUnit.test( "edge cases", function( assert ) {
-  assert.equal( jsonLogic(), undefined, "Called with no arguments" );
+  assert.equal( jsonLogic.apply(), undefined, "Called with no arguments" );
 });

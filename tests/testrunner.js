@@ -9,9 +9,9 @@ testrunner.setup({
 
 // specify dependency
 testrunner.run({
-    deps: ["../node_modules/qunit-parameterize/qunit-parameterize.js"],
     code: "../logic.js",
     tests: "tests.js"
 }, function(err, report) {
+		if(err) console.dir(err);
     //console.dir(report);
 });
