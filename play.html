@@ -96,7 +96,7 @@
 					data = $("#data").val() === "" ? null : JSON.parse($("#data").val()),
 					output;
 				try{
-					output = jsonLogic(rule, data);
+					output = jsonLogic.apply(rule, data);
 					console.log(output);
 					$("#message-compute").fadeOut();
 					$("#output").text( JSON.stringify(output, null, 4) );

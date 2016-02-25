@@ -16,11 +16,9 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 	//Only waiting on the request() is async
 	stop();
 
-	/*
 	var fs = require('fs');
 	fs.readFile('tests.json', 'utf8', function (error, body) {
-		var response = { statusCode : 200 };
-	*/
+	/*
 	var request = require('request');
 	request('http://jsonlogic.com/tests.json', function (error, response, body) {
 		if (error || response.statusCode != 200) {
@@ -28,13 +26,11 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 			start();
 			return;
 		}
-
+	*/
 		try{
 			tests = JSON.parse(body);
 		}catch(e){
-			console.log("Trouble parsing shared test: ", body);
-			start();
-			return;
+			throw new Error("Trouble parsing shared test: " + e.message);
 		}
 
 		console.log("Including "+tests.length+" shared tests from JsonLogic.com");
