@@ -63,7 +63,6 @@
 [{"if":[true, "apple", true, "banana", true, "carrot", "date"]}, null, "apple"],
 
 "Missing",
-
 [{"missing":[]}, null, []],
 [{"missing":["a"]}, null, ["a"]],
 [{"missing":"a"}, null, ["a"]],
@@ -81,7 +80,7 @@
 [{"missing":["a.b"]}, {"a":{"b":"apple brownie"}}, []],
 [{"missing":["a.b", "a.c"]}, {"a":{"b":"apple brownie"}}, ["a.c"]],
 
-"Missing and If are friends",
+"Missing and If are friends, because empty arrays are falsey in JsonLogic",
 [{"if":[ {"missing":"a"}, "missed it", "found it" ]}, {"a":"apple"}, "found it"],
 [{"if":[ {"missing":"a"}, "missed it", "found it" ]}, {"b":"banana"}, "missed it"],
 
@@ -98,23 +97,17 @@
 [{"merge":[1,2]}, null, [1,2]],
 [{"merge":[1,[2]]}, null, [1,2]],
 
-"Missing and Merge, and If are friends. VIN is always required, APR is only required if financing is true.",
+"Missing, Merge, and If are friends. VIN is always required, APR is only required if financing is true.",
 [
-{"missing":{"merge":[
-	"vin", 
-	{"if": [{"var":"financing"}, ["apr"], [] ]}
-]} },
-{"financing":true},
-["vin","apr"]
+	{"missing":{"merge":[ "vin", {"if": [{"var":"financing"}, ["apr"], [] ]} ]} },
+	{"financing":true},
+	["vin","apr"] 
 ],
 
 [
-{"missing":{"merge":[
-	"vin", 
-	{"if": [{"var":"financing"}, ["apr"], [] ]}
-]} },
-{"financing":false},
-["vin"]
+	{"missing":{"merge":[ "vin", {"if": [{"var":"financing"}, ["apr"], [] ]} ]} },
+	{"financing":false},
+	["vin"]
 ],
 
 "END"

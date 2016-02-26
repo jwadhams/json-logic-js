@@ -125,24 +125,18 @@ jsonLogic.apply = function(logic, data){
 			if( 0 ){ 1 }else if( 2 ){ 3 }else if( 4 ){ 5 }else{ 6 };
 
 			The implementation is:
-			given two+ parameters, 
-				shift off the first two values. 
+			For pairs of values (0,1 then 2,3 then 4,5 etc)
 				If the first evaluates truthy, evaluate and return the second
-				If the first evaluates falsy, start again with the remaining parameters.
-			given one parameter, evaluate and return it.
-			given 0 parameters, return NULL
+				If the first evaluates falsy, jump to the next pair (e.g, 0,1 to 2,3)
+			given one parameter, evaluate and return it. (it's an Else and all the If/ElseIf were false)
+			given 0 parameters, return NULL (not great practice, but there was no Else)
 		*/
-		var v = values.slice(0); //Don't shift values off the original rule, destroy a copy
-		while(v.length >= 2){
-			var conditional = jsonLogic.apply(v.shift(), data),
-				consequent = v.shift();
-
-			if( jsonLogic.truthy(conditional) ){
-				return jsonLogic.apply(consequent, data);
+		for(var i = 0 ; i < values.length - 1 ; i += 2){
+			if( jsonLogic.truthy( jsonLogic.apply(values[i], data) ) ){
+				return jsonLogic.apply(values[i+1], data);
 			}
 		}
-
-		if(v.length === 1) return jsonLogic.apply(v[0], data);
+		if(values.length === i+1) return jsonLogic.apply(values[i], data);
 		return null;
 	}
 
