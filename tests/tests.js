@@ -16,9 +16,10 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 	//Only waiting on the request() is async
 	stop();
 
+	/*
 	var fs = require('fs');
 	fs.readFile('tests.json', 'utf8', function (error, body) {
-	/*
+	*/
 	var request = require('request');
 	request('http://jsonlogic.com/tests.json', function (error, response, body) {
 		if (error || response.statusCode != 200) {
@@ -26,7 +27,6 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 			start();
 			return;
 		}
-	*/
 		try{
 			tests = JSON.parse(body);
 		}catch(e){
