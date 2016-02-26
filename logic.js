@@ -132,16 +132,17 @@ jsonLogic.apply = function(logic, data){
 			given one parameter, evaluate and return it.
 			given 0 parameters, return NULL
 		*/
-		while(values.length >= 2){
-			var conditional = jsonLogic.apply(values.shift(), data),
-				consequent = values.shift();
+		var v = values.slice(0); //Don't shift values off the original rule, destroy a copy
+		while(v.length >= 2){
+			var conditional = jsonLogic.apply(v.shift(), data),
+				consequent = v.shift();
 
 			if( jsonLogic.truthy(conditional) ){
 				return jsonLogic.apply(consequent, data);
 			}
 		}
 
-		if(values.length === 1) return jsonLogic.apply(values[0], data);
+		if(v.length === 1) return jsonLogic.apply(v[0], data);
 		return null;
 	}
 
@@ -161,6 +162,14 @@ jsonLogic.apply = function(logic, data){
 		return data;
 
 	}else if(op === "missing"){
+		/*
+			Missing can receive many keys as many arguments, like {"missing:[1,2]}
+			Missing can also receive *one* argument that is an array of keys,
+			which typically happens if it's actually acting on the output of another command 
+			(like IF or MERGE)
+		*/
+		if( Array.isArray(values[0]) ){ values = values[0]; }
+
 		var missing = [];
 		values.map(function(data_key){ 
 			if(jsonLogic.apply({'var':data_key}, data) === null){

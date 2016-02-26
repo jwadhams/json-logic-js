@@ -46,7 +46,7 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 			assert.deepEqual(
 				jsonLogic.apply(rule, data), 
 				expected,
-				"jsonLogic("+ JSON.stringify(rule) +","+ JSON.stringify( data ) +") = " + expected
+				"jsonLogic("+ JSON.stringify(rule) +","+ JSON.stringify( data ) +") = " + JSON.stringify(expected)
 			);
 		}
 

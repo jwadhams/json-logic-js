@@ -87,11 +87,35 @@
 
 "Merge arrays",
 [{"merge":[]}, null, []],
-[{"merge":[["a"]]}, null, ["a"]],
-[{"merge":[["a"], ["b"]]}, null, ["a","b"]],
-[{"merge":[["a"], ["b"], ["c"]]}, null, ["a","b","c"]],
-[{"merge":[["a", "b"], ["c"]]}, null, ["a","b","c"]],
-[{"merge":[["a"], ["b", "c"]]}, null, ["a","b","c"]],
+[{"merge":[[1]]}, null, [1]],
+[{"merge":[[1],[]]}, null, [1]],
+[{"merge":[[1], [2]]}, null, [1,2]],
+[{"merge":[[1], [2], [3]]}, null, [1,2,3]],
+[{"merge":[[1, 2], [3]]}, null, [1,2,3]],
+[{"merge":[[1], [2, 3]]}, null, [1,2,3]],
+"Given non-array arguments, merge converts them to arrays",
+[{"merge":1}, null, [1]],
+[{"merge":[1,2]}, null, [1,2]],
+[{"merge":[1,[2]]}, null, [1,2]],
+
+"Missing and Merge, and If are friends. VIN is always required, APR is only required if financing is true.",
+[
+{"missing":{"merge":[
+	"vin", 
+	{"if": [{"var":"financing"}, ["apr"], [] ]}
+]} },
+{"financing":true},
+["vin","apr"]
+],
+
+[
+{"missing":{"merge":[
+	"vin", 
+	{"if": [{"var":"financing"}, ["apr"], [] ]}
+]} },
+{"financing":false},
+["vin"]
+],
 
 "END"
 ]
