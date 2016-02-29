@@ -48,13 +48,16 @@ var jsonLogic = {},
 		"<="  : function(a,b,c){ 
 			return (c === undefined) ?  a <= b : (a <= b) && (b <= c);
 		},
-		"!"   : function(a){ return !a; },
+		"!!"   : function(a){ return jsonLogic.truthy(a); },
+		"!"   : function(a){ return !jsonLogic.truthy(a); },
 		"%"  : function(a,b){ return a % b; },
-		"and" : function(){ 
-			return Array.prototype.reduce.call(arguments, function(a,b){ return a && b; });
+		"and" : function(){ //Return first falsy, or last
+			for(var i in arguments){ if( ! jsonLogic.truthy(arguments[i])){ return arguments[i]; } }
+			return arguments[i];
 		},
-		"or"  : function(){
-			return Array.prototype.reduce.call(arguments, function(a,b){ return a || b; });
+		"or"  : function(){ //Return first truthy, or last
+			for(var i in arguments){ if(jsonLogic.truthy(arguments[i])){ return arguments[i]; } }
+			return arguments[i];
 		},
 		"log" : function(a){ console.log(a); return a; },
 		"in"  : function(a, b){ 
@@ -111,7 +114,8 @@ jsonLogic.apply = function(logic, data){
 	data = data || {};
 
 	var op = Object.keys(logic)[0],
-		values = logic[op];
+		values = logic[op],
+		i;
 
 	//easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
 	if( ! Array.isArray(values)){ values = [values]; } 
@@ -131,7 +135,7 @@ jsonLogic.apply = function(logic, data){
 			given one parameter, evaluate and return it. (it's an Else and all the If/ElseIf were false)
 			given 0 parameters, return NULL (not great practice, but there was no Else)
 		*/
-		for(var i = 0 ; i < values.length - 1 ; i += 2){
+		for(i = 0 ; i < values.length - 1 ; i += 2){
 			if( jsonLogic.truthy( jsonLogic.apply(values[i], data) ) ){
 				return jsonLogic.apply(values[i+1], data);
 			}
@@ -148,7 +152,7 @@ jsonLogic.apply = function(logic, data){
 	if(op === "var"){
 		var not_found = values[1] || null,
 			sub_props = String(values[0]).split(".");
-		for(var i = 0 ; i < sub_props.length ; i++){
+		for(i = 0 ; i < sub_props.length ; i++){
 			//Descending into data
 			data = data[ sub_props[i] ];
 			if(data === undefined){ return not_found; } 

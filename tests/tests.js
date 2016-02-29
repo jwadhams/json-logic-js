@@ -1,32 +1,22 @@
-var jsonLogic = require('../logic.js');
+var jsonLogic = require('../logic.js'),
+	http = require('http'),
+	fs = require('fs');
 
-var real_console = console.log, last_console;
-console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
+var download = function(url, dest, cb) {
+  var file = fs.createWriteStream(dest);
+  var request = http.get(url, function(response) {
+    response.pipe(file);
+    file.on('finish', function() {
+      file.close(cb);  // close() is async, call cb after close completes.
+    });
+  }).on('error', function(err) { // Handle errors
+    fs.unlink(dest); // Delete the file async. (But we don't check the result)
+    if (cb) cb(err.message);
+  });
+};
 
-QUnit.test( "Bad operator", function( assert ) {
-	assert.throws(
-		function(){ jsonLogic.apply({"fubar": []}); }, 
-		/Unrecognized operation/
-	);
-});
-
-
-
-QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
-	//Only waiting on the request() is async
-	stop();
-
-	/*
-	var fs = require('fs');
-	fs.readFile('tests.json', 'utf8', function (error, body) {
-	*/
-	var request = require('request');
-	request('http://jsonlogic.com/tests.json', function (error, response, body) {
-		if (error || response.statusCode != 200) {
-			console.log("Failed to load tests from JsonLogic.com:", error, response.statusCode);
-			start();
-			return;
-		}
+var process_test_file = function (filename){
+	fs.readFile(filename, 'utf8', function (error, body) {
 		try{
 			tests = JSON.parse(body);
 		}catch(e){
@@ -52,6 +42,39 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 
 		start();
 	});
+};
+
+var real_console = console.log, last_console;
+console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
+
+QUnit.test( "Bad operator", function( assert ) {
+	assert.throws(
+		function(){ jsonLogic.apply({"fubar": []}); }, 
+		/Unrecognized operation/
+	);
+});
+
+
+
+QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
+	//Only waiting on the request() is async
+	stop();
+
+	var local_file = 'tests.json';
+
+	fs.stat(local_file, function(err, stats){
+			if(err){
+				console.log("Downloading shared tests from JsonLogic.com");
+				download('http://jsonlogic.com/tests.json', local_file, function(){
+					process_test_file(local_file);
+				});
+			}else{
+				console.log("Using cached tests");
+				process_test_file(local_file);
+			}
+	});
+
+
 });
 
 QUnit.test( "logging", function( assert ) {

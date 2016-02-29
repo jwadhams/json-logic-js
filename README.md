@@ -10,7 +10,7 @@ The same format can also be executed in PHP by the library [json-logic-php](http
 
 ### Simple
 ```js
-jsonLogic( { "==" : [1, 1] } );
+jsonLogic.apply( { "==" : [1, 1] } );
 // true
 ```
 
@@ -24,7 +24,7 @@ This is a simple test, equivalent to `1 == 1`.  A few things about the format:
 Here we're beginning to nest rules. 
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{"and" : [
 	  { ">" : [3,1] },
 	  { "<" : [1,3] }
@@ -44,7 +44,7 @@ In an infix language (like JavaScript) this could be written as:
 Obviously these rules aren't very interesting if they can only take static literal data. Typically `jsonLogic` will be called with a rule object and a data object. You can use the `var` operator to get attributes of the data object:
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{ "var" : ["a"] }, // Rule
 	{ a : 1, b : 2 }   // Data
 );
@@ -54,7 +54,7 @@ jsonLogic(
 If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) on unary operators to skip the array around values:
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{ "var" : "a" },
 	{ a : 1, b : 2 }
 );
@@ -64,7 +64,7 @@ jsonLogic(
 You can also use the `var` operator to access an array by numeric index:
 
 ```js
-jsonLogic(
+jsonLogic.apply(
 	{"var" : 1 },
 	[ "apple", "banana", "carrot" ]
 );
@@ -81,7 +81,7 @@ var rules = { "and" : [
 
 var data = { "temp" : 100, "pie" : { "filling" : "apple" } };
 
-jsonLogic(rules, data);
+jsonLogic.apply(rules, data);
 // true
 ```
 
@@ -90,11 +90,11 @@ Sometimes the rule you want to process is "Always" or "Never."  If the first par
 
 ```js
 //Always
-jsonLogic(true, data_will_be_ignored);
+jsonLogic.apply(true, data_will_be_ignored);
 // true
 
 //Never
-jsonLogic(false, i_wasnt_even_supposed_to_be_here);
+jsonLogic.apply(false, i_wasnt_even_supposed_to_be_here);
 // false
 ```
 
