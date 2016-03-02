@@ -21,32 +21,32 @@ This is a simple test, equivalent to `1 == 1`.  A few things about the format:
   1. Each value can be a string, number, boolean, array (non-associative), or null
 
 ### Compound
-Here we're beginning to nest rules. 
+Here we're beginning to nest rules.
 
 ```js
 jsonLogic.apply(
-	{"and" : [
-	  { ">" : [3,1] },
-	  { "<" : [1,3] }
-	] }
+  {"and" : [
+    { ">" : [3,1] },
+    { "<" : [1,3] }
+  ] }
 );
 // true
 ```
-  
+
 In an infix language (like JavaScript) this could be written as:
 
 ```js
 ( (3 > 1) && (1 < 3) )
 ```
-    
+
 ### Data-Driven
 
 Obviously these rules aren't very interesting if they can only take static literal data. Typically `jsonLogic` will be called with a rule object and a data object. You can use the `var` operator to get attributes of the data object:
 
 ```js
 jsonLogic.apply(
-	{ "var" : ["a"] }, // Rule
-	{ a : 1, b : 2 }   // Data
+  { "var" : ["a"] }, // Rule
+  { a : 1, b : 2 }   // Data
 );
 // 1
 ```
@@ -55,8 +55,8 @@ If you like, we support [syntactic sugar](https://en.wikipedia.org/wiki/Syntacti
 
 ```js
 jsonLogic.apply(
-	{ "var" : "a" },
-	{ a : 1, b : 2 }
+  { "var" : "a" },
+  { a : 1, b : 2 }
 );
 // 1
 ```
@@ -65,8 +65,8 @@ You can also use the `var` operator to access an array by numeric index:
 
 ```js
 jsonLogic.apply(
-	{"var" : 1 },
-	[ "apple", "banana", "carrot" ]
+  {"var" : 1 },
+  [ "apple", "banana", "carrot" ]
 );
 // "banana"
 ```
@@ -100,7 +100,7 @@ jsonLogic.apply(false, i_wasnt_even_supposed_to_be_here);
 
 ## Installation
 
-The best way to install this library is via [Bower](http://bower.io/):
+To parse JsonLogic rules in a JavaScript frontend, install this library is via [Bower](http://bower.io/):
 
 ```bash
 bower install --save json-logic-js
@@ -112,3 +112,8 @@ If that doesn't suit you, and you want to manage updates yourself, the entire li
 curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
 ```
 
+To parse JsonLogic rules in a JavaScript backend (like Node.js), install this library via [NPM](https://www.npmjs.com/):
+
+```bash
+npm install json-logic-js
+```

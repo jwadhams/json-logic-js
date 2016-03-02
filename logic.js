@@ -1,4 +1,4 @@
-/* 
+/*
 Using a Universal Module Loader that should be browser, require, and AMD friendly
 http://ricostacruz.com/cheatsheets/umdjs.html
 */
@@ -45,7 +45,7 @@ var jsonLogic = {},
 		"<"   : function(a,b,c){
 			return (c === undefined) ?  a < b : (a < b) && (b < c);
 		},
-		"<="  : function(a,b,c){ 
+		"<="  : function(a,b,c){
 			return (c === undefined) ?  a <= b : (a <= b) && (b <= c);
 		},
 		"!!"   : function(a){ return jsonLogic.truthy(a); },
@@ -60,19 +60,19 @@ var jsonLogic = {},
 			return arguments[i];
 		},
 		"log" : function(a){ console.log(a); return a; },
-		"in"  : function(a, b){ 
+		"in"  : function(a, b){
 			if(typeof b.indexOf === 'undefined') return false;
 			return (b.indexOf(a) !== -1);
 		},
 		"cat" : function(){
 			return Array.prototype.join.call(arguments, "");
 		},
-		"+" : function(){ 
+		"+" : function(){
 			return Array.prototype.reduce.call(arguments, function(a,b){
 				return parseFloat(a,10) + parseFloat(b, 10);
 			}, 0);
 		},
-		"*" : function(){ 
+		"*" : function(){
 			return Array.prototype.reduce.call(arguments, function(a,b){
 				return parseFloat(a,10) * parseFloat(b, 10);
 			});
@@ -108,7 +108,7 @@ jsonLogic.truthy = function(value){
 jsonLogic.apply = function(logic, data){
 	//You've recursed to a primitive, stop!
 	if( ! jsonLogic.is_logic(logic) ){
-		return logic; 
+		return logic;
 	}
 
 	data = data || {};
@@ -118,7 +118,7 @@ jsonLogic.apply = function(logic, data){
 		i;
 
 	//easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
-	if( ! Array.isArray(values)){ values = [values]; } 
+	if( ! Array.isArray(values)){ values = [values]; }
 
 	// 'if' violates the normal rule of depth-first calculating consequents, let it manage recursion
 	if(op === 'if' || op == '?:'){
@@ -155,7 +155,7 @@ jsonLogic.apply = function(logic, data){
 		for(i = 0 ; i < sub_props.length ; i++){
 			//Descending into data
 			data = data[ sub_props[i] ];
-			if(data === undefined){ return not_found; } 
+			if(data === undefined){ return not_found; }
 		}
 		return data;
 
@@ -163,21 +163,22 @@ jsonLogic.apply = function(logic, data){
 		/*
 			Missing can receive many keys as many arguments, like {"missing:[1,2]}
 			Missing can also receive *one* argument that is an array of keys,
-			which typically happens if it's actually acting on the output of another command 
+			which typically happens if it's actually acting on the output of another command
 			(like IF or MERGE)
 		*/
 		if( Array.isArray(values[0]) ){ values = values[0]; }
 
 		var missing = [];
-		values.map(function(data_key){ 
-			if(jsonLogic.apply({'var':data_key}, data) === null){
+		values.map(function(data_key){
+      var value = jsonLogic.apply({'var':data_key}, data);
+			if(value === null || value === ""){
 				missing.push(data_key);
 			}
 		});
-		
+
 		return missing;
 	}
-	
+
 	if(undefined === operations[op]){
 		throw new Error("Unrecognized operation " + op );
 	}
@@ -193,14 +194,14 @@ jsonLogic.uses_data = function(logic){
 		var op = Object.keys(logic)[0],
 			values = logic[op];
 
-		if( ! Array.isArray(values)){ values = [values]; } 
+		if( ! Array.isArray(values)){ values = [values]; }
 
 		if(op === "var"){
 			//This doesn't cover the case where the arg to var is itself a rule.
 			collection.push(values[0]);
 		}else{
 			//Recursion!
-			values.map(function(val){ 
+			values.map(function(val){
 				collection.push.apply(collection, jsonLogic.uses_data(val) );
 			});
 		}
