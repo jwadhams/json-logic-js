@@ -164,7 +164,7 @@ jsonLogic.apply = function(logic, data){
 			Missing can receive many keys as many arguments, like {"missing:[1,2]}
 			Missing can also receive *one* argument that is an array of keys,
 			which typically happens if it's actually acting on the output of another command
-			(like IF or MERGE)
+			(like 'if' or 'merge')
 		*/
 		if( Array.isArray(values[0]) ){ values = values[0]; }
 
@@ -177,6 +177,19 @@ jsonLogic.apply = function(logic, data){
 		});
 
 		return missing;
+	}else if(op === "missing_some"){
+		/*
+			missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
+		*/
+    var need_count = values[0],
+      options = values[1],
+      are_missing = jsonLogic.apply({'missing':options}, data);
+
+    if(options.length - are_missing.length >= need_count){
+      return [];
+    }else{
+      return options;
+    }
 	}
 
 	if(undefined === operations[op]){
