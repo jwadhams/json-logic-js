@@ -188,7 +188,7 @@ jsonLogic.apply = function(logic, data){
     if(options.length - are_missing.length >= need_count){
       return [];
     }else{
-      return options;
+      return are_missing;
     }
 	}
 
