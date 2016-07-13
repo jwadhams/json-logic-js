@@ -52,12 +52,20 @@ var jsonLogic = {},
 		"!"   : function(a){ return !jsonLogic.truthy(a); },
 		"%"  : function(a,b){ return a % b; },
 		"and" : function(){ //Return first falsy, or last
-			for(var i in arguments){ if( ! jsonLogic.truthy(arguments[i])){ return arguments[i]; } }
-			return arguments[i];
+			for(var i=0 ; i < arguments.length ; i+=1){
+        if( ! jsonLogic.truthy(arguments[i])){
+          return arguments[i];
+        }
+      }
+			return arguments[i-1];
 		},
 		"or"  : function(){ //Return first truthy, or last
-			for(var i in arguments){ if(jsonLogic.truthy(arguments[i])){ return arguments[i]; } }
-			return arguments[i];
+			for(var i=0 ; i < arguments.length ; i+=1){
+        if( jsonLogic.truthy(arguments[i])){
+          return arguments[i];
+        }
+      }
+			return arguments[i-1];
 		},
 		"log" : function(a){ console.log(a); return a; },
 		"in"  : function(a, b){
