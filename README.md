@@ -106,14 +106,22 @@ To parse JsonLogic rules in a JavaScript frontend, install this library is via [
 bower install --save json-logic-js
 ```
 
+To parse JsonLogic rules in a JavaScript backend (like Node.js), install this library via [NPM](https://www.npmjs.com/):
+
+```bash
+npm install json-logic-js
+```
+
+Note that this project uses a [module loader](http://ricostacruz.com/cheatsheets/umdjs.html) that also makes it suitable for RequireJS projects.
+
 If that doesn't suit you, and you want to manage updates yourself, the entire library is self-contained in `logic.js` and you can download it straight into your project as you see fit.
 
 ```bash
 curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
 ```
 
-To parse JsonLogic rules in a JavaScript backend (like Node.js), install this library via [NPM](https://www.npmjs.com/):
+## Compatibility
 
-```bash
-npm install json-logic-js
-```
+This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
+
+If you want to use JsonLogic *and* support deprecated browsers, you could easily use [BabelJS's polyfill](https://babeljs.io/docs/usage/polyfill/) or directly incorporate the polyfills documented on MDN for [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) and [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce). 

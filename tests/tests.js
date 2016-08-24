@@ -34,7 +34,7 @@ var process_test_file = function (filename){
 				expected = test[2];
 
 			assert.deepEqual(
-				jsonLogic.apply(rule, data), 
+				jsonLogic.apply(rule, data),
 				expected,
 				"jsonLogic("+ JSON.stringify(rule) +","+ JSON.stringify( data ) +") = " + JSON.stringify(expected)
 			);
@@ -44,12 +44,9 @@ var process_test_file = function (filename){
 	});
 };
 
-var real_console = console.log, last_console;
-console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
-
 QUnit.test( "Bad operator", function( assert ) {
 	assert.throws(
-		function(){ jsonLogic.apply({"fubar": []}); }, 
+		function(){ jsonLogic.apply({"fubar": []}); },
 		/Unrecognized operation/
 	);
 });
@@ -77,6 +74,8 @@ QUnit.test( "Shared JsonLogic.com tests ", function( assert ){
 
 });
 
+var real_console = console.log, last_console;
+console.log = function(logged){ last_console = logged; real_console.apply(this, arguments); };
 QUnit.test( "logging", function( assert ) {
   assert.equal( jsonLogic.apply({"log" : [1]}), 1 );
   assert.equal( last_console, 1 );

@@ -93,8 +93,51 @@ var jsonLogic = {},
 			return Array.prototype.reduce.call(arguments, function(a,b){
 				return a.concat(b);
 			}, []);
+		},
+    "var" : function(a,b){
+  		var not_found = (b === undefined) ? null : b,
+  			sub_props = String(a).split("."),
+        data = this;
+  		for(var i = 0 ; i < sub_props.length ; i++){
+  			//Descending into data
+  			data = data[ sub_props[i] ];
+  			if(data === undefined){ return not_found; }
+  		}
+  		return data;
+  	},
+    "missing" : function(){
+		/*
+			Missing can receive many keys as many arguments, like {"missing:[1,2]}
+			Missing can also receive *one* argument that is an array of keys,
+			which typically happens if it's actually acting on the output of another command
+			(like 'if' or 'merge')
+		*/
+
+		var missing = [],
+      keys = Array.isArray(arguments[0]) ? arguments[0] : arguments ;
+
+		for(var i = 0 ; i < keys.length ; i++){
+      var key = keys[i],
+        value = jsonLogic.apply({'var':key}, this);
+			if(value === null || value === ""){
+				missing.push(key);
+			}
 		}
-	};
+
+		return missing;
+	},
+  "missing_some" : function(need_count, options){
+      //missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
+    var are_missing = jsonLogic.apply({'missing':options}, this);
+
+    if(options.length - are_missing.length >= need_count){
+      return [];
+    }else{
+      return are_missing;
+    }
+  }
+
+};
 
 jsonLogic.is_logic = function(logic){
 	return (logic !== null && typeof logic === "object" && ! Array.isArray(logic) );
@@ -156,55 +199,15 @@ jsonLogic.apply = function(logic, data){
 	// Everyone else gets immediate depth-first recursion
 	values = values.map(function(val){ return jsonLogic.apply(val, data); });
 
-	// 'var' and 'missing' need access to data, only available in this scope
-	if(op === "var"){
-		var not_found = values[1] || null,
-			sub_props = String(values[0]).split(".");
-		for(i = 0 ; i < sub_props.length ; i++){
-			//Descending into data
-			data = data[ sub_props[i] ];
-			if(data === undefined){ return not_found; }
-		}
-		return data;
-
-	}else if(op === "missing"){
-		/*
-			Missing can receive many keys as many arguments, like {"missing:[1,2]}
-			Missing can also receive *one* argument that is an array of keys,
-			which typically happens if it's actually acting on the output of another command
-			(like 'if' or 'merge')
-		*/
-		if( Array.isArray(values[0]) ){ values = values[0]; }
-
-		var missing = [];
-		values.map(function(data_key){
-      var value = jsonLogic.apply({'var':data_key}, data);
-			if(value === null || value === ""){
-				missing.push(data_key);
-			}
-		});
-
-		return missing;
-	}else if(op === "missing_some"){
-		/*
-			missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
-		*/
-    var need_count = values[0],
-      options = values[1],
-      are_missing = jsonLogic.apply({'missing':options}, data);
-
-    if(options.length - are_missing.length >= need_count){
-      return [];
-    }else{
-      return are_missing;
-    }
-	}
 
 	if(undefined === operations[op]){
 		throw new Error("Unrecognized operation " + op );
 	}
 
-	return operations[op].apply({}, values);
+  //The operation is called with "data" bound to its "this" and "values" passed as arguments.
+  //Structured commands like % or > can name formal arguments while flexible commands (like missing or merge) can operate on the pseudo-array arguments
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
+	return operations[op].apply(data, values);
 
 };
 
