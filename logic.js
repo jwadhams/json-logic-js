@@ -42,6 +42,7 @@ var jsonLogic = {},
 		"!==" : function(a,b){ return a !== b; },
 		">"   : function(a,b){ return a > b; },
 		">="  : function(a,b){ return a >= b; },
+		"typeof" : function(a,b) { return typeof a === b; },
 		"<"   : function(a,b,c){
 			return (c === undefined) ?  a < b : (a < b) && (b < c);
 		},
