@@ -13,6 +13,6 @@ gulp.task('test', function(cb) {
 	);
 });
 
-gulp.task('watch', function() {
+gulp.task('default', function() {
     gulp.watch(['**/*.js', 'tests/tests.json'], ['test']);
 });
