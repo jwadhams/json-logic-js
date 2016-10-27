@@ -112,6 +112,27 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
 	jsonLogic.add_operation("fives", fives);
 	assert.equal( jsonLogic.apply({"fives.add" : 37}), 42 );
 	assert.equal( jsonLogic.apply({"fives.subtract" : [47] }), 42 );
+
+	//Calling a method with multiple var as arguments.
+	jsonLogic.add_operation("times", function(a,b){ return a*b; });
+	assert.equal(
+		jsonLogic.apply(
+			{"times" : [{"var":"a"}, {"var":"b"}]},
+			{a:6,b:7}
+		),
+		42
+	);
+
+	//Calling a method that takes an array, but the inside of the array has rules, too
+	jsonLogic.add_operation("array_times", function(a){ return a[0]*a[1]; });
+	assert.equal(
+		jsonLogic.apply(
+			{"array_times" : [[{"var":"a"}, {"var":"b"}]]},
+			{a:6,b:7}
+		),
+		42
+	);
+
 });
 
 QUnit.test( "Expanding functionality with method", function( assert) {
@@ -142,6 +163,5 @@ QUnit.test( "Expanding functionality with method", function( assert) {
 		42 //Happy return value
 	);
 	assert.equal(a.count, 42); //Happy state change
-
 
 });

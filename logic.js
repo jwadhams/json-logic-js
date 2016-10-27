@@ -160,6 +160,10 @@ jsonLogic.truthy = function(value){
 };
 
 jsonLogic.apply = function(logic, data){
+  //Does this array contain logic? Only one way to find out.
+  if(Array.isArray(logic)){
+    return logic.map(function(l){ return jsonLogic.apply(l,data); });
+  }
 	//You've recursed to a primitive, stop!
 	if( ! jsonLogic.is_logic(logic) ){
 		return logic;
