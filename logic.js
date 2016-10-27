@@ -135,6 +135,9 @@ var jsonLogic = {},
     }else{
       return are_missing;
     }
+  },
+  "method" : function(obj, method, args){
+    return obj[method].apply(obj, args);
   }
 
 };
@@ -200,7 +203,23 @@ jsonLogic.apply = function(logic, data){
 	values = values.map(function(val){ return jsonLogic.apply(val, data); });
 
 
-	if(undefined === operations[op]){
+  if(typeof operations[op] === 'function'){
+  	return operations[op].apply(data, values);
+  }else if(op.indexOf('.') > 0){ //Contains a dot, and not in the 0th position
+    var sub_ops = String(op).split('.'),
+    operation = operations;
+    for(i = 0 ; i < sub_ops.length ; i++){
+      //Descending into operations
+      operation = operation[ sub_ops[i] ];
+      if(operation === undefined){
+        throw new Error("Unrecognized operation " + op +
+          " (failed at " + sub_ops.slice(0,i+1).join('.') + ")");
+      }
+    }
+
+    return operation.apply(data, values);
+
+  }else{
 		throw new Error("Unrecognized operation " + op );
 	}
 
@@ -232,6 +251,10 @@ jsonLogic.uses_data = function(logic){
 	}
 
 	return collection.unique();
+};
+
+jsonLogic.add_operation = function (name, code){
+  operations[name] = code;
 };
 
 return jsonLogic;
