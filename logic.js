@@ -51,22 +51,6 @@ var jsonLogic = {},
 		"!!"   : function(a){ return jsonLogic.truthy(a); },
 		"!"   : function(a){ return !jsonLogic.truthy(a); },
 		"%"  : function(a,b){ return a % b; },
-		"and" : function(){ //Return first falsy, or last
-			for(var i=0 ; i < arguments.length ; i+=1){
-        if( ! jsonLogic.truthy(arguments[i])){
-          return arguments[i];
-        }
-      }
-			return arguments[i-1];
-		},
-		"or"  : function(){ //Return first truthy, or last
-			for(var i=0 ; i < arguments.length ; i+=1){
-        if( jsonLogic.truthy(arguments[i])){
-          return arguments[i];
-        }
-      }
-			return arguments[i-1];
-		},
 		"log" : function(a){ console.log(a); return a; },
 		"in"  : function(a, b){
 			if(typeof b.indexOf === 'undefined') return false;
@@ -173,12 +157,12 @@ jsonLogic.apply = function(logic, data){
 
 	var op = Object.keys(logic)[0],
 		values = logic[op],
-		i;
+		i, current;
 
 	//easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
 	if( ! Array.isArray(values)){ values = [values]; }
 
-	// 'if' violates the normal rule of depth-first calculating consequents, let it manage recursion
+	// 'if', 'and', and 'or' violate the normal rule of depth-first calculating consequents, let each manage recursion as needed.
 	if(op === 'if' || op == '?:'){
 		/* 'if' should be called with a odd number of parameters, 3 or greater
 			This works on the pattern:
@@ -200,7 +184,24 @@ jsonLogic.apply = function(logic, data){
 		}
 		if(values.length === i+1) return jsonLogic.apply(values[i], data);
 		return null;
-	}
+	}else if(op === "and"){ //Return first falsy, or last
+			for(i=0 ; i < values.length ; i+=1){
+        current = jsonLogic.apply(values[i], data);
+        if( ! jsonLogic.truthy(current)){
+          return current;
+        }
+      }
+			return current; //Last
+		}else if(op === "or"){//Return first truthy, or last
+			for(i=0 ; i < values.length ; i+=1){
+        current = jsonLogic.apply(values[i], data);
+        if( jsonLogic.truthy(current) ){
+          return current;
+        }
+      }
+			return current; //Last
+		}
+
 
 
 	// Everyone else gets immediate depth-first recursion

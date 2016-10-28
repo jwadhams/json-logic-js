@@ -165,3 +165,83 @@ QUnit.test( "Expanding functionality with method", function( assert) {
 	assert.equal(a.count, 42); //Happy state change
 
 });
+
+
+QUnit.test("Control structures don't use depth-first computation", function(assert){
+	//Depth-first recursion was wasteful but not harmful until we added custom operations that could have side-effects.
+
+	//If operations run the condition, if truthy, it runs and returns that consequent.
+	//Consequents of falsy conditions should not run.
+	//After one truthy condition, no other condition should run
+	var conditions = [];
+	var consequents = [];
+	jsonLogic.add_operation("push.if", function(v){ conditions.push(v); return v; });
+	jsonLogic.add_operation("push.then", function(v){ consequents.push(v); return v; });
+	jsonLogic.add_operation("push.else", function(v){ consequents.push(v); return v; });
+
+	jsonLogic.apply({"if":[
+		{"push.if" : [true] },
+		{"push.then":["first"]},
+		{"push.if" : [false]},
+		{"push.then":["second"]},
+		{"push.else":["third"]}
+	]});
+	assert.deepEqual(conditions, [true]);
+	assert.deepEqual(consequents, ["first"]);
+
+	conditions = [];
+	consequents = [];
+	jsonLogic.apply({"if":[
+		{"push.if" : [false] },
+		{"push.then":["first"]},
+		{"push.if" : [true]},
+		{"push.then":["second"]},
+		{"push.else":["third"]}
+	]});
+	assert.deepEqual(conditions, [false,true]);
+	assert.deepEqual(consequents, ["second"]);
+
+	conditions = [];
+	consequents = [];
+	jsonLogic.apply({"if":[
+		{"push.if" : [false] },
+		{"push.then":["first"]},
+		{"push.if" : [false]},
+		{"push.then":["second"]},
+		{"push.else":["third"]}
+	]});
+	assert.deepEqual(conditions, [false,false]);
+	assert.deepEqual(consequents, ["third"]);
+
+
+	jsonLogic.add_operation("push", function(arg){ i.push(arg); return arg; });
+	var i = [];
+
+	i = [];
+	jsonLogic.apply({"and":[ {"push":[false]}, {"push":[false]} ]});
+	assert.deepEqual(i, [false]);
+	i = [];
+	jsonLogic.apply({"and":[ {"push":[false]}, {"push":[true]} ]});
+	assert.deepEqual(i, [false]);
+	i = [];
+	jsonLogic.apply({"and":[ {"push":[true]}, {"push":[false]} ]});
+	assert.deepEqual(i, [true, false]);
+	i = [];
+	jsonLogic.apply({"and":[ {"push":[true]}, {"push":[true]} ]});
+	assert.deepEqual(i, [true, true]);
+
+
+	i = [];
+	jsonLogic.apply({"or":[ {"push":[false]}, {"push":[false]} ]});
+	assert.deepEqual(i, [false,false]);
+	i = [];
+	jsonLogic.apply({"or":[ {"push":[false]}, {"push":[true]} ]});
+	assert.deepEqual(i, [false,true]);
+	i = [];
+	jsonLogic.apply({"or":[ {"push":[true]}, {"push":[false]} ]});
+	assert.deepEqual(i, [true]);
+	i = [];
+	jsonLogic.apply({"or":[ {"push":[true]}, {"push":[true]} ]});
+	assert.deepEqual(i, [true]);
+
+});
