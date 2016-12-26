@@ -89,16 +89,30 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
     },
     "cat": function() {
-      return Array.prototype.join.call(arguments, "");
+      return Array.prototype.join.call(
+        Array.prototype.reduce.call(arguments, function(a, b) {
+          return a.concat(b);
+        })
+        , 
+        "");
     },
     "+": function() {
-      return Array.prototype.reduce.call(arguments, function(a, b) {
-        return parseFloat(a, 10) + parseFloat(b, 10);
-      }, 0);
+      return Array.prototype.reduce.call(
+        Array.prototype.reduce.call(arguments, function(a, b) {
+          return a.concat(b);
+        }), 
+        function(a, b) {
+          return parseFloat(a, 10) + parseFloat(b, 10);
+      }, 
+      0);
     },
     "*": function() {
-      return Array.prototype.reduce.call(arguments, function(a, b) {
-        return parseFloat(a, 10) * parseFloat(b, 10);
+      return Array.prototype.reduce.call(
+        Array.prototype.reduce.call(arguments, function(a, b) {
+          return a.concat(b);
+        }), 
+        function(a, b) {
+          return parseFloat(a, 10) * parseFloat(b, 10);
       });
     },
     "-": function(a, b) {
@@ -116,10 +130,20 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
     },
     "min": function() {
-      return Math.min.apply(this, arguments);
+      return Math.min.apply(
+        this, 
+        Array.prototype.reduce.call(arguments, function(a, b) {
+          return a.concat(b);
+        })
+      );
     },
     "max": function() {
-      return Math.max.apply(this, arguments);
+      return Math.max.apply(
+        this, 
+        Array.prototype.reduce.call(arguments, function(a, b) {
+          return a.concat(b);
+        })
+      );
     },
     "merge": function() {
       return Array.prototype.reduce.call(arguments, function(a, b) {
