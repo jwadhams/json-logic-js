@@ -76,6 +76,18 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       if(typeof b.indexOf === "undefined") return false;
       return (b.indexOf(a) !== -1);
     },
+    "map": function(a, b) {
+      if(typeof b.indexOf === "undefined") return false;
+      try {
+        var logic = JSON.parse(a)
+        return Array.prototype.map.call(b, function(val) {
+          return jsonLogic.apply(logic, val);
+        });
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
     "cat": function() {
       return Array.prototype.join.call(arguments, "");
     },
