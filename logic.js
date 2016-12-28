@@ -105,7 +105,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       try {
         var logic = JSON.parse(a)
         return Array.prototype.filter.call(b, function(val) {
-          return jsonLogic.apply(logic, val);
+          return jsonLogic.truthy(jsonLogic.apply(logic, val));
         });
       } catch(exception) {
         console.log(exception);
