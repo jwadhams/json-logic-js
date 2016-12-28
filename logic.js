@@ -88,6 +88,18 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         return false;
       }
     },
+    "filter": function(a, b) {
+      if(typeof b.indexOf === "undefined") return false;
+      try {
+        var logic = JSON.parse(a)
+        return Array.prototype.filter.call(b, function(val) {
+          return jsonLogic.apply(logic, val);
+        });
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
     "cat": function() {
       return Array.prototype.join.call(
         Array.prototype.reduce.call(arguments, function(a, b) {
