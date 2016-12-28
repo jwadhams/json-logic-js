@@ -15,6 +15,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   "use strict";
   /* globals console:false */
 
+  var toArray = function(args) {
+    return Array.prototype.slice.call(args);
+  }
+
   if ( ! Array.isArray) {
     Array.isArray = function(arg) {
       return Object.prototype.toString.call(arg) === "[object Array]";
@@ -32,6 +36,14 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
       return a;
     };
+  }
+
+  if( ! Array.flatten) {
+   Array.prototype.flatten = function() {
+      return this.reduce(function(acc, elem) {
+        return Array.isArray(elem) ? acc.concat(elem.flatten()) : acc.concat(elem);
+    }, []);
+   };
   }
 
   var jsonLogic = {};
@@ -101,18 +113,11 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
     },
     "cat": function() {
-      return Array.prototype.join.call(
-        Array.prototype.reduce.call(arguments, function(a, b) {
-          return a.concat(b);
-        })
-        , 
-        "");
+      return Array.prototype.join.call(toArray(arguments).flatten(), "");
     },
     "+": function() {
       return Array.prototype.reduce.call(
-        Array.prototype.reduce.call(arguments, function(a, b) {
-          return a.concat(b);
-        }), 
+        toArray(arguments).flatten(), 
         function(a, b) {
           return parseFloat(a, 10) + parseFloat(b, 10);
       }, 
@@ -120,9 +125,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "*": function() {
       return Array.prototype.reduce.call(
-        Array.prototype.reduce.call(arguments, function(a, b) {
-          return a.concat(b);
-        }), 
+        toArray(arguments).flatten(), 
         function(a, b) {
           return parseFloat(a, 10) * parseFloat(b, 10);
       });
@@ -142,20 +145,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
     },
     "min": function() {
-      return Math.min.apply(
-        this, 
-        Array.prototype.reduce.call(arguments, function(a, b) {
-          return a.concat(b);
-        })
-      );
+      return Math.min.apply(this, toArray(arguments).flatten());
     },
     "max": function() {
-      return Math.max.apply(
-        this, 
-        Array.prototype.reduce.call(arguments, function(a, b) {
-          return a.concat(b);
-        })
-      );
+      return Math.max.apply(this, toArray(arguments).flatten());
     },
     "merge": function() {
       return Array.prototype.reduce.call(arguments, function(a, b) {
