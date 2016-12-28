@@ -17,7 +17,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   var toArray = function(args) {
     return Array.prototype.slice.call(args);
-  }
+  };
 
   if ( ! Array.isArray) {
     Array.isArray = function(arg) {
@@ -39,11 +39,13 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   }
 
   if( ! Array.flatten) {
-   Array.prototype.flatten = function() {
+    Array.prototype.flatten = function() {
       return this.reduce(function(acc, elem) {
-        return Array.isArray(elem) ? acc.concat(elem.flatten()) : acc.concat(elem);
-    }, []);
-   };
+        return Array.isArray(elem)
+            ? acc.concat(elem.flatten())
+            : acc.concat(elem);
+      }, []);
+    };
   }
 
   var jsonLogic = {};
@@ -91,7 +93,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "map": function(a, b) {
       if(typeof b.indexOf === "undefined") return false;
       try {
-        var logic = JSON.parse(a)
+        var logic = JSON.parse(a);
         return Array.prototype.map.call(b, function(val) {
           return jsonLogic.apply(logic, val);
         });
@@ -103,7 +105,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "filter": function(a, b) {
       if(typeof b.indexOf === "undefined") return false;
       try {
-        var logic = JSON.parse(a)
+        var logic = JSON.parse(a);
         return Array.prototype.filter.call(b, function(val) {
           return jsonLogic.truthy(jsonLogic.apply(logic, val));
         });
@@ -117,18 +119,18 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "+": function() {
       return Array.prototype.reduce.call(
-        toArray(arguments).flatten(), 
+        toArray(arguments).flatten(),
         function(a, b) {
           return parseFloat(a, 10) + parseFloat(b, 10);
-      }, 
+        },
       0);
     },
     "*": function() {
       return Array.prototype.reduce.call(
-        toArray(arguments).flatten(), 
+        toArray(arguments).flatten(),
         function(a, b) {
           return parseFloat(a, 10) * parseFloat(b, 10);
-      });
+        });
     },
     "-": function(a, b) {
       if(b === undefined) {
