@@ -19,13 +19,13 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return Array.prototype.slice.call(args);
   };
 
-  if ( ! Array.isArray) {
+  if (!Array.isArray) {
     Array.isArray = function(arg) {
       return Object.prototype.toString.call(arg) === "[object Array]";
     };
   }
 
-  if( ! Array.unique) {
+  if(!Array.unique) {
     /* eslint-disable no-extend-native */
     Array.prototype.unique = function() {
       var a = [];
@@ -38,7 +38,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     };
   }
 
-  if( ! Array.flatten) {
+  if(!Array.flatten) {
     Array.prototype.flatten = function() {
       return this.reduce(function(acc, elem) {
         return Array.isArray(elem)
@@ -91,11 +91,11 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return (b.indexOf(a) !== -1);
     },
     "map": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
       if(typeof b.indexOf === "undefined") return false;
       try {
-        var logic = JSON.parse(a);
         return Array.prototype.map.call(b, function(val) {
-          return jsonLogic.apply(logic, val);
+          return jsonLogic.apply(a(val));
         });
       } catch(exception) {
         console.log(exception);
@@ -103,11 +103,11 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
     },
     "filter": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
       if(typeof b.indexOf === "undefined") return false;
       try {
-        var logic = JSON.parse(a);
         return Array.prototype.filter.call(b, function(val) {
-          return jsonLogic.truthy(jsonLogic.apply(logic, val));
+          return jsonLogic.truthy(a(val));
         });
       } catch(exception) {
         console.log(exception);
@@ -269,14 +269,14 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       given one parameter, evaluate and return it. (it's an Else and all the If/ElseIf were false)
       given 0 parameters, return NULL (not great practice, but there was no Else)
       */
-      for(i = 0; i < values.length - 1; i += 2) {
+      for (i = 0; i < values.length - 1; i += 2) {
         if( jsonLogic.truthy( jsonLogic.apply(values[i], data) ) ) {
           return jsonLogic.apply(values[i+1], data);
         }
       }
-      if(values.length === i+1) return jsonLogic.apply(values[i], data);
+      if (values.length === i+1) return jsonLogic.apply(values[i], data);
       return null;
-    }else if(op === "and") { // Return first falsy, or last
+    } else if(op === "and") { // Return first falsy, or last
       for(i=0; i < values.length; i+=1) {
         current = jsonLogic.apply(values[i], data);
         if( ! jsonLogic.truthy(current)) {
@@ -284,7 +284,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
-    }else if(op === "or") {// Return first truthy, or last
+    } else if(op === "or") {// Return first truthy, or last
       for(i=0; i < values.length; i+=1) {
         current = jsonLogic.apply(values[i], data);
         if( jsonLogic.truthy(current) ) {
@@ -292,14 +292,16 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
+    } else if(op == "=>") {
+      return function(capturedData) {
+        return jsonLogic.apply(values[0], capturedData);
+      };
     }
-
 
     // Everyone else gets immediate depth-first recursion
     values = values.map(function(val) {
       return jsonLogic.apply(val, data);
     });
-
 
     if(typeof operations[op] === "function") {
       return operations[op].apply(data, values);
