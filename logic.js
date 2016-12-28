@@ -92,7 +92,9 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "map": function(a, b) {
       if(typeof a.indexOf === "function") return false;
-      if(typeof b.indexOf === "undefined") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
       try {
         return Array.prototype.map.call(b, function(val) {
           return jsonLogic.apply(a(val));
@@ -104,11 +106,47 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "filter": function(a, b) {
       if(typeof a.indexOf === "function") return false;
-      if(typeof b.indexOf === "undefined") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
       try {
         return Array.prototype.filter.call(b, function(val) {
           return jsonLogic.truthy(a(val));
         });
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
+    "every": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
+      try {
+        for(i=0; i < b.length; i+=1) {
+          if(!jsonLogic.truthy(a(b[i]))) {
+            return false;
+          }
+        }
+        return true;
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
+    "some": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
+      try {
+        for(i=0; i < b.length; i+=1) {
+          if(jsonLogic.truthy(a(b[i]))) {
+            return true;
+          }
+        }
+        return false;
       } catch(exception) {
         console.log(exception);
         return false;

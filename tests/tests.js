@@ -310,6 +310,24 @@ QUnit.test( "Using high order functions on collections", function(assert) {
   logic = {"map": [{"=>": {"var": "value"}}, {"var": "data"}]};
   assert.deepEqual(jsonLogic.apply(logic, data), [1, 2]);
 
+  logic = {"filter": [{"=>": {">=": [{"var": "value"}, 3]}}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
   logic = {"filter": [{"=>": {">=": [{"var": "value"}, 2]}}, {"var": "data"}]};
   assert.deepEqual(jsonLogic.apply(logic, data), [{name: "two", value: 2}]);
+  logic = {"filter": [{"=>": {">=": [{"var": "value"}, 3]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), []);
+
+  logic = {"every": [{"=>": {">=": [{"var": "value"}, 1]}}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+  logic = {"every": [{"=>": {">=": [{"var": "value"}, 1]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), true);
+  logic = {"every": [{"=>": {">=": [{"var": "value"}, 2]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+
+  logic = {"some": [{"=>": {">=": [{"var": "value"}, 2]}}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+  logic = {"some": [{"=>": {">=": [{"var": "value"}, 2]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), true);
+  logic = {"some": [{"=>": {">=": [{"var": "value"}, 3]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
 });
