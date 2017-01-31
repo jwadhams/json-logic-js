@@ -1,6 +1,6 @@
 {
-  "name": "json-logic-js",
-  "version": "1.0.9",
+  "name": "json-logic-js-enhanced",
+  "version": "1.1.0",
   "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
   "main": "logic.js",
   "directories": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jwadhams/json-logic-js.git"
+    "url": "git+https://github.com/kakkoyun/json-logic-js.git"
   },
   "keywords": [
     "json",
@@ -27,10 +27,13 @@
     "jsonlogic",
     "rules"
   ],
-  "author": "Jeremy Wadhams <jwadhams@dealerinspire.com> (http://jsonlogic.com)",
+  "authors": [
+    "Jeremy Wadhams <jwadhams@dealerinspire.com> (http://jsonlogic.com)",
+    "Kemal Akkoyun <kakkoyun@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jwadhams/json-logic-js/issues"
+    "url": "https://github.com/kakkoyun/json-logic-js/issues"
   },
-  "homepage": "https://github.com/jwadhams/json-logic-js#readme"
+  "homepage": "https://github.com/kakkoyun/json-logic-js#readme"
 }
