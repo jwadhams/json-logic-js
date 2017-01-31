@@ -116,7 +116,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "var": function(a, b) {
       var not_found = (b === undefined) ? null : b;
-      var sub_props = String(a).split(".");
+      var sub_props = (Array.isArray(a)) ? a : String(a).split(".");
       var data = this;
       for(var i = 0; i < sub_props.length; i++) {
         // Descending into data
