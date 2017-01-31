@@ -1,9 +1,10 @@
 {
-  "name": "json-logic-js",
-  "version": "1.0.9",
-  "homepage": "https://github.com/jwadhams/json-logic-js",
+  "name": "json-logic-js-enhanced",
+  "version": "1.1.0",
+  "homepage": "https://github.com/kakkoyun/json-logic-js",
   "authors": [
-    "Jeremy Wadhams <jwadhams@dealerinspire.com>"
+    "Jeremy Wadhams <jwadhams@dealerinspire.com> (http://jsonlogic.com)",
+    "Kemal Akkoyun <kakkoyun@gmail.com>"
   ],
   "description": "Serialize complex logic in JSON, run it in JavaScript",
   "main": "logic.js",
