@@ -15,13 +15,17 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   "use strict";
   /* globals console:false */
 
-  if ( ! Array.isArray) {
+  var toArray = function(args) {
+    return Array.prototype.slice.call(args);
+  };
+
+  if (!Array.isArray) {
     Array.isArray = function(arg) {
       return Object.prototype.toString.call(arg) === "[object Array]";
     };
   }
 
-  if( ! Array.unique) {
+  if(!Array.unique) {
     /* eslint-disable no-extend-native */
     Array.prototype.unique = function() {
       var a = [];
@@ -31,6 +35,16 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return a;
+    };
+  }
+
+  if(!Array.flatten) {
+    Array.prototype.flatten = function() {
+      return this.reduce(function(acc, elem) {
+        return Array.isArray(elem)
+            ? acc.concat(elem.flatten())
+            : acc.concat(elem);
+      }, []);
     };
   }
 
@@ -76,18 +90,85 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       if(typeof b.indexOf === "undefined") return false;
       return (b.indexOf(a) !== -1);
     },
+    "map": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
+      try {
+        return Array.prototype.map.call(b, function(val) {
+          return jsonLogic.apply(a(val));
+        });
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
+    "filter": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
+      try {
+        return Array.prototype.filter.call(b, function(val) {
+          return jsonLogic.truthy(a(val));
+        });
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
+    "every": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
+      try {
+        for(i=0; i < b.length; i+=1) {
+          if(!jsonLogic.truthy(a(b[i]))) {
+            return false;
+          }
+        }
+        return true;
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
+    "some": function(a, b) {
+      if(typeof a.indexOf === "function") return false;
+      if(typeof b === "undefined" || typeof b.indexOf === "undefined") {
+        return false;
+      }
+      try {
+        for(i=0; i < b.length; i+=1) {
+          if(jsonLogic.truthy(a(b[i]))) {
+            return true;
+          }
+        }
+        return false;
+      } catch(exception) {
+        console.log(exception);
+        return false;
+      }
+    },
     "cat": function() {
-      return Array.prototype.join.call(arguments, "");
+      return Array.prototype.join.call(toArray(arguments).flatten(), "");
     },
     "+": function() {
-      return Array.prototype.reduce.call(arguments, function(a, b) {
-        return parseFloat(a, 10) + parseFloat(b, 10);
-      }, 0);
+      return Array.prototype.reduce.call(
+        toArray(arguments).flatten(),
+        function(a, b) {
+          return parseFloat(a, 10) + parseFloat(b, 10);
+        },
+      0);
     },
     "*": function() {
-      return Array.prototype.reduce.call(arguments, function(a, b) {
-        return parseFloat(a, 10) * parseFloat(b, 10);
-      });
+      return Array.prototype.reduce.call(
+        toArray(arguments).flatten(),
+        function(a, b) {
+          return parseFloat(a, 10) * parseFloat(b, 10);
+        });
     },
     "-": function(a, b) {
       if(b === undefined) {
@@ -104,10 +185,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
     },
     "min": function() {
-      return Math.min.apply(this, arguments);
+      return Math.min.apply(this, toArray(arguments).flatten());
     },
     "max": function() {
-      return Math.max.apply(this, arguments);
+      return Math.max.apply(this, toArray(arguments).flatten());
     },
     "merge": function() {
       return Array.prototype.reduce.call(arguments, function(a, b) {
@@ -226,14 +307,14 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       given one parameter, evaluate and return it. (it's an Else and all the If/ElseIf were false)
       given 0 parameters, return NULL (not great practice, but there was no Else)
       */
-      for(i = 0; i < values.length - 1; i += 2) {
+      for (i = 0; i < values.length - 1; i += 2) {
         if( jsonLogic.truthy( jsonLogic.apply(values[i], data) ) ) {
           return jsonLogic.apply(values[i+1], data);
         }
       }
-      if(values.length === i+1) return jsonLogic.apply(values[i], data);
+      if (values.length === i+1) return jsonLogic.apply(values[i], data);
       return null;
-    }else if(op === "and") { // Return first falsy, or last
+    } else if(op === "and") { // Return first falsy, or last
       for(i=0; i < values.length; i+=1) {
         current = jsonLogic.apply(values[i], data);
         if( ! jsonLogic.truthy(current)) {
@@ -241,7 +322,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
-    }else if(op === "or") {// Return first truthy, or last
+    } else if(op === "or") {// Return first truthy, or last
       for(i=0; i < values.length; i+=1) {
         current = jsonLogic.apply(values[i], data);
         if( jsonLogic.truthy(current) ) {
@@ -249,14 +330,16 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
+    } else if(op == "=>") {
+      return function(capturedData) {
+        return jsonLogic.apply(values[0], capturedData);
+      };
     }
-
 
     // Everyone else gets immediate depth-first recursion
     values = values.map(function(val) {
       return jsonLogic.apply(val, data);
     });
-
 
     if(typeof operations[op] === "function") {
       return operations[op].apply(data, values);

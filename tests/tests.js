@@ -270,3 +270,64 @@ QUnit.test("Control structures don't eval depth-first", function(assert) {
   jsonLogic.apply({"or": [{"push": [true]}, {"push": [true]}]});
   assert.deepEqual(i, [true]);
 });
+
+QUnit.test( "Fat Arrow operator don't eval depth-first", function(assert) {
+  i = [];
+  jsonLogic.apply({ "=>": { ">=": [{ "var": "value" }, 2] } });
+  assert.deepEqual(i, []);
+});
+
+QUnit.test( "Using high order functions on collections", function(assert) {
+  var data = {
+    "data": [
+      {
+        "name": "one",
+        "value": 1,
+      },
+      {
+        "name": "two",
+        "value": 2,
+      },
+    ],
+  };
+  var logic = {};
+
+  logic = {"+": {"map": [{"=>": {"var": "value"}}, {"var": "data"}]}};
+  assert.deepEqual(jsonLogic.apply(logic, data), 3);
+
+  logic = {"min": {"map": [{"=>": {"var": "value"}}, {"var": "data"}]}};
+  assert.deepEqual(jsonLogic.apply(logic, data), 1);
+
+  logic = {"max": {"map": [{"=>": {"var": "value"}}, {"var": "data"}]}};
+  assert.deepEqual(jsonLogic.apply(logic, data), 2);
+
+  logic = {"in": ["one", {"map": [{"=>": {"var": "name"}}, {"var": "data"}]}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), true);
+
+  logic = {"map": [{"=>": {"var": "name"}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), ["one", "two"]);
+
+  logic = {"map": [{"=>": {"var": "value"}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), [1, 2]);
+
+  logic = {"filter": [{"=>": {">=": [{"var": "value"}, 3]}}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+  logic = {"filter": [{"=>": {">=": [{"var": "value"}, 2]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), [{name: "two", value: 2}]);
+  logic = {"filter": [{"=>": {">=": [{"var": "value"}, 3]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), []);
+
+  logic = {"every": [{"=>": {">=": [{"var": "value"}, 1]}}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+  logic = {"every": [{"=>": {">=": [{"var": "value"}, 1]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), true);
+  logic = {"every": [{"=>": {">=": [{"var": "value"}, 2]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+
+  logic = {"some": [{"=>": {">=": [{"var": "value"}, 2]}}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+  logic = {"some": [{"=>": {">=": [{"var": "value"}, 2]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), true);
+  logic = {"some": [{"=>": {">=": [{"var": "value"}, 3]}}, {"var": "data"}]};
+  assert.deepEqual(jsonLogic.apply(logic, data), false);
+});

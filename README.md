@@ -1,4 +1,8 @@
-# json-logic-js
+# json-logic-js-enhanced
+
+Enhanced version of json-logic-js, with higher order operators like map, filter, every and some.
+
+---
 
 This parser accepts [JsonLogic](http://jsonlogic.com) rules and executes them in JavaScript.
 
@@ -124,4 +128,4 @@ curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
 
 This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
 
-If you want to use JsonLogic *and* support deprecated browsers, you could easily use [BabelJS's polyfill](https://babeljs.io/docs/usage/polyfill/) or directly incorporate the polyfills documented on MDN for [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) and [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce). 
+If you want to use JsonLogic *and* support deprecated browsers, you could easily use [BabelJS's polyfill](https://babeljs.io/docs/usage/polyfill/) or directly incorporate the polyfills documented on MDN for [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) and [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
