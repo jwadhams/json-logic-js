@@ -249,6 +249,27 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
+    }else if(op === "some") {
+      let localData = jsonLogic.apply(values[0], data)
+      let localLogic = values[1]
+      let result = localData.map(function (item) {
+        return !!jsonLogic.apply(localLogic, item)
+      })
+      return result.includes(true)
+    }else if(op === "all") {
+      let localData = jsonLogic.apply(values[0], data)
+      let localLogic = values[1]
+      let result = localData.map(function (item) {
+        return !!jsonLogic.apply(localLogic, item)
+      })
+      return !result.includes(false)
+    }else if(op === "none") {
+      let localData = jsonLogic.apply(values[0], data)
+      let localLogic = values[1]
+      let result = localData.map(function (item) {
+        return !!jsonLogic.apply(localLogic, item)
+      })
+      return !result.includes(true)
     }
 
 
