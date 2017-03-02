@@ -1,6 +1,6 @@
 {
   "name": "json-logic-js",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
   "main": "logic.js",
   "directories": {
