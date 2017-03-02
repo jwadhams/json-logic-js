@@ -21,17 +21,14 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     };
   }
 
-  if( ! Array.unique) {
-    /* eslint-disable no-extend-native */
-    Array.prototype.unique = function() {
-      var a = [];
-      for (var i=0, l=this.length; i<l; i++) {
-        if (a.indexOf(this[i]) === -1) {
-          a.push(this[i]);
-        }
+  function arrayUnique(array) {
+    var a = [];
+    for (var i=0, l=array.length; i<l; i++) {
+      if (a.indexOf(array[i]) === -1) {
+        a.push(array[i]);
       }
-      return a;
-    };
+    }
+    return a;
   }
 
   var jsonLogic = {};
@@ -305,7 +302,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
     }
 
-    return collection.unique();
+    return arrayUnique(collection);
   };
 
   jsonLogic.add_operation = function(name, code) {
