@@ -192,6 +192,11 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
     data = data || {};
 
+    // If logic is empty object, return true.
+    if (Object.keys(logic).length === 0) {
+      return true
+    }
+
     var op = Object.keys(logic)[0];
     var values = logic[op];
     var i;
@@ -240,6 +245,27 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
+    }else if(op === "some") {
+      let localData = jsonLogic.apply(values[0], data)
+      let localLogic = values[1]
+      let result = localData.map(function (item) {
+        return !!jsonLogic.apply(localLogic, item)
+      })
+      return result.includes(true)
+    }else if(op === "all") {
+      let localData = jsonLogic.apply(values[0], data)
+      let localLogic = values[1]
+      let result = localData.map(function (item) {
+        return !!jsonLogic.apply(localLogic, item)
+      })
+      return !result.includes(false)
+    }else if(op === "none") {
+      let localData = jsonLogic.apply(values[0], data)
+      let localLogic = values[1]
+      let result = localData.map(function (item) {
+        return !!jsonLogic.apply(localLogic, item)
+      })
+      return !result.includes(true)
     }
 
 
@@ -247,7 +273,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     values = values.map(function(val) {
       return jsonLogic.apply(val, data);
     });
-
 
     if(typeof operations[op] === "function") {
       return operations[op].apply(data, values);
