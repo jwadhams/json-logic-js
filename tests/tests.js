@@ -15,36 +15,89 @@ var download = function(url, dest, cb) {
   });
 };
 
-var process_test_file = function(filename) {
-  fs.readFile(filename, "utf8", function(error, body) {
-    try{
-      tests = JSON.parse(body);
-    }catch(e) {
-      throw new Error("Trouble parsing shared test: " + e.message);
+var remote_or_cache = function (remote_url, local_file, description, runner){
+  var parse_and_iterate = function(local_file, description, runner){
+    fs.readFile(local_file, "utf8", function(error, body) {
+      var tests;
+      try{
+        tests = JSON.parse(body);
+      }catch(e) {
+        throw new Error("Trouble parsing " + description + ": " + e.message);
+      }
+
+      //Remove comments
+      tests = tests.filter(function(test){ return typeof test !== 'string'; });
+
+      console.log("Including "+tests.length+" "+description);
+
+      QUnit.test(description, function(assert) {
+        tests.map(runner);
+      });
+
+      start();
+    });
+
+  };
+
+	// Only waiting on the request() is async
+  stop();
+
+  fs.stat(local_file, function(err, stats) {
+    if(err) {
+      console.log("Downloading " + description + " from JsonLogic.com");
+      download(remote_url, local_file, function() {
+        parse_and_iterate(local_file, description, runner);
+      });
+    }else{
+      console.log("Using cached " + description);
+      parse_and_iterate(local_file, description, runner);
     }
-
-    console.log("Including "+tests.length+" shared tests from JsonLogic.com");
-
-    for(var i = 0; i < tests.length; i+=1) {
-      var test = tests[i];
-      if(typeof test === "string") continue; // Comment
-
-      var rule = test[0];
-      var data = test[1];
-      var expected = test[2];
-
-      assert.deepEqual(
-				jsonLogic.apply(rule, data),
-				expected,
-				"jsonLogic("+ JSON.stringify(rule) +","
-          + JSON.stringify( data ) +") = "
-          + JSON.stringify(expected)
-			);
-    }
-
-    start();
   });
+
 };
+
+remote_or_cache(
+  "http://jsonlogic.com/tests.json",
+  "tests.json",
+  "applies() tests",
+  function(test){
+    var rule = test[0];
+    var data = test[1];
+    var expected = test[2];
+
+    assert.deepEqual(
+      jsonLogic.apply(rule, data),
+      expected,
+      "jsonLogic.apply("+ JSON.stringify(rule) +"," +
+        JSON.stringify(data) +") === " +
+        JSON.stringify(expected)
+    );
+  }
+);
+
+remote_or_cache(
+  "http://jsonlogic.com/rule_like.json",
+  "rule_like.json",
+  "rule_like() tests",
+  function(test){
+    var rule = test[0];
+    var pattern = test[1];
+    var expected = test[2];
+
+    assert.deepEqual(
+      jsonLogic.rule_like(rule, pattern),
+      expected,
+      "jsonLogic.rule_like("+ JSON.stringify(rule) +"," +
+        JSON.stringify(pattern) +") === " +
+        JSON.stringify(expected)
+    );
+  }
+);
+
+
+
+
+
 
 QUnit.test( "Bad operator", function( assert ) {
   assert.throws(
@@ -55,25 +108,6 @@ QUnit.test( "Bad operator", function( assert ) {
 	);
 });
 
-
-QUnit.test( "Shared JsonLogic.com tests ", function( assert ) {
-	// Only waiting on the request() is async
-  stop();
-
-  var local_file = "tests.json";
-
-  fs.stat(local_file, function(err, stats) {
-    if(err) {
-      console.log("Downloading shared tests from JsonLogic.com");
-      download("http://jsonlogic.com/tests.json", local_file, function() {
-        process_test_file(local_file);
-      });
-    }else{
-      console.log("Using cached tests");
-      process_test_file(local_file);
-    }
-  });
-});
 
 QUnit.test( "logging", function( assert ) {
   var last_console;

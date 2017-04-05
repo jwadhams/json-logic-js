@@ -1,7 +1,6 @@
 node_modules
-tests/tests.json
+tests/*.json
 
 # editor and IDE remnants
 *~
 .idea/
-

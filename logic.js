@@ -157,9 +157,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   jsonLogic.is_logic = function(logic) {
     return (
-      logic !== null
-      && typeof logic === "object"
-      && ! Array.isArray(logic)
+      logic !== null && typeof logic === "object" && ! Array.isArray(logic)
     );
   };
 
@@ -178,6 +176,15 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return !! value;
   };
 
+
+  jsonLogic.get_operator = function(logic){
+    return Object.keys(logic)[0];
+  };
+
+  jsonLogic.get_values = function(logic){
+    return logic[ jsonLogic.get_operator(logic) ];
+  };
+
   jsonLogic.apply = function(logic, data) {
     // Does this array contain logic? Only one way to find out.
     if(Array.isArray(logic)) {
@@ -192,7 +199,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
     data = data || {};
 
-    var op = Object.keys(logic)[0];
+    var op = jsonLogic.get_operator(logic);
     var values = logic[op];
     var i;
     var current;
@@ -278,7 +285,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     var collection = [];
 
     if( jsonLogic.is_logic(logic) ) {
-      var op = Object.keys(logic)[0];
+      var op = jsonLogic.get_operator(logic);
       var values = logic[op];
 
       if( ! Array.isArray(values)) {
@@ -302,6 +309,58 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   jsonLogic.add_operation = function(name, code) {
     operations[name] = code;
   };
+
+
+  jsonLogic.rule_like = function(rule, pattern){
+		//console.log("Is ". JSON.stringify(rule) . " like " . JSON.stringify(pattern) . "?");
+	  if(pattern === rule){ return true; } //TODO : Deep object equivalency?
+	  if(pattern === "@"){ return true; } //Wildcard!
+	  if(pattern === "number"){ return (typeof rule === 'number'); }
+	  if(pattern === "string"){ return (typeof rule === 'string'); }
+	  if(pattern === "array"){
+      //!logic test might be superfluous in JavaScript
+      return Array.isArray(rule) && ! jsonLogic.is_logic(rule);
+    }
+
+	  if(jsonLogic.is_logic(pattern)){
+	    if(jsonLogic.is_logic(rule)){
+	      var pattern_op = jsonLogic.get_operator(pattern);
+        var rule_op = jsonLogic.get_operator(rule);
+
+	      if(pattern_op === "@" || pattern_op === rule_op){
+					//echo "\nOperators match, go deeper\n";
+	        return jsonLogic.rule_like(
+						jsonLogic.get_values(rule, false),
+						jsonLogic.get_values(pattern, false)
+					);
+	      }
+
+	    }
+	    return false; //pattern is logic, rule isn't, can't be eq
+	  }
+
+	  if(Array.isArray(pattern)){
+	    if(Array.isArray(rule)){
+	      if(pattern.length !== rule.length){ return false; }
+				/*
+					Note, array order MATTERS, because we're using this array test logic to consider arguments, where order can matter. (e.g., + is commutative, but '-' or 'if' or 'var' are NOT)
+				*/
+	      for(var i = 0 ; i < pattern.length ; i += 1){
+	        //If any fail, we fail
+	        if( ! jsonLogic.rule_like(rule[i], pattern[i])){ return false; }
+	      }
+	      return true; //If they *all* passed, we pass
+	    }else{
+	      return false; //Pattern is array, rule isn't
+	    }
+
+	  }
+
+		//Not logic, not array, not a === match for rule.
+		return false;
+	};
+
+
 
   return jsonLogic;
 }));
