@@ -255,26 +255,26 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
       return current; // Last
     }else if(op === "some") {
-      let localData = jsonLogic.apply(values[0], data)
-      let localLogic = values[1]
-      let result = localData.map(function (item) {
-        return !!jsonLogic.apply(localLogic, item)
+      var scopedData = jsonLogic.apply(values[0], data)
+      var scopedLogic = values[1]
+      var scopedResult = scopedData.map(function (item) {
+        return !!jsonLogic.apply(scopedLogic, item)
       })
-      return result.includes(true)
+      return scopedResult.includes(true)
     }else if(op === "all") {
-      let localData = jsonLogic.apply(values[0], data)
-      let localLogic = values[1]
-      let result = localData.map(function (item) {
-        return !!jsonLogic.apply(localLogic, item)
+      var scopedData = jsonLogic.apply(values[0], data)
+      var scopedLogic = values[1]
+      var scopedResult = scopedData.map(function (item) {
+        return !!jsonLogic.apply(scopedLogic, item)
       })
-      return !result.includes(false)
+      return !scopedResult.includes(false)
     }else if(op === "none") {
-      let localData = jsonLogic.apply(values[0], data)
-      let localLogic = values[1]
-      let result = localData.map(function (item) {
-        return !!jsonLogic.apply(localLogic, item)
+      var scopedData = jsonLogic.apply(values[0], data)
+      var scopedLogic = values[1]
+      var scopedResult = scopedData.map(function (item) {
+        return !!jsonLogic.apply(scopedLogic, item)
       })
-      return !result.includes(true)
+      return !scopedResult.includes(true)
     }
 
 
