@@ -172,6 +172,16 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     42
   );
 
+  //Remove operation:
+  jsonLogic.rm_operation("times");
+
+  assert.throws(
+    function() {
+      jsonLogic.apply({"times": [2,2]});
+    },
+    /Unrecognized operation/
+  );
+
   // Calling a method that takes an array, but the inside of the array has rules, too
   jsonLogic.add_operation("array_times", function(a) {
     return a[0]*a[1];
@@ -183,6 +193,9 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     ),
     42
   );
+
+
+
 });
 
 QUnit.test( "Expanding functionality with method", function( assert) {
