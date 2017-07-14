@@ -167,17 +167,17 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   jsonLogic.is_logic = function(logic) {
     return (
-      logic !== null && typeof logic === "object" && ! Array.isArray(logic)
+      typeof logic === "object" && // An object
+      logic !== null && // but not null
+      ! Array.isArray(logic) && // and not an array
+      Object.keys(logic).length === 1 // with exactly one key
     );
   };
 
   /*
   This helper will defer to the JsonLogic spec as a tie-breaker when different language interpreters define different behavior for the truthiness of primitives.  E.g., PHP considers empty arrays to be falsy, but Javascript considers them to be truthy. JsonLogic, as an ecosystem, needs one consistent answer.
 
-  Literal | JS    |  PHP  |  JsonLogic
-  --------+-------+-------+---------------
-  []      | true  | false | false
-  "0"     | true  | false | true
+  Spec and rationale here: http://jsonlogic.com/truthy
   */
   jsonLogic.truthy = function(value) {
     if(Array.isArray(value) && value.length === 0) {
@@ -257,8 +257,38 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
+    }else if(op === "all") {
+      var scopedData = jsonLogic.apply(values[0], data);
+      var scopedLogic = values[1];
+      // All of an empty set is false. Note, some and none have correct fallback after the for loop
+      if( ! scopedData.length) {
+        return false;
+      }
+      for(i=0; i < scopedData.length; i+=1) {
+        if( ! jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
+          return false; // First falsy, short circuit
+        }
+      }
+      return true; // All were truthy
+    }else if(op === "none") {
+      var scopedData = jsonLogic.apply(values[0], data);
+      var scopedLogic = values[1];
+      for(i=0; i < scopedData.length; i+=1) {
+        if(jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
+          return false; // First truthy, short circuit
+        }
+      }
+      return true; // All were falsy
+    }else if(op === "some") {
+      var scopedData = jsonLogic.apply(values[0], data);
+      var scopedLogic = values[1];
+      for(i=0; i < scopedData.length; i+=1) {
+        if(jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
+          return true; // First truthy, short circuit
+        }
+      }
+      return false; // None were truthy
     }
-
 
     // Everyone else gets immediate depth-first recursion
     values = values.map(function(val) {
