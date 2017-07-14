@@ -114,8 +114,11 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "var": function(a, b) {
       var not_found = (b === undefined) ? null : b;
-      var sub_props = String(a).split(".");
       var data = this;
+      if(typeof a === "undefined" || a==="" || a===null) {
+        return data;
+      }
+      var sub_props = String(a).split(".");
       for(var i = 0; i < sub_props.length; i++) {
         if(data === null) {
           return not_found;
