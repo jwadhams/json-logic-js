@@ -36,6 +36,8 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return a;
   }
 
+  var makeStr = (n, char=" ") => new Array(n+1).join(char)
+
   var jsonLogic = {};
   var operations = {
     "==": function(a, b) {
@@ -114,11 +116,8 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "var": function(a, b) {
       var not_found = (b === undefined) ? null : b;
-      var data = this;
-      if(typeof a === "undefined" || a==="" || a===null) {
-        return data;
-      }
       var sub_props = String(a).split(".");
+      var data = this;
       for(var i = 0; i < sub_props.length; i++) {
         if(data === null) {
           return not_found;
@@ -165,22 +164,23 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "method": function(obj, method, args) {
       return obj[method].apply(obj, args);
     },
+    "if" : null,
+    "?:" : null
 
   };
 
   jsonLogic.is_logic = function(logic) {
-    return (
-      typeof logic === "object" && // An object
-      logic !== null && // but not null
-      ! Array.isArray(logic) && // and not an array
-      Object.keys(logic).length === 1 // with exactly one key
-    );
-  };
+    var op = jsonLogic.get_operator(logic)
+    return op && op in operations
+  }
 
   /*
   This helper will defer to the JsonLogic spec as a tie-breaker when different language interpreters define different behavior for the truthiness of primitives.  E.g., PHP considers empty arrays to be falsy, but Javascript considers them to be truthy. JsonLogic, as an ecosystem, needs one consistent answer.
 
-  Spec and rationale here: http://jsonlogic.com/truthy
+  Literal | JS    |  PHP  |  JsonLogic
+  --------+-------+-------+---------------
+  []      | true  | false | false
+  "0"     | true  | false | true
   */
   jsonLogic.truthy = function(value) {
     if(Array.isArray(value) && value.length === 0) {
@@ -198,11 +198,22 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return logic[jsonLogic.get_operator(logic)];
   };
 
+  jsonLogic.toString = function(logic) {
+
+    var op = jsonLogic.get_operator(logic)
+
+    return jsonLogic
+      .get_values(logic)
+      .map( v => v.var ? `var(${v.var})` : v )
+      .map( v => jsonLogic.is_logic(v) ? `( ${jsonLogic.toString(v)} )` : v )
+      .join( ` ${op} ` )
+  }
+
   jsonLogic.apply = function(logic, data) {
     // Does this array contain logic? Only one way to find out.
     if(Array.isArray(logic)) {
       return logic.map(function(l) {
-        return jsonLogic.apply(l, data);
+        return logic.is_logic(l) ? jsonLogic.apply(l, data) : l;
       });
     }
     // You've recursed to a primitive, stop!
@@ -260,38 +271,8 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
-    }else if(op === "all") {
-      var scopedData = jsonLogic.apply(values[0], data);
-      var scopedLogic = values[1];
-      // All of an empty set is false. Note, some and none have correct fallback after the for loop
-      if( ! scopedData.length) {
-        return false;
-      }
-      for(i=0; i < scopedData.length; i+=1) {
-        if( ! jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
-          return false; // First falsy, short circuit
-        }
-      }
-      return true; // All were truthy
-    }else if(op === "none") {
-      var scopedData = jsonLogic.apply(values[0], data);
-      var scopedLogic = values[1];
-      for(i=0; i < scopedData.length; i+=1) {
-        if(jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
-          return false; // First truthy, short circuit
-        }
-      }
-      return true; // All were falsy
-    }else if(op === "some") {
-      var scopedData = jsonLogic.apply(values[0], data);
-      var scopedLogic = values[1];
-      for(i=0; i < scopedData.length; i+=1) {
-        if(jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
-          return true; // First truthy, short circuit
-        }
-      }
-      return false; // None were truthy
     }
+
 
     // Everyone else gets immediate depth-first recursion
     values = values.map(function(val) {
