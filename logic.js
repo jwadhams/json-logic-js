@@ -216,6 +216,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     var values = logic[op];
     var i;
     var current;
+    var scopedLogic, scopedData, filtered, initial;
 
     // easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
     if( ! Array.isArray(values)) {
@@ -260,9 +261,57 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
+
+
+
+
+    }else if(op === 'filter'){
+      scopedData = jsonLogic.apply(values[0], data);
+      scopedLogic = values[1];
+
+      if ( ! Array.isArray(scopedData)) {
+          return [];
+      }
+      // Return only the elements from the array in the first argument,
+      // that return truthy when passed to the logic in the second argument.
+      // For parity with JavaScript, reindex the returned array
+      return scopedData.filter(function(datum){
+          return jsonLogic.truthy( jsonLogic.apply(scopedLogic, datum));
+      });
+  }else if(op === 'map'){
+      scopedData = jsonLogic.apply(values[0], data);
+      scopedLogic = values[1];
+
+      if ( ! Array.isArray(scopedData)) {
+          return [];
+      }
+
+      return scopedData.map(function(datum){
+          return jsonLogic.apply(scopedLogic, datum);
+      });
+
+  }else if(op === 'reduce'){
+      scopedData = jsonLogic.apply(values[0], data);
+      scopedLogic = values[1];
+      initial = typeof values[2] !== 'undefined' ? values[2] : null;
+
+      if ( ! Array.isArray(scopedData)) {
+          return initial;
+      }
+
+      return scopedData.reduce(
+          function(accumulator, current){
+              return jsonLogic.apply(
+                  scopedLogic,
+                  {'current':current, 'accumulator':accumulator}
+              );
+          },
+          initial
+      );
+
     }else if(op === "all") {
-      var scopedData = jsonLogic.apply(values[0], data);
-      var scopedLogic = values[1];
+      scopedData = jsonLogic.apply(values[0], data);
+      scopedLogic = values[1];
       // All of an empty set is false. Note, some and none have correct fallback after the for loop
       if( ! scopedData.length) {
         return false;
@@ -274,23 +323,12 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
       return true; // All were truthy
     }else if(op === "none") {
-      var scopedData = jsonLogic.apply(values[0], data);
-      var scopedLogic = values[1];
-      for(i=0; i < scopedData.length; i+=1) {
-        if(jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
-          return false; // First truthy, short circuit
-        }
-      }
-      return true; // All were falsy
+      filtered = jsonLogic.apply({'filter' : values}, data);
+      return filtered.length === 0;
+
     }else if(op === "some") {
-      var scopedData = jsonLogic.apply(values[0], data);
-      var scopedLogic = values[1];
-      for(i=0; i < scopedData.length; i+=1) {
-        if(jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
-          return true; // First truthy, short circuit
-        }
-      }
-      return false; // None were truthy
+      filtered = jsonLogic.apply({'filter' : values}, data);
+      return filtered.length > 0;
     }
 
     // Everyone else gets immediate depth-first recursion
