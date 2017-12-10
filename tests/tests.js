@@ -75,6 +75,29 @@ remote_or_cache(
   }
 );
 
+/*
+Temporary language-independent tests that should be uploaded to jsonlogic.com
+as a separate test set or merged with existing applies() tests.
+*/
+remote_or_cache(
+  "http://jsonlogic.com/language-independent.json",
+  "language-independent.json",
+  "language-independent logic tests",
+  function(test) {
+    var rule = test[0];
+    var data = test[1];
+    var expected = test[2];
+
+    assert.deepEqual(
+      jsonLogic.apply(rule, data),
+      expected,
+      "jsonLogic.apply("+ JSON.stringify(rule) +"," +
+        JSON.stringify(data) +") === " +
+        JSON.stringify(expected)
+    );
+  }
+);
+
 remote_or_cache(
   "http://jsonlogic.com/rule_like.json",
   "rule_like.json",

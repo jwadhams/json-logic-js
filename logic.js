@@ -22,6 +22,27 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   }
 
   /**
+   * Return True if data object (logic function arguments) contains null values
+   * @param  {object} data   Data object to analyze
+   * @return {boolean}       Result of object analysis
+   */
+  function dataContainsNulls(data) {
+    for (var key in data) {
+      if (data[key] == null) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Return True if data object (logic function arguments) is empty or contains null values
+   * @param  {object} data   Data object to analyze
+   * @return {boolean}       Result of object analysis
+   */
+  function dataIsEmptyOrContainsNulls(data) {
+    return (data.length === 0 || dataContainsNulls(data));
+  }
+
+  /**
    * Return an array that contains no duplicates (original not modified)
    * @param  {array} array   Original reference array
    * @return {array}         New array with no duplicates
@@ -38,42 +59,78 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   var jsonLogic = {};
   var operations = {
-    "==": function(a, b) {
-      return a == b;
+    "==": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0 ? result : result && data[idx-1] == data[idx];
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    "===": function(a, b) {
-      return a === b;
+    "===": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0 ? result : result && data[idx-1] === data[idx];
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    "!=": function(a, b) {
-      return a != b;
+    "!=": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0 ? result : result && data[idx-1] != data[idx];
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    "!==": function(a, b) {
-      return a !== b;
+    "!==": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0 ? result : result && data[idx-1] !== data[idx];
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    ">": function(a, b) {
-      return a > b;
+    ">": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0
+          ? result
+          : result && parseFloat(data[idx-1], 10) > parseFloat(data[idx], 10);
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    ">=": function(a, b) {
-      return a >= b;
+    ">=": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0
+          ? result
+          : result && parseFloat(data[idx-1], 10) >= parseFloat(data[idx], 10);
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    "<": function(a, b, c) {
-      return (c === undefined) ? a < b : (a < b) && (b < c);
+    "<": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0
+          ? result
+          : result && parseFloat(data[idx-1], 10) < parseFloat(data[idx], 10);
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    "<=": function(a, b, c) {
-      return (c === undefined) ? a <= b : (a <= b) && (b <= c);
+    "<=": function() {
+      var data = arguments;
+      return Array.prototype.reduce.call(arguments, function(result, _, idx) {
+        return idx === 0
+          ? result
+          : result && parseFloat(data[idx-1], 10) <= parseFloat(data[idx], 10);
+      }, arguments.length >= 2 && !dataContainsNulls(data));
     },
-    "!!": function(a) {
-      return jsonLogic.truthy(a);
+    "!!": function() {
+      return Array.prototype.reduce.call(arguments, function(result, value) {
+        return result && jsonLogic.truthy(value);
+      }, !dataIsEmptyOrContainsNulls(arguments));
     },
-    "!": function(a) {
-      return !jsonLogic.truthy(a);
+    "!": function() {
+      return Array.prototype.reduce.call(arguments, function(result, value) {
+        return result && ! jsonLogic.truthy(value);
+      }, !dataIsEmptyOrContainsNulls(arguments));
     },
-    "log": function(a) {
-      console.log(a); return a;
+    "log": function(data) {
+      console.log(data); return data;
     },
-    "in": function(a, b) {
-      if (typeof b.indexOf === "undefined") return false;
-      return (b.indexOf(a) !== -1);
+    "in": function(value, data) {
+      if (typeof data.indexOf === "undefined") return false;
+      return (data.indexOf(value) !== -1);
     },
     "cat": function() {
       return Array.prototype.join.call(arguments, "");
@@ -87,32 +144,46 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return String(source).substr(start, end);
     },
     "+": function() {
+      if (dataIsEmptyOrContainsNulls(arguments)) return null;
+      if (arguments.length === 1) return +arguments[0];
       return Array.prototype.reduce.call(arguments, function(a, b) {
         return parseFloat(a, 10) + parseFloat(b, 10);
-      }, 0);
+      });
     },
-    "-": function(a, b) {
-      if (b === undefined) {
-        return -a;
-      } else {
-        return a - b;
-      }
+    "-": function() {
+      if (dataIsEmptyOrContainsNulls(arguments)) return null;
+      if (arguments.length === 1) return -arguments[0];
+      return Array.prototype.reduce.call(arguments, function(a, b) {
+        return parseFloat(a, 10) - parseFloat(b, 10);
+      });
     },
     "*": function() {
+      if (dataIsEmptyOrContainsNulls(arguments)) return null;
+      if (arguments.length === 1) return +arguments[0];
       return Array.prototype.reduce.call(arguments, function(a, b) {
         return parseFloat(a, 10) * parseFloat(b, 10);
       });
     },
-    "/": function(a, b) {
-      return a / b;
+    "/": function() {
+      if (dataIsEmptyOrContainsNulls(arguments)) return null;
+      if (arguments.length === 1) return +arguments[0];
+      return Array.prototype.reduce.call(arguments, function(a, b) {
+        return parseFloat(a, 10) / parseFloat(b, 10);
+      });
     },
-    "%": function(a, b) {
-      return a % b;
+    "%": function() {
+      if (dataIsEmptyOrContainsNulls(arguments)) return null;
+      if (arguments.length === 1) return +arguments[0];
+      return Array.prototype.reduce.call(arguments, function(a, b) {
+        return parseFloat(a, 10) % parseFloat(b, 10);
+      });
     },
     "min": function() {
+      if (dataIsEmptyOrContainsNulls(arguments)) return null;
       return Math.min.apply(this, arguments);
     },
     "max": function() {
+      if (dataIsEmptyOrContainsNulls(arguments)) return null;
       return Math.max.apply(this, arguments);
     },
     "merge": function() {
@@ -120,13 +191,13 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         return a.concat(b);
       }, []);
     },
-    "var": function(a, b) {
-      var not_found = (b === undefined) ? null : b;
+    "var": function(key, defaultValue) {
+      var not_found = (defaultValue === undefined) ? null : defaultValue;
       var data = this;
-      if (typeof a === "undefined" || a === "" || a === null) {
+      if (typeof key === "undefined" || key === "" || key === null) {
         return data;
       }
-      var sub_props = String(a).split(".");
+      var sub_props = String(key).split(".");
       for (var i = 0; i < sub_props.length; i++) {
         if (data === null) {
           return not_found;
