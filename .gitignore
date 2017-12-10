@@ -1,4 +1,6 @@
 node_modules
+
+# Downloaded tests cache
 tests/*.json
 
 # editor and IDE remnants
