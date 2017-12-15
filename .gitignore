@@ -1,5 +1,9 @@
 node_modules
+
+# Downloaded tests cache
 tests/*.json
+# Temporary measure to make language-independent tests runable till they are uploaded to jsonlogic.com
+!tests/language-independent.json
 
 # editor and IDE remnants
 *~
