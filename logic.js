@@ -36,6 +36,13 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return a;
   }
 
+  // An implementation of Douglas Crockford's prototypal begetter, JS:TGP p22
+  function beget(o){
+      var f = function() {};
+      f.prototype=o;
+      return new f();
+  }
+
   var jsonLogic = {};
   var operations = {
     "==": function(a, b) {
@@ -282,9 +289,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
       // Return only the elements from the array in the first argument,
       // that return truthy when passed to the logic in the second argument.
-      // For parity with JavaScript, reindex the returned array
-      return scopedData.filter(function(datum){
-          return jsonLogic.truthy( jsonLogic.apply(scopedLogic, datum));
+      return scopedData.filter(function(item){
+          var item_and_globals = beget(data);
+          item_and_globals._ = item;
+          return jsonLogic.truthy( jsonLogic.apply(scopedLogic, item_and_globals));
       });
   }else if(op === 'map'){
       scopedData = jsonLogic.apply(values[0], data);
@@ -294,8 +302,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
           return [];
       }
 
-      return scopedData.map(function(datum){
-          return jsonLogic.apply(scopedLogic, datum);
+      return scopedData.map(function(item){
+          var item_and_globals = beget(data);
+          item_and_globals._ = item;
+          return jsonLogic.apply(scopedLogic, item_and_globals);
       });
 
   }else if(op === 'reduce'){
@@ -325,7 +335,9 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         return false;
       }
       for(i=0; i < scopedData.length; i+=1) {
-        if( ! jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
+        var item_and_globals = beget(data);
+        item_and_globals._ =  scopedData[i];
+        if( ! jsonLogic.truthy( jsonLogic.apply(scopedLogic, item_and_globals) )) {
           return false; // First falsy, short circuit
         }
       }
