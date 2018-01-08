@@ -1,4 +1,2 @@
-export declare class jsonLogic {
-  static apply(logic: any, data: any): any;
-  static add_operation(name: string, code: Function): void;
-}
+export declare function apply(logic: any, data: any): any;
+export declare function add_operation(name: string, code: Function): void;
