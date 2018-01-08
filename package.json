@@ -3,19 +3,21 @@
   "version": "1.2.2",
   "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
   "main": "logic.js",
+  "types": "logic.d.ts",
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
   "devDependencies": {
     "eslint": "^3.9.1",
     "eslint-config-google": "^0.7.0",
     "gulp": "^3.9.0",
     "qunit": "^0.7.7",
-    "request": "^2.65.0"
+    "request": "^2.65.0",
+    "typescript": "^2.5.3"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "tsBuild": "tsc"
   },
   "repository": {
     "type": "git",
