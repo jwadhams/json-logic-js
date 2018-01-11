@@ -15,7 +15,7 @@ var download = function(url, dest, cb) {
   });
 };
 
-var remote_or_cache = function (remote_url, local_file, description, runner){
+var remote_or_cache = function(remote_url, local_file, description, runner){
   var parse_and_iterate = function(local_file, description, runner){
     fs.readFile(local_file, "utf8", function(error, body) {
       var tests;
@@ -36,7 +36,6 @@ var remote_or_cache = function (remote_url, local_file, description, runner){
 
       start();
     });
-
   };
 
 	// Only waiting on the request() is async
@@ -53,14 +52,13 @@ var remote_or_cache = function (remote_url, local_file, description, runner){
       parse_and_iterate(local_file, description, runner);
     }
   });
-
 };
 
 remote_or_cache(
   "http://jsonlogic.com/tests.json",
   "tests.json",
   "applies() tests",
-  function(test){
+  function(test) {
     var rule = test[0];
     var data = test[1];
     var expected = test[2];
@@ -79,7 +77,7 @@ remote_or_cache(
   "http://jsonlogic.com/rule_like.json",
   "rule_like.json",
   "rule_like() tests",
-  function(test){
+  function(test) {
     var rule = test[0];
     var pattern = test[1];
     var expected = test[2];
@@ -95,16 +93,10 @@ remote_or_cache(
 );
 
 
-
-
-
-
-QUnit.test( "Bad operator", function( assert ) {
-  assert.throws(
-    function() {
-      jsonLogic.apply({"fubar": []});
-    },
-    /Unrecognized operation/
+QUnit.test( "Bad operator should be trated as data", function( assert ) {
+  assert.deepEqual(
+    jsonLogic.apply({"fubar": []}),
+    {"fubar": []}
   );
 });
 
@@ -123,12 +115,10 @@ QUnit.test( "edge cases", function( assert ) {
 });
 
 QUnit.test( "Expanding functionality with add_operator", function( assert) {
-  // Operator is not yet defined
-  assert.throws(
-    function() {
-      jsonLogic.apply({"add_to_a": []});
-    },
-    /Unrecognized operation/
+  // Operator is not yet defined, so it's considered data
+  assert.deepEqual(
+    jsonLogic.apply({"add_to_a": []}),
+    {"add_to_a": []}
   );
 
   // Set up some outside data, and build a basic function operator
@@ -172,14 +162,12 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     42
   );
 
-  //Remove operation:
+  // Remove operation:
   jsonLogic.rm_operation("times");
 
-  assert.throws(
-    function() {
-      jsonLogic.apply({"times": [2,2]});
-    },
-    /Unrecognized operation/
+  assert.deepEqual(
+    jsonLogic.apply({"times": [2, 2]}),
+    {"times": [2, 2]}
   );
 
   // Calling a method that takes an array, but the inside of the array has rules, too
@@ -193,9 +181,6 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     ),
     42
   );
-
-
-
 });
 
 QUnit.test( "Expanding functionality with method", function( assert) {
@@ -316,4 +301,12 @@ QUnit.test("Control structures don't eval depth-first", function(assert) {
   i = [];
   jsonLogic.apply({"or": [{"push": [true]}, {"push": [true]}]});
   assert.deepEqual(i, [true]);
+});
+
+
+QUnit.test("Handle correctly single item objects", function(assert) {
+  assert.deepEqual(
+    jsonLogic.apply({"if": [true, {"item": 10}, "no"]}),
+    {"item": 10}
+  );
 });
