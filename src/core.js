@@ -390,6 +390,13 @@ jsonLogic.add_operation = function(name, code, manages_own_recursion) {
     }
 };
 
+/**
+ * Add several operations into the global namespace.
+ * Expects an object with string keys and function values.
+ *
+ * Note, if these operations need to manage their own recursion, you can set a .manages_own_recursion property on the functions, see src/operations/control_structures.js
+ * @param  {object} bundle
+ */
 jsonLogic.add_operations = function(bundle){
     for(var operation in bundle){
         jsonLogic.add_operation(operation, bundle[operation]);
