@@ -9,7 +9,7 @@ testrunner.setup({
 
 // specify dependency
 testrunner.run({
-    code: "../logic.js",
+    code: "../dist/json-logic.js",
     tests: "tests.js"
 }, function(err, report) {
     if(err) console.dir(err);

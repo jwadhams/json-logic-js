@@ -1,4 +1,4 @@
-var jsonLogic = require("../logic.js");
+var jsonLogic = require("..");
 var http = require("http");
 var fs = require("fs");
 

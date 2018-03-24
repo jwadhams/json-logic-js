@@ -1,5 +1,6 @@
 node_modules
 tests/*.json
+yarn-error.log
 
 # editor and IDE remnants
 *~

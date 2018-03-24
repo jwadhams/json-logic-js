@@ -1,12 +1,12 @@
 {
   "name": "json-logic-js",
-  "version": "1.2.2",
+  "version": "2.0.0-experimental",
   "homepage": "https://github.com/jwadhams/json-logic-js",
   "authors": [
     "Jeremy Wadhams <jwadhams@dealerinspire.com>"
   ],
   "description": "Serialize complex logic in JSON, run it in JavaScript",
-  "main": "logic.js",
+  "main": "build/json-logic.js",
   "moduleType": [
     "globals"
   ],
