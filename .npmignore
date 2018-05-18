@@ -1,4 +1,10 @@
 tests/tests.json
 play.html
 bower.json
-
+src/
+.babelrc
+.editorconfig
+.eslintrc.json
+bower.json
+gulpfile.js
+rollup.config.js
