@@ -4,3 +4,6 @@ tests/*.json
 # editor and IDE remnants
 *~
 .idea/
+
+# Bundled
+dist/

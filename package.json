@@ -2,19 +2,26 @@
   "name": "json-logic-js",
   "version": "1.2.2",
   "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
-  "main": "logic.js",
+  "main": "dist/logic.js",
+  "module": "dist/logic.mjs",
+  "unpkg": "dist/logic.js",
   "directories": {
     "test": "tests"
   },
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^3.9.1",
+    "@babel/core": "^7.0.0-beta.47",
+    "@babel/preset-env": "^7.0.0-beta.47",
+    "eslint": "^4.19.1",
     "eslint-config-google": "^0.7.0",
     "gulp": "^3.9.0",
     "qunit": "^0.7.7",
-    "request": "^2.65.0"
+    "rollup": "^0.59.1",
+    "rollup-plugin-babel": "^4.0.0-beta.4",
+    "rollup-plugin-node-resolve": "^3.3.0"
   },
   "scripts": {
+    "build": "rollup -c",
     "test": "gulp test"
   },
   "repository": {
