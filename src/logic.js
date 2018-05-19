@@ -2,6 +2,8 @@ import {arrayUnique} from "./util";
 import default_operations from "./default-operations";
 import "./is-array-polyfill";
 
+export {default as truthy} from "./truthy";
+
 export function is_logic(logic) {
   return (
     typeof logic === "object" && // An object
@@ -9,18 +11,6 @@ export function is_logic(logic) {
     !Array.isArray(logic) && // and not an array
     Object.keys(logic).length === 1 // with exactly one key
   );
-}
-
-/*
-  This helper will defer to the JsonLogic spec as a tie-breaker when different language interpreters define different behavior for the truthiness of primitives.  E.g., PHP considers empty arrays to be falsy, but Javascript considers them to be truthy. JsonLogic, as an ecosystem, needs one consistent answer.
-
-  Spec and rationale here: http://jsonlogic.com/truthy
-  */
-export function truthy(value) {
-  if (Array.isArray(value) && value.length === 0) {
-    return false;
-  }
-  return !!value;
 }
 
 export function get_operator(logic) {

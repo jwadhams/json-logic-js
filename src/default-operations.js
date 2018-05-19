@@ -1,49 +1,29 @@
+import truthy from "./truthy";
+
 export default {
-  "==": function(a, b) {
-    return a == b;
-  },
-  "===": function(a, b) {
-    return a === b;
-  },
-  "!=": function(a, b) {
-    return a != b;
-  },
-  "!==": function(a, b) {
-    return a !== b;
-  },
-  ">": function(a, b) {
-    return a > b;
-  },
-  ">=": function(a, b) {
-    return a >= b;
-  },
-  "<": function(a, b, c) {
-    return c === undefined ? a < b : a < b && b < c;
-  },
-  "<=": function(a, b, c) {
-    return c === undefined ? a <= b : a <= b && b <= c;
-  },
-  "!!": function(a) {
-    return truthy(a);
-  },
-  "!": function(a) {
-    return !truthy(a);
-  },
-  "%": function(a, b) {
-    return a % b;
-  },
-  "log": function(a) {
+  "==": (a, b) => a == b,
+  "===": (a, b) => a === b,
+  "!=": (a, b) => a != b,
+  "!==": (a, b) => a !== b,
+  ">": (a, b) => a > b,
+  ">=": (a, b) => a >= b,
+  "<": (a, b, c) => (c === undefined ? a < b : a < b && b < c),
+  "<=": (a, b, c) => (c === undefined ? a <= b : a <= b && b <= c),
+  "!!": truthy,
+  "!": (a) => !truthy(a),
+  "%": (a, b) => a % b,
+  "log": (a) => {
     console.log(a);
     return a;
   },
-  "in": function(a, b) {
+  "in": (a, b) => {
     if (!b || typeof b.indexOf === "undefined") return false;
     return b.indexOf(a) !== -1;
   },
   "cat": function() {
     return Array.prototype.join.call(arguments, "");
   },
-  "substr": function(source, start, end) {
+  "substr": (source, start, end) => {
     if (end < 0) {
       // JavaScript doesn't support negative end, this emulates PHP behavior
       var temp = String(source).substr(start);
@@ -51,30 +31,19 @@ export default {
     }
     return String(source).substr(start, end);
   },
-  "+": function() {
-    return Array.prototype.reduce.call(
+  "+": () =>
+    Array.prototype.reduce.call(
       arguments,
-      function(a, b) {
-        return parseFloat(a, 10) + parseFloat(b, 10);
-      },
+      (a, b) => parseFloat(a, 10) + parseFloat(b, 10),
       0
-    );
-  },
-  "*": function() {
-    return Array.prototype.reduce.call(arguments, function(a, b) {
-      return parseFloat(a, 10) * parseFloat(b, 10);
-    });
-  },
-  "-": function(a, b) {
-    if (b === undefined) {
-      return -a;
-    } else {
-      return a - b;
-    }
-  },
-  "/": function(a, b) {
-    return a / b;
-  },
+    ),
+  "*": () =>
+    Array.prototype.reduce.call(
+      arguments,
+      (a, b) => parseFloat(a, 10) * parseFloat(b, 10)
+    ),
+  "-": (a, b) => (b === undefined ? -a : a - b),
+  "/": (a, b) => a / b,
   "min": function() {
     return Math.min.apply(this, arguments);
   },
@@ -82,13 +51,7 @@ export default {
     return Math.max.apply(this, arguments);
   },
   "merge": function() {
-    return Array.prototype.reduce.call(
-      arguments,
-      function(a, b) {
-        return a.concat(b);
-      },
-      []
-    );
+    return Array.prototype.reduce.call(arguments, (a, b) => a.concat(b), []);
   },
   "var": function(a, b) {
     var not_found = b === undefined ? null : b;
@@ -140,7 +103,5 @@ export default {
       return are_missing;
     }
   },
-  "method": function(obj, method, args) {
-    return obj[method].apply(obj, args);
-  },
-}
+  "method": (obj, method, args) => obj[method].apply(obj, args),
+};
