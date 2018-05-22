@@ -22,10 +22,10 @@ npm install json-logic-js
 
 Note that this project uses a [module loader](http://ricostacruz.com/cheatsheets/umdjs.html) that also makes it suitable for RequireJS projects.
 
-If that doesn't suit you, and you want to manage updates yourself, the entire library is self-contained in `logic.js` and you can download it straight into your project as you see fit.
+If that doesn't suit you, and you want to manage updates yourself, the entire library is self-contained and you can download it straight into your project as you see fit.
 
 ```bash
-curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
+curl -O https://unpkg.com/json-logic-js@1.2.2
 ```
 
 ## Examples

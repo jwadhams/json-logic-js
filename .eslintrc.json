@@ -1,33 +1,33 @@
 {
   "extends": "google",
-
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
   "rules": {
     "no-var": "off",
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"],
     "quotes": [
       "error",
-      "double", {
+      "double",
+      {
         "avoidEscape": true
       }
     ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "semi": ["error", "always"],
     "max-len": [
-      "warn", {
+      "warn",
+      {
         "ignoreComments": true
       }
     ],
     "prefer-spread": ["off"],
     "prefer-rest-params": ["off"],
-    "camelcase" : ["off"]
+    "camelcase": ["off"]
   }
 }
