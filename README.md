@@ -120,6 +120,25 @@ jsonLogic.apply(false, i_wasnt_even_supposed_to_be_here);
 // false
 ```
 
+### Registering methods
+Sometimes you want to perform custom operations on your dataset.  This can be done using `add_operation`
+
+```
+function lessThanNumber(age) {
+  return age < 65;
+}
+
+function greatherThanNumber(age) {
+  return age >= 65;
+}
+
+jsonLogic.add_operation('greatherThanNumber', greatherThanNumber);
+jsonLogic.add_operation('lessThanNumber', lessThanNumber);
+
+var rule = JSON.parse('{"greatherThanNumber":[{"var":"age"}]}');
+var data = JSON.parse('{"age": "62"}');
+```
+
 ## Compatibility
 
 This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
