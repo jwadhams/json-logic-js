@@ -38,21 +38,18 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   /**
    * Generate binary operations
+   * @param {object} operations Accumulator object for operations
    * @param {string} operator   Binary operator to apply
    * @return {Function}         Operator function as specified by param
    */
-  function generateBinaryOperation(operator) {
-    return new Function("a", "b", "return a" + operator + "b;");
+  function generateBinaryOperation(operations, operator) {
+    operations[operator] = new Function("a", "b", "return a" + operator + "b;");
+
+    return operations;
   }
 
   var jsonLogic = {};
   var operations = {
-    "==": generateBinaryOperation("=="),
-    "===": generateBinaryOperation("==="),
-    "!=": generateBinaryOperation("!="),
-    "!==": generateBinaryOperation("!=="),
-    ">": generateBinaryOperation(">"),
-    ">=": generateBinaryOperation(">="),
     "<": function(a, b, c) {
       return (c === undefined) ? a < b : (a < b) && (b < c);
     },
@@ -65,7 +62,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "!": function(a) {
       return !jsonLogic.truthy(a);
     },
-    "%": generateBinaryOperation("%"),
     "log": function(a) {
       console.log(a); return a;
     },
@@ -101,7 +97,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         return a - b;
       }
     },
-    "/": generateBinaryOperation("/"),
     "min": function() {
       return Math.min.apply(this, arguments);
     },
@@ -168,6 +163,9 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
 
   };
+
+  // attach binary operations
+  ["==", "===", "!=", "!==", ">", ">=", "%", "/"].reduce(generateBinaryOperation, operations)
 
   jsonLogic.is_logic = function(logic) {
     return (
