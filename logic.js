@@ -36,26 +36,23 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return a;
   }
 
+  /**
+   * Generate binary operations
+   * @param {string} operator   Binary operator to apply
+   * @return {Function}         Operator function as specified by param
+   */
+  function generateBinaryOperation(operator) {
+    return new Function("a", "b", "return a" + operator + "b;");
+  }
+
   var jsonLogic = {};
   var operations = {
-    "==": function(a, b) {
-      return a == b;
-    },
-    "===": function(a, b) {
-      return a === b;
-    },
-    "!=": function(a, b) {
-      return a != b;
-    },
-    "!==": function(a, b) {
-      return a !== b;
-    },
-    ">": function(a, b) {
-      return a > b;
-    },
-    ">=": function(a, b) {
-      return a >= b;
-    },
+    "==": generateBinaryOperation("=="),
+    "===": generateBinaryOperation("==="),
+    "!=": generateBinaryOperation("!="),
+    "!==": generateBinaryOperation("!=="),
+    ">": generateBinaryOperation(">"),
+    ">=": generateBinaryOperation(">="),
     "<": function(a, b, c) {
       return (c === undefined) ? a < b : (a < b) && (b < c);
     },
@@ -68,9 +65,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "!": function(a) {
       return !jsonLogic.truthy(a);
     },
-    "%": function(a, b) {
-      return a % b;
-    },
+    "%": generateBinaryOperation("%"),
     "log": function(a) {
       console.log(a); return a;
     },
@@ -81,7 +76,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "cat": function() {
       return Array.prototype.join.call(arguments, "");
     },
-    "substr":function(source, start, end) {
+    "substr": function(source, start, end) {
       if(end < 0){
         // JavaScript doesn't support negative end, this emulates PHP behavior
         var temp = String(source).substr(start);
@@ -106,9 +101,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         return a - b;
       }
     },
-    "/": function(a, b) {
-      return a / b;
-    },
+    "/": generateBinaryOperation("/"),
     "min": function() {
       return Math.min.apply(this, arguments);
     },
