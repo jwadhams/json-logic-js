@@ -73,7 +73,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return Array.prototype.join.call(arguments, "");
     },
     "substr": function(source, start, end) {
-      if(end < 0){
+      if(end < 0) {
         // JavaScript doesn't support negative end, this emulates PHP behavior
         var temp = String(source).substr(start);
         return temp.substr(0, temp.length + end);
@@ -165,7 +165,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   };
 
   // attach binary operations
-  ["==", "===", "!=", "!==", ">", ">=", "%", "/"].reduce(generateBinaryOperation, operations)
+  ["==", "===", "!=", "!==", ">", ">=", "%", "/"].reduce(generateBinaryOperation, operations);
 
   jsonLogic.is_logic = function(logic) {
     return (
@@ -215,7 +215,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     var values = logic[op];
     var i;
     var current;
-    var scopedLogic, scopedData, filtered, initial;
+    var scopedLogic;
+    var scopedData;
+    var filtered;
+    var initial;
 
     // easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
     if( ! Array.isArray(values)) {
@@ -260,54 +263,48 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return current; // Last
-
-
-
-
-    }else if(op === 'filter'){
+    }else if(op === "filter") {
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
 
       if ( ! Array.isArray(scopedData)) {
-          return [];
+        return [];
       }
       // Return only the elements from the array in the first argument,
       // that return truthy when passed to the logic in the second argument.
       // For parity with JavaScript, reindex the returned array
-      return scopedData.filter(function(datum){
-          return jsonLogic.truthy( jsonLogic.apply(scopedLogic, datum));
+      return scopedData.filter(function(datum) {
+        return jsonLogic.truthy( jsonLogic.apply(scopedLogic, datum));
       });
-  }else if(op === 'map'){
+    }else if(op === "map") {
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
 
       if ( ! Array.isArray(scopedData)) {
-          return [];
+        return [];
       }
 
-      return scopedData.map(function(datum){
-          return jsonLogic.apply(scopedLogic, datum);
+      return scopedData.map(function(datum) {
+        return jsonLogic.apply(scopedLogic, datum);
       });
-
-  }else if(op === 'reduce'){
+    }else if(op === "reduce") {
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
-      initial = typeof values[2] !== 'undefined' ? values[2] : null;
+      initial = typeof values[2] !== "undefined" ? values[2] : null;
 
       if ( ! Array.isArray(scopedData)) {
-          return initial;
+        return initial;
       }
 
       return scopedData.reduce(
-          function(accumulator, current){
-              return jsonLogic.apply(
+          function(accumulator, current) {
+            return jsonLogic.apply(
                   scopedLogic,
-                  {'current':current, 'accumulator':accumulator}
+                  {"current": current, "accumulator": accumulator}
               );
           },
           initial
       );
-
     }else if(op === "all") {
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
@@ -322,11 +319,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
       return true; // All were truthy
     }else if(op === "none") {
-      filtered = jsonLogic.apply({'filter' : values}, data);
+      filtered = jsonLogic.apply({"filter": values}, data);
       return filtered.length === 0;
-
     }else if(op === "some") {
-      filtered = jsonLogic.apply({'filter' : values}, data);
+      filtered = jsonLogic.apply({"filter": values}, data);
       return filtered.length > 0;
     }
 
