@@ -48,6 +48,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return operations;
   }
 
+  var ArrayProto = Array.prototype;
   var jsonLogic = {};
   var operations = {
     "<": function(a, b, c) {
@@ -70,7 +71,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return (b.indexOf(a) !== -1);
     },
     "cat": function() {
-      return Array.prototype.join.call(arguments, "");
+      return ArrayProto.join.call(arguments, "");
     },
     "substr": function(source, start, end) {
       if(end < 0) {
@@ -81,12 +82,12 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return String(source).substr(start, end);
     },
     "+": function() {
-      return Array.prototype.reduce.call(arguments, function(a, b) {
+      return ArrayProto.reduce.call(arguments, function(a, b) {
         return parseFloat(a, 10) + parseFloat(b, 10);
       }, 0);
     },
     "*": function() {
-      return Array.prototype.reduce.call(arguments, function(a, b) {
+      return ArrayProto.reduce.call(arguments, function(a, b) {
         return parseFloat(a, 10) * parseFloat(b, 10);
       });
     },
@@ -104,7 +105,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return Math.max.apply(this, arguments);
     },
     "merge": function() {
-      return Array.prototype.reduce.call(arguments, function(a, b) {
+      return ArrayProto.reduce.call(arguments, function(a, b) {
         return a.concat(b);
       }, []);
     },
