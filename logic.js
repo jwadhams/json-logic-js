@@ -51,7 +51,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   var ArrayProto = Array.prototype;
   var ArrayReduce = ArrayProto.reduce;
   var isArray = Array.isArray;
-  var jsonLogic = {};
   var operations = {
     "<": function(a, b, c) {
       return (c === undefined) ? a < b : (a < b) && (b < c);
@@ -60,10 +59,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return (c === undefined) ? a <= b : (a <= b) && (b <= c);
     },
     "!!": function(a) {
-      return jsonLogic.truthy(a);
+      return truthy(a);
     },
     "!": function(a) {
-      return !jsonLogic.truthy(a);
+      return !truthy(a);
     },
     "log": function(a) {
       console.log(a); return a;
@@ -143,7 +142,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
       for(var i = 0; i < keys.length; i++) {
         var key = keys[i];
-        var value = jsonLogic.apply({"var": key}, this);
+        var value = apply({"var": key}, this);
         if(value === null || value === "") {
           missing.push(key);
         }
@@ -153,7 +152,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
     "missing_some": function(need_count, options) {
       // missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
-      var are_missing = jsonLogic.apply({"missing": options}, this);
+      var are_missing = apply({"missing": options}, this);
 
       if(options.length - are_missing.length >= need_count) {
         return [];
@@ -170,7 +169,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   // attach binary operations
   ["==", "===", "!=", "!==", ">", ">=", "%", "/"].reduce(generateBinaryOperation, operations);
 
-  jsonLogic.is_logic = function(logic) {
+  function is_logic(logic) {
     return (
       typeof logic === "object" && // An object
       logic !== null && // but not null
@@ -184,37 +183,36 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   Spec and rationale here: http://jsonlogic.com/truthy
   */
-  jsonLogic.truthy = function(value) {
+  function truthy(value) {
     if(isArray(value) && value.length === 0) {
       return false;
     }
     return !! value;
-  };
+  }
 
-
-  jsonLogic.get_operator = function(logic) {
+  function get_operator(logic) {
     return Object.keys(logic)[0];
-  };
+  }
 
-  jsonLogic.get_values = function(logic) {
-    return logic[jsonLogic.get_operator(logic)];
-  };
+  function get_values(logic) {
+    return logic[get_operator(logic)];
+  }
 
-  jsonLogic.apply = function(logic, data) {
+  function apply(logic, data) {
     // Does this array contain logic? Only one way to find out.
     if(isArray(logic)) {
       return logic.map(function(l) {
-        return jsonLogic.apply(l, data);
+        return apply(l, data);
       });
     }
     // You've recursed to a primitive, stop!
-    if( ! jsonLogic.is_logic(logic) ) {
+    if( !is_logic(logic) ) {
       return logic;
     }
 
     data = data || {};
 
-    var op = jsonLogic.get_operator(logic);
+    var op = get_operator(logic);
     var values = logic[op];
     var i;
     var current;
@@ -244,30 +242,30 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       given 0 parameters, return NULL (not great practice, but there was no Else)
       */
       for(i = 0; i < values.length - 1; i += 2) {
-        if( jsonLogic.truthy( jsonLogic.apply(values[i], data) ) ) {
-          return jsonLogic.apply(values[i+1], data);
+        if( truthy( apply(values[i], data) ) ) {
+          return apply(values[i+1], data);
         }
       }
-      if(values.length === i+1) return jsonLogic.apply(values[i], data);
+      if(values.length === i+1) return apply(values[i], data);
       return null;
     }else if(op === "and") { // Return first falsy, or last
       for(i=0; i < values.length; i+=1) {
-        current = jsonLogic.apply(values[i], data);
-        if( ! jsonLogic.truthy(current)) {
+        current = apply(values[i], data);
+        if( ! truthy(current)) {
           return current;
         }
       }
       return current; // Last
     }else if(op === "or") {// Return first truthy, or last
       for(i=0; i < values.length; i+=1) {
-        current = jsonLogic.apply(values[i], data);
-        if( jsonLogic.truthy(current) ) {
+        current = apply(values[i], data);
+        if( truthy(current) ) {
           return current;
         }
       }
       return current; // Last
     }else if(op === "filter") {
-      scopedData = jsonLogic.apply(values[0], data);
+      scopedData = apply(values[0], data);
       scopedLogic = values[1];
 
       if ( ! isArray(scopedData)) {
@@ -277,10 +275,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       // that return truthy when passed to the logic in the second argument.
       // For parity with JavaScript, reindex the returned array
       return scopedData.filter(function(datum) {
-        return jsonLogic.truthy( jsonLogic.apply(scopedLogic, datum));
+        return truthy( apply(scopedLogic, datum));
       });
     }else if(op === "map") {
-      scopedData = jsonLogic.apply(values[0], data);
+      scopedData = apply(values[0], data);
       scopedLogic = values[1];
 
       if ( ! isArray(scopedData)) {
@@ -288,10 +286,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
 
       return scopedData.map(function(datum) {
-        return jsonLogic.apply(scopedLogic, datum);
+        return apply(scopedLogic, datum);
       });
     }else if(op === "reduce") {
-      scopedData = jsonLogic.apply(values[0], data);
+      scopedData = apply(values[0], data);
       scopedLogic = values[1];
       initial = typeof values[2] !== "undefined" ? values[2] : null;
 
@@ -301,7 +299,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
       return scopedData.reduce(
           function(accumulator, current) {
-            return jsonLogic.apply(
+            return apply(
                   scopedLogic,
                   {"current": current, "accumulator": accumulator}
               );
@@ -309,29 +307,29 @@ http://ricostacruz.com/cheatsheets/umdjs.html
           initial
       );
     }else if(op === "all") {
-      scopedData = jsonLogic.apply(values[0], data);
+      scopedData = apply(values[0], data);
       scopedLogic = values[1];
       // All of an empty set is false. Note, some and none have correct fallback after the for loop
       if( ! scopedData.length) {
         return false;
       }
       for(i=0; i < scopedData.length; i+=1) {
-        if( ! jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
+        if( ! truthy( apply(scopedLogic, scopedData[i]) )) {
           return false; // First falsy, short circuit
         }
       }
       return true; // All were truthy
     }else if(op === "none") {
-      filtered = jsonLogic.apply({"filter": values}, data);
+      filtered = apply({"filter": values}, data);
       return filtered.length === 0;
     }else if(op === "some") {
-      filtered = jsonLogic.apply({"filter": values}, data);
+      filtered = apply({"filter": values}, data);
       return filtered.length > 0;
     }
 
     // Everyone else gets immediate depth-first recursion
     values = values.map(function(val) {
-      return jsonLogic.apply(val, data);
+      return apply(val, data);
     });
 
 
@@ -356,13 +354,13 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     }
 
     throw new Error("Unrecognized operation " + op );
-  };
+  }
 
-  jsonLogic.uses_data = function(logic) {
+  function uses_data(logic) {
     var collection = [];
 
-    if( jsonLogic.is_logic(logic) ) {
-      var op = jsonLogic.get_operator(logic);
+    if( is_logic(logic) ) {
+      var op = get_operator(logic);
       var values = logic[op];
 
       if( ! isArray(values)) {
@@ -375,23 +373,23 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }else{
         // Recursion!
         values.map(function(val) {
-          collection.push.apply(collection, jsonLogic.uses_data(val) );
+          collection.push.apply(collection, uses_data(val) );
         });
       }
     }
 
     return arrayUnique(collection);
-  };
+  }
 
-  jsonLogic.add_operation = function(name, code) {
+  function add_operation(name, code) {
     operations[name] = code;
-  };
+  }
 
-  jsonLogic.rm_operation = function(name) {
+  function rm_operation(name) {
     delete operations[name];
-  };
+  }
 
-  jsonLogic.rule_like = function(rule, pattern) {
+  function rule_like(rule, pattern) {
     // console.log("Is ". JSON.stringify(rule) . " like " . JSON.stringify(pattern) . "?");
     if(pattern === rule) {
       return true;
@@ -407,19 +405,19 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     }
     if(pattern === "array") {
       // !logic test might be superfluous in JavaScript
-      return isArray(rule) && ! jsonLogic.is_logic(rule);
+      return isArray(rule) && ! is_logic(rule);
     }
 
-    if(jsonLogic.is_logic(pattern)) {
-      if(jsonLogic.is_logic(rule)) {
-        var pattern_op = jsonLogic.get_operator(pattern);
-        var rule_op = jsonLogic.get_operator(rule);
+    if(is_logic(pattern)) {
+      if(is_logic(rule)) {
+        var pattern_op = get_operator(pattern);
+        var rule_op = get_operator(rule);
 
         if(pattern_op === "@" || pattern_op === rule_op) {
         // echo "\nOperators match, go deeper\n";
-          return jsonLogic.rule_like(
-            jsonLogic.get_values(rule, false),
-            jsonLogic.get_values(pattern, false)
+          return rule_like(
+            get_values(rule, false),
+            get_values(pattern, false)
           );
         }
       }
@@ -436,7 +434,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         */
         for(var i = 0; i < pattern.length; i += 1) {
           // If any fail, we fail
-          if( ! jsonLogic.rule_like(rule[i], pattern[i])) {
+          if( ! rule_like(rule[i], pattern[i])) {
             return false;
           }
         }
@@ -448,7 +446,17 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
     // Not logic, not array, not a === match for rule.
     return false;
-  };
+  }
 
-  return jsonLogic;
+  return {
+    is_logic: is_logic,
+    truthy: truthy,
+    get_operator: get_operator,
+    get_values: get_values,
+    apply: apply,
+    uses_data: uses_data,
+    add_operation: add_operation,
+    rm_operation: rm_operation,
+    rule_like: rule_like,
+  };
 }));
