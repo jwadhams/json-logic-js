@@ -50,6 +50,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   var ArrayProto = Array.prototype;
   var ArrayReduce = ArrayProto.reduce;
+  var isArray = Array.isArray;
   var jsonLogic = {};
   var operations = {
     "<": function(a, b, c) {
@@ -138,7 +139,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       */
 
       var missing = [];
-      var keys = Array.isArray(arguments[0]) ? arguments[0] : arguments;
+      var keys = isArray(arguments[0]) ? arguments[0] : arguments;
 
       for(var i = 0; i < keys.length; i++) {
         var key = keys[i];
@@ -173,7 +174,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return (
       typeof logic === "object" && // An object
       logic !== null && // but not null
-      ! Array.isArray(logic) && // and not an array
+      ! isArray(logic) && // and not an array
       Object.keys(logic).length === 1 // with exactly one key
     );
   };
@@ -184,7 +185,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   Spec and rationale here: http://jsonlogic.com/truthy
   */
   jsonLogic.truthy = function(value) {
-    if(Array.isArray(value) && value.length === 0) {
+    if(isArray(value) && value.length === 0) {
       return false;
     }
     return !! value;
@@ -201,7 +202,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   jsonLogic.apply = function(logic, data) {
     // Does this array contain logic? Only one way to find out.
-    if(Array.isArray(logic)) {
+    if(isArray(logic)) {
       return logic.map(function(l) {
         return jsonLogic.apply(l, data);
       });
@@ -223,7 +224,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     var initial;
 
     // easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
-    if( ! Array.isArray(values)) {
+    if( ! isArray(values)) {
       values = [values];
     }
 
@@ -269,7 +270,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
 
-      if ( ! Array.isArray(scopedData)) {
+      if ( ! isArray(scopedData)) {
         return [];
       }
       // Return only the elements from the array in the first argument,
@@ -282,7 +283,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
 
-      if ( ! Array.isArray(scopedData)) {
+      if ( ! isArray(scopedData)) {
         return [];
       }
 
@@ -294,7 +295,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       scopedLogic = values[1];
       initial = typeof values[2] !== "undefined" ? values[2] : null;
 
-      if ( ! Array.isArray(scopedData)) {
+      if ( ! isArray(scopedData)) {
         return initial;
       }
 
@@ -364,7 +365,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       var op = jsonLogic.get_operator(logic);
       var values = logic[op];
 
-      if( ! Array.isArray(values)) {
+      if( ! isArray(values)) {
         values = [values];
       }
 
@@ -406,7 +407,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     }
     if(pattern === "array") {
       // !logic test might be superfluous in JavaScript
-      return Array.isArray(rule) && ! jsonLogic.is_logic(rule);
+      return isArray(rule) && ! jsonLogic.is_logic(rule);
     }
 
     if(jsonLogic.is_logic(pattern)) {
@@ -425,8 +426,8 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return false; // pattern is logic, rule isn't, can't be eq
     }
 
-    if(Array.isArray(pattern)) {
-      if(Array.isArray(rule)) {
+    if(isArray(pattern)) {
+      if(isArray(rule)) {
         if(pattern.length !== rule.length) {
           return false;
         }
