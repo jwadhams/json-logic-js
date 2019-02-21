@@ -22,4 +22,6 @@ function varAccessor(a, b) {
   return data;
 }
 
+varAccessor.code = 'var';
+
 export default varAccessor;

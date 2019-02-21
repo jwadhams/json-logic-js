@@ -22,4 +22,6 @@ function missingAccessor() {
   return missing;
 };
 
+missingAccessor.code = 'missing';
+
 export default missingAccessor;

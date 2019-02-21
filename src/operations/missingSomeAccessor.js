@@ -11,4 +11,6 @@ function missingSomeAccessor(need_count, options) {
   }
 }
 
+missingSomeAccessor.code = 'missing_some';
+
 export default missingSomeAccessor;

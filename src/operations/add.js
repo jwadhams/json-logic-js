@@ -4,4 +4,6 @@ function add(...args) {
   }, 0);
 }
 
+add.code = '+';
+
 export default add;

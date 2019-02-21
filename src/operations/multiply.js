@@ -4,4 +4,6 @@ function multiply(...args) {
   }, 1);
 }
 
+multiply.code = '*';
+
 export default multiply;
