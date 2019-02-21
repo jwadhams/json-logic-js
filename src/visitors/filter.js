@@ -1,6 +1,6 @@
 import truthy from "../helpers/truthy";
 
-function filterVisitor(data, values) {
+function filter(data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
 
@@ -15,4 +15,4 @@ function filterVisitor(data, values) {
   });
 }
 
-export default filterVisitor
+export default filter

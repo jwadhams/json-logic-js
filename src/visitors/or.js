@@ -1,6 +1,6 @@
 import truthy from "../helpers/truthy";
 
-function orVisitor(data, values, current) {
+function or(data, values, current) {
   for(let i=0; i < values.length; i++) {
     current = apply(values[i], data);
     if( truthy(current) ) {
@@ -10,4 +10,4 @@ function orVisitor(data, values, current) {
   return current; // Last
 }
 
-export default orVisitor;
+export default or;

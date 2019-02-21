@@ -1,6 +1,6 @@
 import truthy from '../helpers/truthy';
 
-function ifVisitor(data, values) {
+function condition(data, values) {
   /* 'if' should be called with a odd number of parameters, 3 or greater
     This works on the pattern:
     if( 0 ){ 1 }else{ 2 };
@@ -25,6 +25,8 @@ function ifVisitor(data, values) {
   }
 
   return null;
-};
+}
 
-export default ifVisitor;
+condition.code = 'if';
+
+export default condition;

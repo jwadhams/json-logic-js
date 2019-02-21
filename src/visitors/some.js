@@ -1,7 +1,7 @@
-function someVisitor(data, values) {
+function some(data, values) {
   const filtered = apply({'filter' : values}, data);
 
   return filtered.length > 0;
 }
 
-export default someVisitor;
+export default some;

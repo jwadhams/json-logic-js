@@ -1,4 +1,4 @@
-function mapVisitor(data, values) {
+function map(data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
 
@@ -11,4 +11,4 @@ function mapVisitor(data, values) {
   });
 }
 
-export default mapVisitor;
+export default map;

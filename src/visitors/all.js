@@ -1,6 +1,6 @@
 import truthy from "../helpers/truthy";
 
-function allVisitor(data, values) {
+function all(data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
   // All of an empty set is false. Note, some and none have correct fallback after the for loop
@@ -15,4 +15,4 @@ function allVisitor(data, values) {
   return true; // All were truthy
 }
 
-export default allVisitor;
+export default all;

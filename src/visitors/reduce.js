@@ -1,4 +1,4 @@
-function reduceVisitor(data, values) {
+function reduce(data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
   const initial = typeof values[2] !== 'undefined' ? values[2] : null;
@@ -18,4 +18,4 @@ function reduceVisitor(data, values) {
   );
 }
 
-export default reduceVisitor;
+export default reduce;
