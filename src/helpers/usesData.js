@@ -26,3 +26,5 @@ function usesData(logic) {
 
   return arrayUnique(collection);
 };
+
+export default usesData;

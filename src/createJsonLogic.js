@@ -86,6 +86,7 @@ function createJsonLogic() {
   }
 
   return {
+    apply,
     add_operation: addOperation,
     rm_operation: removeOperation,
     add_visitor: addVisitor,
