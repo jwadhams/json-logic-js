@@ -1,6 +1,6 @@
-import varAccessor from './varAccessor'
+import variable from './varAccessor'
 
-function missingAccessor() {
+function missing() {
   /*
   Missing can receive many keys as many arguments, like {"missing:[1,2]}
   Missing can also receive *one* argument that is an array of keys,
@@ -13,7 +13,7 @@ function missingAccessor() {
 
   for(var i = 0; i < keys.length; i++) {
     var key = keys[i];
-    var value = varAccessor.call(this, {"var": key});
+    var value = variable.call(this, {"var": key});
     if(value === null || value === "") {
       missing.push(key);
     }
@@ -22,6 +22,4 @@ function missingAccessor() {
   return missing;
 };
 
-missingAccessor.code = 'missing';
-
-export default missingAccessor;
+export default missing;

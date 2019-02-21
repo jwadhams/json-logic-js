@@ -1,4 +1,4 @@
-import missingAccessor from "./missingAccessor";
+import missing from "./missingAccessor";
 
 export { default as equal } from './equal';
 export { default as strictEqual } from './strictEqual';

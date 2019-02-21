@@ -1,8 +1,8 @@
-import missingAccessor from './missingAccessor';
+import missing from './missingAccessor';
 
-function missingSomeAccessor(need_count, options) {
+function missingSome(need_count, options) {
   // missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
-  var are_missing = missingAccessor.call(this, {"missing": options});
+  var are_missing = missing.call(this, {"missing": options});
 
   if(options.length - are_missing.length >= need_count) {
     return [];
@@ -11,6 +11,6 @@ function missingSomeAccessor(need_count, options) {
   }
 }
 
-missingSomeAccessor.code = 'missing_some';
+missingSome.code = 'missing_some';
 
-export default missingSomeAccessor;
+export default missingSome;

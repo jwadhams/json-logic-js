@@ -1,4 +1,4 @@
-function varAccessor(a, b) {
+function variable(a, b) {
   const not_found = (b === undefined) ? null : b;
   let data = this;
 
@@ -22,6 +22,6 @@ function varAccessor(a, b) {
   return data;
 }
 
-varAccessor.code = 'var';
+variable.code = 'var';
 
-export default varAccessor;
+export default variable;
