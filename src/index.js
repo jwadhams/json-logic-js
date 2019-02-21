@@ -1,4 +1,4 @@
-import createJsonLogic from './createJsonLogic';
+export createJsonLogic from './createJsonLogic';
 import * as operations from './operations';
 import * as visitors from './visitors';
 import isLogic from "./helpers/isLogic";
