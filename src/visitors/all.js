@@ -1,6 +1,6 @@
 import truthy from "../helpers/truthy";
 
-function all(data, values) {
+function all(apply, data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
   // All of an empty set is false. Note, some and none have correct fallback after the for loop

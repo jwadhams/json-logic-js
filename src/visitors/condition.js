@@ -1,6 +1,6 @@
 import truthy from '../helpers/truthy';
 
-function condition(data, values) {
+function condition(apply, data, values) {
   /* 'if' should be called with a odd number of parameters, 3 or greater
     This works on the pattern:
     if( 0 ){ 1 }else{ 2 };
@@ -27,6 +27,6 @@ function condition(data, values) {
   return null;
 }
 
-condition.code = 'if';
+condition.code = ['if', '?:'];
 
 export default condition;

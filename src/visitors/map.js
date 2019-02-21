@@ -1,4 +1,4 @@
-function map(data, values) {
+function map(apply, data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
 

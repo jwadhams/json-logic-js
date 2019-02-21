@@ -1,4 +1,4 @@
-function reduce(data, values) {
+function reduce(apply, data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
   const initial = typeof values[2] !== 'undefined' ? values[2] : null;

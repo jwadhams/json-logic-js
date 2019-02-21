@@ -1,6 +1,6 @@
 import truthy from "../helpers/truthy";
 
-function filter(data, values) {
+function filter(apply, data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
 
