@@ -1,4 +1,4 @@
-import truthy from './truthy'
+import truthy from '../helpers/truthy'
 
 function falsy(a) {
   return !truthy(a);
