@@ -361,11 +361,13 @@
   indexOf.code = 'in';
 
   function log(a) {
+    // eslint-disable-next-line no-console
     console.log(a);
     return a;
   }
 
   function method(obj, methodName, args) {
+    // eslint-disable-next-line prefer-spread
     return obj[methodName].apply(obj, args);
   }
 
