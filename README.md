@@ -8,24 +8,33 @@ The same format can also be executed in PHP by the library [json-logic-php](http
 
 ## Installation
 
-To parse JsonLogic rules in a JavaScript frontend, install this library is via [Bower](http://bower.io/):
-
-```bash
-bower install --save json-logic-js
-```
-
 To parse JsonLogic rules in a JavaScript backend (like Node.js), install this library via [NPM](https://www.npmjs.com/):
 
 ```bash
-npm install json-logic-js
+npm install @axa-ch/json-logic-js --save
 ```
 
-Note that this project uses a [module loader](http://ricostacruz.com/cheatsheets/umdjs.html) that also makes it suitable for RequireJS projects.
+Note that this project provides:
+- an ESM build for cherry picking
+- a [module loader](http://ricostacruz.com/cheatsheets/umdjs.html) that also makes it suitable for RequireJS projects.
+- a minified bundle ready for the browser
 
-If that doesn't suit you, and you want to manage updates yourself, the entire library is self-contained in `logic.js` and you can download it straight into your project as you see fit.
+If that doesn't suit you, and you want to manage updates yourself, the entire library is self-contained in `dist/jsonLogic.js` and you can download it straight into your project as you see fit.
 
-```bash
-curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
+## Cherry-picked build
+
+If the default bundle size is too big for you or you only need certain operations, just utilize the ESM build and create your customized `jsonLogic` object as follows:
+
+```js
+import createJsonLogic from './createJsonLogic';
+
+// pick just what you need, or create your own
+import { equal } from './operations';
+import { and, or } from './visitors';
+
+const jsonLogic = createJsonLogic({ equal }, { and, or });
+
+export default jsonLogic;
 ```
 
 ## Examples
