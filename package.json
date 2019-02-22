@@ -2,7 +2,9 @@
   "name": "json-logic-js",
   "version": "1.2.2",
   "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
-  "main": "logic.js",
+  "main": "dist/jsonLogic.js",
+  "browser": "dist/jsonLogic.min.js",
+  "module": "lib/index.js",
   "directories": {
     "test": "tests"
   },
