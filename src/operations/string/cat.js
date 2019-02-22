@@ -1,5 +1,5 @@
-function cat() {
-  return Array.prototype.join.call(arguments, "");
+function cat(...args) {
+  return args.join('');
 }
 
 export default cat;

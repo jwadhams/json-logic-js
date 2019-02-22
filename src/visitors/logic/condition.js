@@ -16,13 +16,13 @@ function condition(apply, data, values) {
     given one parameter, evaluate and return it. (it's an Else and all the If/ElseIf were false)
     given 0 parameters, return NULL (not great practice, but there was no Else)
     */
-  for(i = 0; i < values.length - 1; i += 2) {
-    if( truthy( apply(values[i], data) ) ) {
-      return apply(values[i+1], data);
+  for (i = 0; i < values.length - 1; i += 2) {
+    if (truthy(apply(values[i], data))) {
+      return apply(values[i + 1], data);
     }
   }
 
-  if(values.length === i+1) {
+  if (values.length === i + 1) {
     return apply(values[i], data);
   }
 

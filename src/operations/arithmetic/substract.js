@@ -1,9 +1,8 @@
 function substract(a, b) {
-  if(b === undefined) {
+  if (b === undefined) {
     return -a;
-  }else{
-    return a - b;
   }
+  return a - b;
 }
 
 substract.code = '-';

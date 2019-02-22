@@ -5,17 +5,12 @@ function reduce(apply, data, values) {
   const scopedLogic = values[1];
   const initial = typeof values[2] !== 'undefined' ? values[2] : null;
 
-  if ( ! isArray(scopedData)) {
+  if (!isArray(scopedData)) {
     return initial;
   }
 
   return scopedData.reduce(
-    function(accumulator, current){
-      return apply(
-        scopedLogic,
-        {'current':current, 'accumulator':accumulator}
-      );
-    },
+    (accumulator, current) => apply(scopedLogic, { current, accumulator }),
     initial
   );
 }

@@ -1,5 +1,5 @@
 function none(apply, data, values) {
-  const filtered = apply({'filter' : values}, data);
+  const filtered = apply({ filter: values }, data);
 
   return filtered.length === 0;
 }

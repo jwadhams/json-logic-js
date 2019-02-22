@@ -1,4 +1,4 @@
-import getOperator from './getOperator'
+import getOperator from './getOperator';
 
 function getValues(logic) {
   return logic[getOperator(logic)];

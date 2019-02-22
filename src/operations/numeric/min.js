@@ -1,5 +1,5 @@
-function min() {
-  return Math.min.apply(this, arguments);
+function min(...args) {
+  return Math.min(...args);
 }
 
 export default min;

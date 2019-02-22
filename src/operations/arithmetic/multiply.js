@@ -1,7 +1,5 @@
 function multiply(...args) {
-  return args.reduce(function(a, b) {
-    return parseFloat(a, 10) * parseFloat(b, 10);
-  }, 1);
+  return args.reduce((a, b) => parseFloat(a, 10) * parseFloat(b, 10), 1);
 }
 
 multiply.code = '*';

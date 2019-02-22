@@ -20,8 +20,28 @@
     return _typeof(obj);
   }
 
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
+  }
+
   function isLogic(logic) {
-    return _typeof(logic) === "object" && // An object
+    return _typeof(logic) === 'object' && // An object
     logic !== null && // but not null
     !isArray(logic) && // and not an array
     Object.keys(logic).length === 1 // with exactly one key
@@ -78,7 +98,9 @@
       delete visitors[name];
     }
 
-    function apply(logic, data) {
+    function apply(logic) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
       // Does this array contain logic? Only one way to find out.
       if (isArray(logic)) {
         return logic.map(function (l) {
@@ -91,7 +113,6 @@
         return logic;
       }
 
-      data = data || {};
       var op = getOperator(logic);
       var values = logic[op];
       var i; // easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
@@ -114,15 +135,17 @@
 
       var operator = operations[op];
 
-      if (typeof operator === "function") {
+      if (typeof operator === 'function') {
         if (operator.withApply) {
           values.unshift(apply);
         }
 
         return operator.apply(data, values);
-      } else if (op.indexOf(".") > 0) {
+      }
+
+      if (op.indexOf('.') > 0) {
         // Contains a dot, and not in the 0th position
-        var sub_ops = String(op).split(".");
+        var sub_ops = String(op).split('.');
         var operation = operations;
 
         for (i = 0; i < sub_ops.length; i++) {
@@ -130,14 +153,14 @@
           operation = operation[sub_ops[i]];
 
           if (operation === undefined) {
-            throw new Error("Unrecognized operation " + op + " (failed at " + sub_ops.slice(0, i + 1).join(".") + ")");
+            throw new Error("Unrecognized operation ".concat(op, " (failed at ").concat(sub_ops.slice(0, i + 1).join('.'), ")"));
           }
         }
 
         return operation.apply(data, values);
       }
 
-      throw new Error("Unrecognized operation " + op);
+      throw new Error("Unrecognized operation ".concat(op));
     }
 
     return {
@@ -153,11 +176,11 @@
     var not_found = b === undefined ? null : b;
     var data = this;
 
-    if (typeof a === "undefined" || a === "" || a === null) {
+    if (typeof a === 'undefined' || a === '' || a === null) {
       return data;
     }
 
-    var sub_props = String(a).split(".");
+    var sub_props = String(a).split('.');
 
     for (var i = 0; i < sub_props.length; i++) {
       if (data === null) {
@@ -184,7 +207,7 @@
     which typically happens if it's actually acting on the output of another command
     (like 'if' or 'merge')
     */
-    var missing = [];
+    var are_missing = [];
 
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
@@ -195,29 +218,30 @@
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
       var value = apply({
-        "var": key
+        var: key
       }, this);
 
-      if (value === null || value === "") {
-        missing.push(key);
+      if (value === null || value === '') {
+        are_missing.push(key);
       }
     }
 
-    return missing;
+    return are_missing;
   }
+
   missing.withApply = true;
 
   function missingSome(apply, need_count, options) {
     // missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
     var are_missing = apply({
-      "missing": options
+      missing: options
     }, this);
 
     if (options.length - are_missing.length >= need_count) {
       return [];
-    } else {
-      return are_missing;
     }
+
+    return are_missing;
   }
 
   missingSome.code = 'missing_some';
@@ -262,9 +286,9 @@
   function substract(a, b) {
     if (b === undefined) {
       return -a;
-    } else {
-      return a - b;
     }
+
+    return a - b;
   }
 
   substract.code = '-';
@@ -279,7 +303,10 @@
     }, []);
   }
 
+  // eslint-disable-next-line import/prefer-default-export
+
   function equal(a, b) {
+    // eslint-disable-next-line eqeqeq
     return a == b;
   }
 
@@ -306,6 +333,7 @@
   falsy.code = '!';
 
   function notEqual(a, b) {
+    // eslint-disable-next-line eqeqeq
     return a != b;
   }
 
@@ -326,7 +354,7 @@
   truthy.code = '!!';
 
   function indexOf(a, b) {
-    if (!b || typeof b.indexOf === "undefined") return false;
+    if (!b || typeof b.indexOf === 'undefined') return false;
     return b.indexOf(a) !== -1;
   }
 
@@ -337,8 +365,8 @@
     return a;
   }
 
-  function method(obj, method, args) {
-    return obj[method].apply(obj, args);
+  function method(obj, methodName, args) {
+    return obj[methodName].apply(obj, args);
   }
 
   function greater(a, b) {
@@ -366,15 +394,19 @@
   lowerEqual.code = '<=';
 
   function max() {
-    return Math.max.apply(this, arguments);
+    return Math.max.apply(Math, arguments);
   }
 
   function min() {
-    return Math.min.apply(this, arguments);
+    return Math.min.apply(Math, arguments);
   }
 
   function cat() {
-    return Array.prototype.join.call(arguments, "");
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return args.join('');
   }
 
   function substr(source, start, end) {
@@ -466,7 +498,7 @@
 
   function none(apply, data, values) {
     var filtered = apply({
-      'filter': values
+      filter: values
     }, data);
     return filtered.length === 0;
   }
@@ -482,15 +514,15 @@
 
     return scopedData.reduce(function (accumulator, current) {
       return apply(scopedLogic, {
-        'current': current,
-        'accumulator': accumulator
+        current: current,
+        accumulator: accumulator
       });
     }, initial);
   }
 
   function some(apply, data, values) {
     var filtered = apply({
-      'filter': values
+      filter: values
     }, data);
     return filtered.length > 0;
   }
@@ -599,13 +631,13 @@
         values = [values];
       }
 
-      if (op === "var") {
+      if (op === 'var') {
         // This doesn't cover the case where the arg to var is itself a rule.
         collection.push(values[0]);
       } else {
         // Recursion!
-        values.map(function (val) {
-          collection.push.apply(collection, usesData(val));
+        values.forEach(function (val) {
+          collection.push.apply(collection, _toConsumableArray(usesData(val)));
         });
       }
     }
@@ -620,20 +652,20 @@
     } // TODO : Deep object equivalency?
 
 
-    if (pattern === "@") {
+    if (pattern === '@') {
       return true;
     } // Wildcard!
 
 
-    if (pattern === "number") {
-      return typeof rule === "number";
+    if (pattern === 'number') {
+      return typeof rule === 'number';
     }
 
-    if (pattern === "string") {
-      return typeof rule === "string";
+    if (pattern === 'string') {
+      return typeof rule === 'string';
     }
 
-    if (pattern === "array") {
+    if (pattern === 'array') {
       // !logic test might be superfluous in JavaScript
       return isArray(rule) && !isLogic(rule);
     }
@@ -643,7 +675,7 @@
         var pattern_op = getOperator(pattern);
         var rule_op = getOperator(rule);
 
-        if (pattern_op === "@" || pattern_op === rule_op) {
+        if (pattern_op === '@' || pattern_op === rule_op) {
           // echo "\nOperators match, go deeper\n";
           return ruleLike(getValues(rule, false), getValues(pattern, false));
         }
@@ -670,9 +702,9 @@
         }
 
         return true; // If they *all* passed, we pass
-      } else {
-        return false; // Pattern is array, rule isn't
       }
+
+      return false; // Pattern is array, rule isn't
     } // Not logic, not array, not a === match for rule.
 
 

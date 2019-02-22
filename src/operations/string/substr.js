@@ -5,6 +5,6 @@ function substr(source, start, end) {
     return temp.substr(0, temp.length + end);
   }
   return String(source).substr(start, end);
-};
+}
 
 export default substr;

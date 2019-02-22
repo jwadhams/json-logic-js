@@ -4,28 +4,28 @@ import getOperator from './getOperator';
 import arrayUnique from './arrayUnique';
 
 function usesData(logic) {
-  var collection = [];
+  const collection = [];
 
-  if(isLogic(logic) ) {
-    var op = getOperator(logic);
-    var values = logic[op];
+  if (isLogic(logic)) {
+    const op = getOperator(logic);
+    let values = logic[op];
 
-    if( ! isArray(values)) {
+    if (!isArray(values)) {
       values = [values];
     }
 
-    if(op === "var") {
+    if (op === 'var') {
       // This doesn't cover the case where the arg to var is itself a rule.
       collection.push(values[0]);
-    }else{
+    } else {
       // Recursion!
-      values.map(function(val) {
-        collection.push.apply(collection, usesData(val) );
+      values.forEach(val => {
+        collection.push(...usesData(val));
       });
     }
   }
 
   return arrayUnique(collection);
-};
+}
 
 export default usesData;
