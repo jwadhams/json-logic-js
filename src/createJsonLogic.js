@@ -1,3 +1,4 @@
+import isArray from './helpers/isArray';
 import isLogic from './helpers/isLogic';
 import getOperator from './helpers/getOperator';
 
@@ -23,7 +24,7 @@ function createJsonLogic(operations = {}, visitors = {}) {
   }
 
   function addVisitor(name, code) {
-    if (Array.isArray(name)) {
+    if (isArray(name)) {
       name.forEach(addVisitor);
     }
 
@@ -31,7 +32,7 @@ function createJsonLogic(operations = {}, visitors = {}) {
   }
 
   function removeVisitor(name) {
-    if (Array.isArray(name)) {
+    if (isArray(name)) {
       name.forEach(removeVisitor);
     }
 
@@ -40,7 +41,7 @@ function createJsonLogic(operations = {}, visitors = {}) {
 
   function apply(logic, data) {
     // Does this array contain logic? Only one way to find out.
-    if(Array.isArray(logic)) {
+    if(isArray(logic)) {
       return logic.map(function(l) {
         return apply(l, data);
       });
@@ -57,7 +58,7 @@ function createJsonLogic(operations = {}, visitors = {}) {
     let i;
 
     // easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
-    if( ! Array.isArray(values)) {
+    if( ! isArray(values)) {
       values = [values];
     }
 

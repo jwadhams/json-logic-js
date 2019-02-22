@@ -1,3 +1,4 @@
+import isArray from './isArray';
 import isLogic from './isLogic';
 import getOperator from './getOperator';
 import arrayUnique from './arrayUnique';
@@ -9,7 +10,7 @@ function usesData(logic) {
     var op = getOperator(logic);
     var values = logic[op];
 
-    if( ! Array.isArray(values)) {
+    if( ! isArray(values)) {
       values = [values];
     }
 

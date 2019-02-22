@@ -1,3 +1,4 @@
+import isArray from '../../helpers/isArray';
 import variable from './variable'
 
 function missing() {
@@ -9,7 +10,7 @@ function missing() {
   */
 
   var missing = [];
-  var keys = Array.isArray(arguments[0]) ? arguments[0] : arguments;
+  var keys = isArray(arguments[0]) ? arguments[0] : arguments;
 
   for(var i = 0; i < keys.length; i++) {
     var key = keys[i];

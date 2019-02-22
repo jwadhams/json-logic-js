@@ -1,8 +1,10 @@
+import isArray from '../../helpers/isArray';
+
 function map(apply, data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
 
-  if ( ! Array.isArray(scopedData)) {
+  if ( ! isArray(scopedData)) {
     return [];
   }
 

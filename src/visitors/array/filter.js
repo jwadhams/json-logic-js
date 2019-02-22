@@ -1,10 +1,11 @@
+import isArray from '../../helpers/isArray';
 import truthy from "../../helpers/truthy";
 
 function filter(apply, data, values) {
   const scopedData = apply(values[0], data);
   const scopedLogic = values[1];
 
-  if ( ! Array.isArray(scopedData)) {
+  if ( ! isArray(scopedData)) {
     return [];
   }
   // Return only the elements from the array in the first argument,

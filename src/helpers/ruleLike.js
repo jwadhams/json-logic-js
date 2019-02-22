@@ -1,3 +1,4 @@
+import isArray from './isArray';
 import isLogic from './isLogic';
 import getOperator from './getOperator';
 import getValues from './getValues';
@@ -18,7 +19,7 @@ function ruleLike(rule, pattern) {
   }
   if(pattern === "array") {
     // !logic test might be superfluous in JavaScript
-    return Array.isArray(rule) && ! isLogic(rule);
+    return isArray(rule) && ! isLogic(rule);
   }
 
   if(isLogic(pattern)) {
@@ -37,8 +38,8 @@ function ruleLike(rule, pattern) {
     return false; // pattern is logic, rule isn't, can't be eq
   }
 
-  if(Array.isArray(pattern)) {
-    if(Array.isArray(rule)) {
+  if(isArray(pattern)) {
+    if(isArray(rule)) {
       if(pattern.length !== rule.length) {
         return false;
       }
