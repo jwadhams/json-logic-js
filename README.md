@@ -122,7 +122,7 @@ jsonLogic.apply(false, i_wasnt_even_supposed_to_be_here);
 
 ## Compatibility
 
-This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
+This library makes use of `Array.isArray`, `Array.forEach`, `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
 
 If you want to use JsonLogic *and* support deprecated browsers, you could easily use [BabelJS's polyfill](https://babeljs.io/docs/usage/polyfill/) or directly incorporate the polyfills documented on MDN for [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) and [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
 
