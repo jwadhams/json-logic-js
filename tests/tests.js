@@ -1,4 +1,4 @@
-var jsonLogic = require("../logic.js");
+var jsonLogic = require("../dist/jsonLogic.js");
 var http = require("http");
 var fs = require("fs");
 
@@ -58,7 +58,7 @@ var remote_or_cache = function (remote_url, local_file, description, runner){
 
 remote_or_cache(
   "http://jsonlogic.com/tests.json",
-  "tests.json",
+  "tests/tests.json",
   "applies() tests",
   function(test){
     var rule = test[0];
@@ -77,7 +77,7 @@ remote_or_cache(
 
 remote_or_cache(
   "http://jsonlogic.com/rule_like.json",
-  "rule_like.json",
+  "tests/rule_like.json",
   "rule_like() tests",
   function(test){
     var rule = test[0];

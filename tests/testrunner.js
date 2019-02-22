@@ -9,8 +9,8 @@ testrunner.setup({
 
 // specify dependency
 testrunner.run({
-    code: "../logic.js",
-    tests: "tests.js"
+    code: "./dist/jsonLogic.js",
+    tests: "./tests/tests.js"
 }, function(err, report) {
     if(err) console.dir(err);
     // console.dir(report);

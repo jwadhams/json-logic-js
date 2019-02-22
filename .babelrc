@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": false
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-export-default-from"
+  ]
+}

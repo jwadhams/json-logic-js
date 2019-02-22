@@ -6,16 +6,35 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
     "eslint": "^3.9.1",
     "eslint-config-google": "^0.7.0",
-    "gulp": "^3.9.0",
     "qunit": "^0.7.7",
-    "request": "^2.65.0"
+    "request": "^2.65.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.2.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-filesize": "^6.0.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-optimize-js": "0.0.4",
+    "rollup-plugin-uglify": "^6.0.2"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "node tests/testrunner.js",
+    "pretest": "npm run build-package",
+    "build": "npm run build-lib",
+    "build-lib": "babel src --out-dir lib",
+    "prebuild-lib": "rimraf lib",
+    "postbuild-lib": "npm run build-package",
+    "build-package": "rollup --config",
+    "prebuild-package": "rimraf dist"
   },
   "repository": {
     "type": "git",
