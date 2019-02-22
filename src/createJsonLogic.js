@@ -1,5 +1,5 @@
-import isLogic from './isLogic';
-import getOperator from './getOperator';
+import isLogic from './helpers/isLogic';
+import getOperator from './helpers/getOperator';
 
 function createJsonLogic(operations = {}, visitors = {}) {
   Object.keys(operations).forEach(function(name) {

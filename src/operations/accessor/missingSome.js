@@ -1,4 +1,4 @@
-import missing from './missingAccessor';
+import missing from './missing';
 
 function missingSome(need_count, options) {
   // missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.

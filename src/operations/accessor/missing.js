@@ -1,4 +1,4 @@
-import variable from './varAccessor'
+import variable from './variable'
 
 function missing() {
   /*

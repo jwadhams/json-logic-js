@@ -1,1 +1,1 @@
-export '../../helpers/truthy';
+export default from '../../helpers/truthy';
