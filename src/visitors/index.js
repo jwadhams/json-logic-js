@@ -1,9 +1,2 @@
-export { default as allVisitor } from './allVisitor'
-export { default as andVisito } from './andVisito'
-export { default as filterVisitor } from './filterVisitor'
-export { default as ifVisitor } from './ifVisitor'
-export { default as mapVisitor } from './mapVisitor'
-export { default as noneVisitor } from './noneVisitor'
-export { default as orVisitor } from './orVisitor'
-export { default as reduceVisitor } from './reduceVisitor'
-export { default as someVisitor } from './someVisitor'
+export * from './array';
+export * from './logic';

@@ -1,4 +1,4 @@
-import truthy from "../helpers/truthy";
+import truthy from "../../helpers/truthy";
 
 function or(apply, data, values) {
   let current;

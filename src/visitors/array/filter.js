@@ -1,4 +1,4 @@
-import truthy from "../helpers/truthy";
+import truthy from "../../helpers/truthy";
 
 function filter(apply, data, values) {
   const scopedData = apply(values[0], data);

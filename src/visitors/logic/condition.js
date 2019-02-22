@@ -1,4 +1,4 @@
-import truthy from '../helpers/truthy';
+import truthy from '../../helpers/truthy';
 
 function condition(apply, data, values) {
   /* 'if' should be called with a odd number of parameters, 3 or greater
