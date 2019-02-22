@@ -16,6 +16,7 @@ module.exports = [{
     format: 'umd',
     name: 'jsonLogic',
     exports: 'default',
+    sourcemap: true,
   }
 }, {
   input: 'src/index.js',
@@ -31,5 +32,6 @@ module.exports = [{
     format: 'umd',
     name: 'jsonLogic',
     exports: 'default',
+    sourcemap: true,
   }
 }];
