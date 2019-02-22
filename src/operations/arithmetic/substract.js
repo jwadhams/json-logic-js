@@ -6,4 +6,6 @@ function substract(a, b) {
   }
 }
 
+substract.code = '-';
+
 export default substract;

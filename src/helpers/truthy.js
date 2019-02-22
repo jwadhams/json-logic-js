@@ -5,7 +5,7 @@ import isArray from './isArray';
 
   Spec and rationale here: http://jsonlogic.com/truthy
   */
-function truthy(a) {
+function truthy(value) {
   if(isArray(value) && value.length === 0) {
     return false;
   }

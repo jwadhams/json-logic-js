@@ -1,8 +1,8 @@
 import missing from './missing';
 
-function missingSome(apply, need_count, options) {
+function missingSome(need_count, options) {
   // missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
-  const are_missing = apply({"missing": options}, this);
+  var are_missing = missing.call(this, {"missing": options});
 
   if(options.length - are_missing.length >= need_count) {
     return [];
@@ -12,6 +12,5 @@ function missingSome(apply, need_count, options) {
 }
 
 missingSome.code = 'missing_some';
-missingSome.withApply = true;
 
 export default missingSome;

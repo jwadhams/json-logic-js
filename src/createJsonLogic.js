@@ -2,18 +2,25 @@ import isArray from './helpers/isArray';
 import isLogic from './helpers/isLogic';
 import getOperator from './helpers/getOperator';
 
-function createJsonLogic(operations = {}, visitors = {}) {
-  Object.keys(operations).forEach(function(name) {
-    const operation = operations[name];
+function createJsonLogic(_operations, _visitors) {
+  const operations = {};
+  const visitors = {};
 
-    addOperation(operation.code || name , operation);
-  });
+  if (_operations) {
+    Object.keys(_operations).forEach(function(name) {
+      const operation = _operations[name];
 
-  Object.keys(visitors).forEach(function(name) {
-    const visitor = visitors[name];
+      addOperation(operation.code || name , operation);
+    });
+  }
 
-    addVisitor(visitor.code || name , visitor);
-  });
+  if (_visitors) {
+    Object.keys(_visitors).forEach(function (name) {
+      const visitor = _visitors[name];
+
+      addVisitor(visitor.code || name, visitor);
+    });
+  }
 
   function addOperation(name, code) {
     operations[name] = code;
@@ -25,7 +32,8 @@ function createJsonLogic(operations = {}, visitors = {}) {
 
   function addVisitor(name, code) {
     if (isArray(name)) {
-      name.forEach(addVisitor);
+      name.forEach((key) => addVisitor(key, code));
+      return;
     }
 
     visitors[name] = code;
@@ -34,6 +42,7 @@ function createJsonLogic(operations = {}, visitors = {}) {
   function removeVisitor(name) {
     if (isArray(name)) {
       name.forEach(removeVisitor);
+      return;
     }
 
     delete visitors[name];
@@ -75,8 +84,13 @@ function createJsonLogic(operations = {}, visitors = {}) {
     // The operation is called with "data" bound to its "this" and "values" passed as arguments.
     // Structured commands like % or > can name formal arguments while flexible commands (like missing or merge) can operate on the pseudo-array arguments
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
-    if(typeof operations[op] === "function") {
-      return operations[op].apply(data, values);
+    const operator = operations[op];
+    if(typeof operator === "function") {
+      if (operator.withApply) {
+        values.unshift(apply);
+      }
+
+      return operator.apply(data, values);
     }else if(op.indexOf(".") > 0) { // Contains a dot, and not in the 0th position
       var sub_ops = String(op).split(".");
       var operation = operations;

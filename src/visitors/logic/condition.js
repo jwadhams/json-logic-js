@@ -1,6 +1,8 @@
 import truthy from '../../helpers/truthy';
 
 function condition(apply, data, values) {
+  let i;
+
   /* 'if' should be called with a odd number of parameters, 3 or greater
     This works on the pattern:
     if( 0 ){ 1 }else{ 2 };
@@ -14,7 +16,7 @@ function condition(apply, data, values) {
     given one parameter, evaluate and return it. (it's an Else and all the If/ElseIf were false)
     given 0 parameters, return NULL (not great practice, but there was no Else)
     */
-  for(let i = 0; i < values.length - 1; i += 2) {
+  for(i = 0; i < values.length - 1; i += 2) {
     if( truthy( apply(values[i], data) ) ) {
       return apply(values[i+1], data);
     }

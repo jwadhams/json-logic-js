@@ -1,7 +1,7 @@
 import isArray from '../../helpers/isArray';
-import variable from './variable'
+import variable from '../../operations/accessor/variable'
 
-function missing(apply, ...args) {
+function missing() {
   /*
   Missing can receive many keys as many arguments, like {"missing:[1,2]}
   Missing can also receive *one* argument that is an array of keys,
@@ -9,12 +9,13 @@ function missing(apply, ...args) {
   (like 'if' or 'merge')
   */
 
-  var missing = [];
-  var keys = isArray(args[0]) ? args[0] : args;
+  const missing = [];
+  const keys = isArray(arguments[0]) ? arguments[0] : arguments;
 
-  for(var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    var value = apply({"var": key}, this);
+  for(let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = variable.call(this, {"var": key}, arguments);
+
     if(value === null || value === "") {
       missing.push(key);
     }
@@ -22,7 +23,5 @@ function missing(apply, ...args) {
 
   return missing;
 };
-
-missing.withApply = true;
 
 export default missing;

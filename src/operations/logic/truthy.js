@@ -1,1 +1,5 @@
-export default from '../../helpers/truthy';
+import truthy from '../../helpers/truthy'
+
+truthy.code = '!!';
+
+export default truthy;
