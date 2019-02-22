@@ -16,7 +16,7 @@
     "@babel/preset-env": "^7.3.1",
     "eslint": "^3.9.1",
     "eslint-config-google": "^0.7.0",
-    "qunit": "^0.7.7",
+    "qunit": "^2.9.2",
     "request": "^2.65.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.2.2",
@@ -27,7 +27,7 @@
     "rollup-plugin-uglify": "^6.0.2"
   },
   "scripts": {
-    "test": "node tests/testrunner.js",
+    "test": "qunit 'tests/**/*.js' -r tap",
     "pretest": "npm run build-package",
     "build": "npm run build-lib",
     "build-lib": "babel src --out-dir lib",

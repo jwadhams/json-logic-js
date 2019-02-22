@@ -1,6 +1,6 @@
-var jsonLogic = require("../dist/jsonLogic.js");
 var http = require("http");
 var fs = require("fs");
+var jsonLogic = require("../dist/jsonLogic.js");
 
 var download = function(url, dest, cb) {
   var file = fs.createWriteStream(dest);
@@ -15,52 +15,57 @@ var download = function(url, dest, cb) {
   });
 };
 
-var remote_or_cache = function (remote_url, local_file, description, runner){
-  var parse_and_iterate = function(local_file, description, runner){
-    fs.readFile(local_file, "utf8", function(error, body) {
-      var tests;
-      try{
-        tests = JSON.parse(body);
-      }catch(e) {
-        throw new Error("Trouble parsing " + description + ": " + e.message);
-      }
+var remote_or_cache = function (remote_url, local_file, description, runner) {
+  QUnit.test('Load and run remote tests form: ' + remote_url, function(assert) {
+    assert.expect(0);
+    // Only waiting on the request() is async
+    var done = assert.async();
 
-      // Remove comments
-      tests = tests.filter(function(test){ return typeof test !== 'string'; });
+    var parse_and_iterate = function (local_file, description, runner) {
+      fs.readFile(local_file, "utf8", function (error, body) {
+        var tests;
+        try {
+          tests = JSON.parse(body);
+        } catch (e) {
+          throw new Error("Trouble parsing " + description + ": " + e.message);
+        }
 
-      console.log("Including "+tests.length+" "+description);
+        // Remove comments
+        tests = tests.filter(function (test) {
+          return typeof test !== 'string';
+        });
 
-      QUnit.test(description, function(assert) {
-        tests.map(runner);
+        console.log("Including " + tests.length + " " + description);
+
+        QUnit.test(description, function (assert) {
+          tests.map(function(test) {
+            runner(test, assert);
+          });
+        });
+
+        done();
       });
+    };
 
-      start();
-    });
-
-  };
-
-	// Only waiting on the request() is async
-  stop();
-
-  fs.stat(local_file, function(err, stats) {
-    if(err) {
-      console.log("Downloading " + description + " from JsonLogic.com");
-      download(remote_url, local_file, function() {
+    fs.stat(local_file, function (err, stats) {
+      if (err) {
+        console.log("Downloading " + description + " from JsonLogic.com");
+        download(remote_url, local_file, function () {
+          parse_and_iterate(local_file, description, runner);
+        });
+      } else {
+        console.log("Using cached " + description);
         parse_and_iterate(local_file, description, runner);
-      });
-    }else{
-      console.log("Using cached " + description);
-      parse_and_iterate(local_file, description, runner);
-    }
+      }
+    });
   });
-
 };
 
 remote_or_cache(
   "http://jsonlogic.com/tests.json",
   "tests/tests.json",
   "applies() tests",
-  function(test){
+  function(test, assert){
     var rule = test[0];
     var data = test[1];
     var expected = test[2];
@@ -69,8 +74,8 @@ remote_or_cache(
       jsonLogic.apply(rule, data),
       expected,
       "jsonLogic.apply("+ JSON.stringify(rule) +"," +
-        JSON.stringify(data) +") === " +
-        JSON.stringify(expected)
+      JSON.stringify(data) +") === " +
+      JSON.stringify(expected)
     );
   }
 );
@@ -79,7 +84,7 @@ remote_or_cache(
   "http://jsonlogic.com/rule_like.json",
   "tests/rule_like.json",
   "rule_like() tests",
-  function(test){
+  function(test, assert){
     var rule = test[0];
     var pattern = test[1];
     var expected = test[2];
@@ -88,16 +93,11 @@ remote_or_cache(
       jsonLogic.rule_like(rule, pattern),
       expected,
       "jsonLogic.rule_like("+ JSON.stringify(rule) +"," +
-        JSON.stringify(pattern) +") === " +
-        JSON.stringify(expected)
+      JSON.stringify(pattern) +") === " +
+      JSON.stringify(expected)
     );
   }
 );
-
-
-
-
-
 
 QUnit.test( "Bad operator", function( assert ) {
   assert.throws(
@@ -108,14 +108,16 @@ QUnit.test( "Bad operator", function( assert ) {
   );
 });
 
-
 QUnit.test( "logging", function( assert ) {
   var last_console;
+  var log = console.log;
   console.log = function(logged) {
     last_console = logged;
   };
   assert.equal( jsonLogic.apply({"log": [1]}), 1 );
   assert.equal( last_console, 1 );
+
+  delete console.log;
 });
 
 QUnit.test( "edge cases", function( assert ) {
@@ -172,7 +174,7 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     42
   );
 
-  //Remove operation:
+  // Remove operation:
   jsonLogic.rm_operation("times");
 
   assert.throws(
@@ -193,9 +195,6 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     ),
     42
   );
-
-
-
 });
 
 QUnit.test( "Expanding functionality with method", function( assert) {
@@ -232,7 +231,7 @@ QUnit.test( "Expanding functionality with method", function( assert) {
 });
 
 
-QUnit.test("Control structures don't eval depth-first", function(assert) {
+QUnit.test( "Control structures don't eval depth-first", function(assert) {
   // Depth-first recursion was wasteful but not harmful until we added custom operations that could have side-effects.
 
   // If operations run the condition, if truthy, it runs and returns that consequent.
