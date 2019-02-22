@@ -8,19 +8,7 @@ import getValues from "./helpers/getValues";
 import usesData from "./helpers/usesData";
 import ruleLike from "./helpers/ruleLike";
 
-const jsonLogic = createJsonLogic();
-
-Object.keys(operations).forEach(function(name) {
-  const operation = operations[name];
-
-  jsonLogic.add_operation(operation.code || name , operation);
-});
-
-Object.keys(visitors).forEach(function(name) {
-  const visitor = visitors[name];
-
-  jsonLogic.add_visitor(visitor.code || name , visitor);
-});
+const jsonLogic = createJsonLogic(operations, visitors);
 
 // restore original public API
 jsonLogic.is_logic = isLogic;

@@ -1,9 +1,18 @@
 import isLogic from './isLogic';
 import getOperator from './getOperator';
 
-function createJsonLogic() {
-  const operations = {}
-  const visitors = {}
+function createJsonLogic(operations = {}, visitors = {}) {
+  Object.keys(operations).forEach(function(name) {
+    const operation = operations[name];
+
+    addOperation(operation.code || name , operation);
+  });
+
+  Object.keys(visitors).forEach(function(name) {
+    const visitor = visitors[name];
+
+    addVisitor(visitor.code || name , visitor);
+  });
 
   function addOperation(name, code) {
     operations[name] = code;
@@ -91,7 +100,7 @@ function createJsonLogic() {
     rm_operation: removeOperation,
     add_visitor: addVisitor,
     rm_visitor: removeVisitor,
-  }
+  };
 }
 
 export default createJsonLogic;
