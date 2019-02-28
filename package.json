@@ -38,7 +38,6 @@
     "rollup-plugin-uglify": "^6.0.2"
   },
   "scripts": {
-    "precommit": "lint-staged",
     "lint": "eslint src tests",
     "lint-fix": "npm run lint -- --fix",
     "test": "cross-env NODE_ENV=test qunit 'tests/**/*.js' -r tap",
@@ -49,9 +48,6 @@
     "postbuild-lib": "npm run build-package",
     "build-package": "rollup --config",
     "prebuild-package": "rimraf dist"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,json,css,md}": ["npm run lint-fix", "git add"]
   },
   "repository": {
     "type": "git",
