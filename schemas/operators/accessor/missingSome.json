@@ -1,4 +1,28 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/operators/missingSome.json"
+  "$id": "http://jsonlogic.com/schemas/operators/operators/missingSome.json",
+
+  "title": "missing_some",
+  "description": "Takes a minimum number of data keys that are required, and an array of keys to search for (same format as var or missing). Returns an empty array if the minimum is met, or an array of the missing keys otherwise.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["missing_some"],
+  "properties": {
+    "missing_some": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": [
+        {
+          "type": "integer",
+          "title": "Need-Count",
+          "description": "Takes a minimum number of data keys that are required"
+        },
+        {
+          "$ref": "http://jsonlogic.com/schemas/operators/common/var.json",
+          "description": "An array of keys to search for (same format as var or missing)."
+        }
+      ]
+    }
+  }
 }
