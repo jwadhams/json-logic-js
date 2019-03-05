@@ -1,4 +1,31 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/logic/equal.json"
+  "$id": "http://jsonlogic.com/schemas/operators/logic/equal.json",
+
+  "title": "Equal",
+  "description": "Tests equality, with type coercion. Requires two arguments.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["=="],
+  "properties": {
+    "==": {
+      "title": "",
+      "description": "",
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "oneOf": [
+          {
+            "type": ["array", "boolean", "null", "number", "object", "string"],
+            "title": "Any"
+          },
+          {
+            "$ref": "http://jsonlogic.com/schemas/operators/operators/variable.json"
+          }
+        ]
+      }
+    }
+  }
 }
