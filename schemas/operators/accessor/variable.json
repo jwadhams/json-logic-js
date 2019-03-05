@@ -9,30 +9,7 @@
   "required": ["var"],
   "properties": {
     "var": {
-      "oneOf": [
-        {
-          "type": "array",
-          "items": [
-            { "$ref": "http://jsonlogic.com/schemas/operators/common/pointer.json" },
-            {
-              "$ref": "http://jsonlogic.com/schemas/operators/common/all.json",
-              "title": "Default",
-              "description": "You can supply a default, as the second argument, for values that might be missing in the data object."
-            }
-          ]
-        },
-        {
-          "$ref": "http://jsonlogic.com/schemas/operators/common/pointer.json",
-          "title": "Shortcut",
-          "description": "If you like, we support syntactic sugar to skip the array around single arguments."
-        },
-        {
-          "type": "string",
-          "enum": [""],
-          "title": "Entire data object",
-          "description": "You can also use var with an empty string to get the entire data object – which is really useful in map, filter, and reduce rules."
-        }
-      ]
+      "$ref": "http://jsonlogic.com/schemas/operators/common/var.json"
     }
   }
 }
