@@ -2,23 +2,6 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "$id": "http://jsonlogic.com/schemas/operators/operators/variable.json",
 
-  "definitions": {
-    "get": {
-      "oneOf": [
-        {
-          "type": "string",
-          "title": "Property",
-          "description": "The key passed to var can use dot-notation to get the property of a property (to any depth you need):"
-        },
-        {
-          "type": "number",
-          "title": "Index",
-          "description": "You can also use the var operator to access an array by numeric index."
-        }
-      ]
-    }
-  },
-
   "title": "var",
   "description": "Retrieve data from the provided data object.",
   "type": "object",
@@ -30,16 +13,16 @@
         {
           "type": "array",
           "items": [
-            { "$ref": "#/definitions/get" },
+            { "$ref": "http://jsonlogic.com/schemas/operators/common/pointer.json" },
             {
-              "type": ["array", "boolean", "null", "number", "object", "string"],
+              "$ref": "http://jsonlogic.com/schemas/operators/common/all.json",
               "title": "Default",
               "description": "You can supply a default, as the second argument, for values that might be missing in the data object."
             }
           ]
         },
         {
-          "$ref": "#/definitions/get",
+          "$ref": "http://jsonlogic.com/schemas/operators/common/pointer.json",
           "title": "Shortcut",
           "description": "If you like, we support syntactic sugar to skip the array around single arguments."
         },
