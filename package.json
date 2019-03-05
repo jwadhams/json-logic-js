@@ -1,25 +1,57 @@
 {
-  "name": "json-logic-js",
+  "name": "@axa-ch/json-logic-js",
   "version": "1.2.2",
   "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
-  "main": "logic.js",
+  "main": "dist/jsonLogic.js",
+  "browser": "dist/jsonLogic.min.js",
+  "module": "lib/index.js",
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5"
+  },
   "devDependencies": {
-    "eslint": "^3.9.1",
-    "eslint-config-google": "^0.7.0",
-    "gulp": "^3.9.0",
-    "qunit": "^0.7.7",
-    "request": "^2.65.0"
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.14.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.4",
+    "prettier": "^1.16.4",
+    "qunit": "^2.9.2",
+    "request": "^2.65.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.2.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-filesize": "^6.0.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-optimize-js": "0.0.4",
+    "rollup-plugin-uglify": "^6.0.2"
   },
   "scripts": {
-    "test": "gulp test"
+    "lint": "eslint src tests",
+    "lint-fix": "npm run lint -- --fix",
+    "test": "cross-env NODE_ENV=test qunit 'tests/**/*.js' -r tap",
+    "pretest": "npm run build-package",
+    "build": "cross-env NODE_ENV=production npm run build-lib",
+    "build-lib": "babel src --out-dir lib",
+    "prebuild-lib": "rimraf lib",
+    "postbuild-lib": "npm run build-package",
+    "build-package": "rollup --config",
+    "prebuild-package": "rimraf dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jwadhams/json-logic-js.git"
+    "url": "git+https://github.com/axa-ch/json-logic-js.git"
   },
   "keywords": [
     "json",
@@ -30,7 +62,7 @@
   "author": "Jeremy Wadhams <jwadhams@dealerinspire.com> (http://jsonlogic.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jwadhams/json-logic-js/issues"
+    "url": "https://github.com/axa-ch/json-logic-js/issues"
   },
-  "homepage": "https://github.com/jwadhams/json-logic-js#readme"
+  "homepage": "https://github.com/axa-ch/json-logic-js#readme"
 }

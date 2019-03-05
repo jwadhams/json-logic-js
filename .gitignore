@@ -1,6 +1,8 @@
 node_modules
 tests/*.json
 
+package-lock.json
+
 # editor and IDE remnants
 *~
 .idea/
