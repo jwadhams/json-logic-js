@@ -1,4 +1,55 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/operators/variable.json"
+  "$id": "http://jsonlogic.com/schemas/operators/operators/variable.json",
+
+  "definitions": {
+    "get": {
+      "oneOf": [
+        {
+          "type": "string",
+          "title": "Property",
+          "description": "The key passed to var can use dot-notation to get the property of a property (to any depth you need):"
+        },
+        {
+          "type": "number",
+          "title": "Index",
+          "description": "You can also use the var operator to access an array by numeric index."
+        }
+      ]
+    }
+  },
+
+  "title": "var",
+  "description": "Retrieve data from the provided data object.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["var"],
+  "properties": {
+    "var": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": [
+            { "$ref": "#/definitions/get" },
+            {
+              "type": ["array", "boolean", "null", "number", "object", "string"],
+              "title": "Default",
+              "description": "You can supply a default, as the second argument, for values that might be missing in the data object."
+            }
+          ]
+        },
+        {
+          "$ref": "#/definitions/get",
+          "title": "Shortcut",
+          "description": "If you like, we support syntactic sugar to skip the array around single arguments."
+        },
+        {
+          "type": "string",
+          "enum": [""],
+          "title": "Entire data object",
+          "description": "You can also use var with an empty string to get the entire data object – which is really useful in map, filter, and reduce rules."
+        }
+      ]
+    }
+  }
 }
