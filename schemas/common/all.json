@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/common/all.json",
+
+  "title": "All",
+  "description": "Any valid JSON data type.",
+  "type": ["array", "boolean", "null", "number", "object", "string"]
+}
