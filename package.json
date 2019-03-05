@@ -16,6 +16,8 @@
     "@babel/core": "^7.3.3",
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
+    "ajv": "^6.10.0",
+    "ajv-cli": "^3.0.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^17.1.0",
