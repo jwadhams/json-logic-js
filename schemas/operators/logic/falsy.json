@@ -1,4 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/logic/falsy.json"
+  "$id": "http://jsonlogic.com/schemas/operators/logic/falsy.json",
+
+  "title": "!",
+  "description": "Logical negation (“not”). Takes just one argument.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["!"],
+  "properties": {
+    "!": {
+      "$ref": "http://jsonlogic.com/schemas/operators/common/unary.json"
+    }
+  }
 }
