@@ -59,34 +59,34 @@
     if (_operations) {
       Object.keys(_operations).forEach(function (name) {
         var operation = _operations[name];
-        addOperation(operation.code || name, operation);
+        addOperation(operation.op || name, operation);
       });
     }
 
     if (_visitors) {
       Object.keys(_visitors).forEach(function (name) {
         var visitor = _visitors[name];
-        addVisitor(visitor.code || name, visitor);
+        addVisitor(visitor.op || name, visitor);
       });
     }
 
-    function addOperation(name, code) {
-      operations[name] = code;
+    function addOperation(name, op) {
+      operations[name] = op;
     }
 
     function removeOperation(name) {
       delete operations[name];
     }
 
-    function addVisitor(name, code) {
+    function addVisitor(name, op) {
       if (isArray(name)) {
         name.forEach(function (key) {
-          return addVisitor(key, code);
+          return addVisitor(key, op);
         });
         return;
       }
 
-      visitors[name] = code;
+      visitors[name] = op;
     }
 
     function removeVisitor(name) {
@@ -198,7 +198,7 @@
     return data;
   }
 
-  variable.code = 'var';
+  variable.op = 'var';
 
   function missing(apply) {
     /*
@@ -244,7 +244,7 @@
     return are_missing;
   }
 
-  missingSome.code = 'missing_some';
+  missingSome.op = 'missing_some';
   missingSome.withApply = true;
 
   function add() {
@@ -257,19 +257,19 @@
     }, 0);
   }
 
-  add.code = '+';
+  add.op = '+';
 
   function divide(a, b) {
     return a / b;
   }
 
-  divide.code = '/';
+  divide.op = '/';
 
   function modulo(a, b) {
     return a % b;
   }
 
-  modulo.code = '%';
+  modulo.op = '%';
 
   function multiply() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -281,7 +281,7 @@
     }, 1);
   }
 
-  multiply.code = '*';
+  multiply.op = '*';
 
   function substract(a, b) {
     if (b === undefined) {
@@ -291,7 +291,7 @@
     return a - b;
   }
 
-  substract.code = '-';
+  substract.op = '-';
 
   function merge() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -310,7 +310,7 @@
     return a == b;
   }
 
-  equal.code = '==';
+  equal.op = '==';
 
   /*
     This helper will defer to the JsonLogic spec as a tie-breaker when different language interpreters define different behavior for the truthiness of primitives.  E.g., PHP considers empty arrays to be falsy, but Javascript considers them to be truthy. JsonLogic, as an ecosystem, needs one consistent answer.
@@ -326,39 +326,39 @@
     return !!value;
   }
 
-  function falsy(a) {
+  function not(a) {
     return !truthy(a);
   }
 
-  falsy.code = '!';
+  not.op = '!';
 
   function notEqual(a, b) {
     // eslint-disable-next-line eqeqeq
     return a != b;
   }
 
-  notEqual.code = '!=';
+  notEqual.op = '!=';
+
+  truthy.op = '!!';
 
   function strictEqual(a, b) {
     return a === b;
   }
 
-  strictEqual.code = '===';
+  strictEqual.op = '===';
 
   function strictNotEqual(a, b) {
     return a !== b;
   }
 
-  strictNotEqual.code = '!==';
-
-  truthy.code = '!!';
+  strictNotEqual.op = '!==';
 
   function indexOf(a, b) {
     if (!b || typeof b.indexOf === 'undefined') return false;
     return b.indexOf(a) !== -1;
   }
 
-  indexOf.code = 'in';
+  indexOf.op = 'in';
 
   function log(a) {
     // eslint-disable-next-line no-console
@@ -375,25 +375,25 @@
     return a > b;
   }
 
-  greater.code = '>';
+  greater.op = '>';
 
   function greaterEqual(a, b) {
     return a >= b;
   }
 
-  greaterEqual.code = '>=';
+  greaterEqual.op = '>=';
 
-  function lower(a, b, c) {
+  function less(a, b, c) {
     return c === undefined ? a < b : a < b && b < c;
   }
 
-  lower.code = '<';
+  less.op = '<';
 
-  function lowerEqual(a, b, c) {
+  function lessEqual(a, b, c) {
     return c === undefined ? a <= b : a <= b && b <= c;
   }
 
-  lowerEqual.code = '<=';
+  lessEqual.op = '<=';
 
   function max() {
     return Math.max.apply(Math, arguments);
@@ -434,18 +434,18 @@
     substract: substract,
     merge: merge,
     equal: equal,
-    falsy: falsy,
+    not: not,
     notEqual: notEqual,
+    notnot: truthy,
     strictEqual: strictEqual,
     strictNotEqual: strictNotEqual,
-    truthy: truthy,
     indexOf: indexOf,
     log: log,
     method: method,
     greater: greater,
     greaterEqual: greaterEqual,
-    lower: lower,
-    lowerEqual: lowerEqual,
+    less: less,
+    lessEqual: lessEqual,
     max: max,
     min: min,
     cat: cat,
@@ -571,7 +571,7 @@
     return null;
   }
 
-  condition.code = ['if', '?:'];
+  condition.op = ['if', '?:'];
 
   function or(apply, data, values) {
     var current;
