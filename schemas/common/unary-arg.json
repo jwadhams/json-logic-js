@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/common/unary.json",
+  "$id": "http://jsonlogic.com/schemas/common/unary-arg.json",
 
-  "title": "Unary",
-  "description": "Unary valid JSON Logic data source.",
+  "title": "Unary Arg",
+  "description": "Only one valid JSON Logic data source.",
 
   "oneOf": [
     {

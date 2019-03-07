@@ -10,7 +10,7 @@
   "required": ["!!"],
   "properties": {
     "!!": {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/unary.json"
+      "$ref": "http://jsonlogic.com/schemas/common/unary-arg.json"
     }
   }
 }
