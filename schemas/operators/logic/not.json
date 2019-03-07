@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/logic/falsy.json",
+  "$id": "http://jsonlogic.com/schemas/operators/logic/not.json",
 
   "title": "!",
   "description": "Logical negation (“not”). Takes just one argument.",

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/logic/truthy.json",
+  "$id": "http://jsonlogic.com/schemas/operators/logic/notnot.json",
 
   "title": "!!",
   "description": "Double negation, or “cast to a boolean.” Takes a single argument.",
