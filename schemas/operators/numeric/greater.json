@@ -10,7 +10,7 @@
   "required": [">"],
   "properties": {
     ">": {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/binary.json"
+      "$ref": "http://jsonlogic.com/schemas/common/binary-args.json"
     }
   }
 }

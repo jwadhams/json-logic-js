@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/common/binary.json",
+  "$id": "http://jsonlogic.com/schemas/common/binary-args.json",
 
-  "title": "Binary",
-  "description": "Binary valid JSON Logic data source.",
+  "title": "Binary Arg",
+  "description": "Up to two args of valid JSON Logic data source.",
 
   "oneOf": [
     {

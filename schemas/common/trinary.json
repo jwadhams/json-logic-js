@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/common/binary.json",
+  "$id": "http://jsonlogic.com/schemas/common/binary-arg.json",
 
   "title": "Trinary",
   "description": "Trinary valid JSON Logic data source.",
