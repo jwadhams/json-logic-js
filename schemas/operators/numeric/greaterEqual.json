@@ -1,4 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/numeric/greaterEqual.json"
+  "$id": "http://jsonlogic.com/schemas/operators/numeric/greaterEqual.json",
+
+  "title": ">=",
+  "description": "Greater than or equal to.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": [">="],
+  "properties": {
+    ">=": {
+      "$ref": "http://jsonlogic.com/schemas/operators/common/binary.json"
+    }
+  }
 }
