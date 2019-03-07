@@ -19,7 +19,7 @@
           "description": "Takes a minimum number of data keys that are required"
         },
         {
-          "$ref": "http://jsonlogic.com/schemas/operators/common/var.json",
+          "$ref": "http://jsonlogic.com/schemas/common/var.json",
           "description": "An array of keys to search for (same format as var or missing)."
         }
       ]

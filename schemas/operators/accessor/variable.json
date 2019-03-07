@@ -9,7 +9,7 @@
   "required": ["var"],
   "properties": {
     "var": {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/var.json"
+      "$ref": "http://jsonlogic.com/schemas/common/var.json"
     }
   }
 }

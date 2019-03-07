@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/common/any.json",
+  "$id": "http://jsonlogic.com/schemas/common/any.json",
 
   "title": "All",
   "description": "Any valid JSON Logic data source.",

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/common/var.json",
+  "$id": "http://jsonlogic.com/schemas/common/var.json",
 
   "title": "Var",
   "description": "Retrieve data from the provided data object.",
@@ -9,7 +9,7 @@
     {
       "type": "array",
       "items": [
-        { "$ref": "http://jsonlogic.com/schemas/operators/common/pointer.json" },
+        { "$ref": "http://jsonlogic.com/schemas/common/pointer.json" },
         {
           "$ref": "http://jsonlogic.com/schemas/common/all-types.json",
           "title": "Default",
@@ -18,7 +18,7 @@
       ]
     },
     {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/pointer.json",
+      "$ref": "http://jsonlogic.com/schemas/common/pointer.json",
       "title": "Shortcut",
       "description": "If you like, we support syntactic sugar to skip the array around single arguments."
     },

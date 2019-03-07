@@ -13,11 +13,11 @@
       "minItems": 1,
       "maxItems": 2,
       "items": {
-        "$ref": "http://jsonlogic.com/schemas/operators/common/any.json"
+        "$ref": "http://jsonlogic.com/schemas/common/any.json"
       }
     },
     {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/any.json",
+      "$ref": "http://jsonlogic.com/schemas/common/any.json",
       "title": "Single Arg",
       "description": "Note: binary operators can also take a single, non array argument:"
     }
