@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/numeric/lower.json",
+  "$id": "http://jsonlogic.com/schemas/operators/numeric/less.json",
 
   "title": "<",
   "description": "Less than. You can use a special case of < to test that one value is exclusively between two others.",
