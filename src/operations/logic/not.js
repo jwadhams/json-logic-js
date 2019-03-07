@@ -1,9 +1,9 @@
 import truthy from '../../helpers/truthy';
 
-function falsy(a) {
+function not(a) {
   return !truthy(a);
 }
 
-falsy.code = '!';
+not.code = '!';
 
-export default falsy;
+export default not;
