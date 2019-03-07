@@ -29,6 +29,6 @@ function condition(apply, data, values) {
   return null;
 }
 
-condition.code = ['if', '?:'];
+condition.op = ['if', '?:'];
 
 export default condition;

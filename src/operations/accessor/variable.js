@@ -22,6 +22,6 @@ function variable(a, b) {
   return data;
 }
 
-variable.code = 'var';
+variable.op = 'var';
 
 export default variable;

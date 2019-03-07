@@ -2,6 +2,6 @@ function greaterEqual(a, b) {
   return a >= b;
 }
 
-greaterEqual.code = '>=';
+greaterEqual.op = '>=';
 
 export default greaterEqual;

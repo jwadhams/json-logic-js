@@ -4,6 +4,6 @@ function not(a) {
   return !truthy(a);
 }
 
-not.code = '!';
+not.op = '!';
 
 export default not;

@@ -2,6 +2,6 @@ function modulo(a, b) {
   return a % b;
 }
 
-modulo.code = '%';
+modulo.op = '%';
 
 export default modulo;

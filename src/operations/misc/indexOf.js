@@ -3,6 +3,6 @@ function indexOf(a, b) {
   return b.indexOf(a) !== -1;
 }
 
-indexOf.code = 'in';
+indexOf.op = 'in';
 
 export default indexOf;

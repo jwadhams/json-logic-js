@@ -2,6 +2,6 @@ function strictEqual(a, b) {
   return a === b;
 }
 
-strictEqual.code = '===';
+strictEqual.op = '===';
 
 export default strictEqual;

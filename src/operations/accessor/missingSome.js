@@ -8,7 +8,7 @@ function missingSome(apply, need_count, options) {
   return are_missing;
 }
 
-missingSome.code = 'missing_some';
+missingSome.op = 'missing_some';
 missingSome.withApply = true;
 
 export default missingSome;

@@ -3,6 +3,6 @@ function notEqual(a, b) {
   return a != b;
 }
 
-notEqual.code = '!=';
+notEqual.op = '!=';
 
 export default notEqual;
