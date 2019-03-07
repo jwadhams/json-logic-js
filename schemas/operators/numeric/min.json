@@ -1,4 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/numeric/min.json"
+  "$id": "http://jsonlogic.com/schemas/operators/numeric/min.json",
+
+  "title": "min",
+  "description": "Return the minimum from a list of values.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["min"],
+  "properties": {
+    "min": {
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
+    }
+  }
 }
