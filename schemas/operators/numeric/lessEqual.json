@@ -10,7 +10,7 @@
   "required": ["<="],
   "properties": {
     "<=": {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/trinary.json"
+      "$ref": "http://jsonlogic.com/schemas/common/trinary-args.json"
     }
   }
 }
