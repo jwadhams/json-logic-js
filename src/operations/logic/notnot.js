@@ -1,5 +1,5 @@
 import truthy from '../../helpers/truthy';
 
-truthy.code = '!!';
+truthy.op = '!!';
 
 export default truthy;

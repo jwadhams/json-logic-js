@@ -3,6 +3,6 @@ function equal(a, b) {
   return a == b;
 }
 
-equal.code = '==';
+equal.op = '==';
 
 export default equal;
