@@ -1,4 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/numeric/max.json"
+  "$id": "http://jsonlogic.com/schemas/operators/numeric/max.json",
+
+  "title": "max",
+  "description": "Return the maximum from a list of values.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["max"],
+  "properties": {
+    "max": {
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
+    }
+  }
 }
