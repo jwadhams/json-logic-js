@@ -10,7 +10,7 @@
   "required": ["and"],
   "properties": {
     "and": {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/oneOrMore.json"
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
     }
   }
 }
