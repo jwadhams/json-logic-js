@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/common/binary.json",
+
+  "title": "Trinary",
+  "description": "Trinary valid JSON Logic data source.",
+
+  "oneOf": [
+    {
+      "title": "Array",
+      "description": "An array with one or three elements.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "$ref": "http://jsonlogic.com/schemas/operators/common/any.json"
+      }
+    },
+    {
+      "$ref": "http://jsonlogic.com/schemas/operators/common/any.json",
+      "title": "Single Arg",
+      "description": "Note: trinary operators can also take a single, non array argument:"
+    }
+  ]
+}
