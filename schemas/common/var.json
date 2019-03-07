@@ -11,7 +11,7 @@
       "items": [
         { "$ref": "http://jsonlogic.com/schemas/operators/common/pointer.json" },
         {
-          "$ref": "http://jsonlogic.com/schemas/operators/common/all.json",
+          "$ref": "http://jsonlogic.com/schemas/common/all-types.json",
           "title": "Default",
           "description": "You can supply a default, as the second argument, for values that might be missing in the data object."
         }

@@ -7,7 +7,7 @@
 
   "oneOf": [
     {
-      "$ref": "http://jsonlogic.com/schemas/operators/common/all.json"
+      "$ref": "http://jsonlogic.com/schemas/common/all-types.json"
     },
     {
       "$ref": "http://jsonlogic.com/schemas/operators/operators/variable.json"
