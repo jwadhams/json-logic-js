@@ -1,4 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/misc/log.json"
+  "$id": "http://jsonlogic.com/schemas/operators/misc/log.json",
+
+  "title": "log",
+  "description": "Logs the first value to console, then passes it through unmodified.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "log": {
+      "$ref": "http://jsonlogic.com/schemas/common/any.json"
+    }
+  }
 }
