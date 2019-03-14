@@ -21,7 +21,7 @@
             "$ref": "http://jsonlogic.com/schemas/common/all-types.json"
           },
           {
-            "$ref": "http://jsonlogic.com/schemas/operators/operators/variable.json"
+            "$ref": "http://jsonlogic.com/schemas/operators/accessor/variable.json"
           }
         ]
       }

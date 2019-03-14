@@ -12,11 +12,11 @@
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missing.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missingSome.json" },
 
-    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/add.json" },
-    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/divide.json" },
-    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/modulo.json" },
-    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/multiply.json" },
-    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/substract.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmetic/add.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmetic/divide.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmetic/modulo.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmetic/multiply.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmetic/substract.json" },
 
     { "$ref": "http://jsonlogic.com/schemas/operators/array/all.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/array/filter.json" },

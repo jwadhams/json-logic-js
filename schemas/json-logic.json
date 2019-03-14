@@ -1,4 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/json-logic.json"
+  "$id": "http://jsonlogic.com/schemas/json-logic.json",
+
+  "$ref": "http://jsonlogic.com/schemas/common/any.json"
 }
