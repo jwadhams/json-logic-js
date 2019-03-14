@@ -1,8 +1,27 @@
 /* global QUnit */
 
 const http = require('http');
+const path = require('path');
 const fs = require('fs');
+const glob = require('glob');
 const jsonLogic = require('../dist/jsonLogic.js');
+const Ajv = require('./ajv4');
+const jsonLogicSchema = require('../schemas/json-logic.json');
+
+const ajv = Ajv({
+  // avoid no schema with key or ref "http://json-schema.org/draft-04/schema"
+  validateSchema: false,
+});
+
+const cwd = __dirname;
+glob.sync('../schemas/**/*.json', { cwd }).forEach(file => {
+  // eslint-disable-next-line
+  const schema = require(path.resolve(cwd, file));
+
+  ajv.addSchema(schema);
+});
+
+const validate = ajv.compile(jsonLogicSchema)
 
 const download = (url, dest, cb) => {
   const file = fs.createWriteStream(dest);
@@ -80,6 +99,8 @@ remote_or_cache(
         data
       )}) === ${JSON.stringify(expected)}`
     );
+
+    assert.equal(validate(rule), true, JSON.stringify(rule) + JSON.stringify(validate.errors, null, 2));
   }
 );
 
@@ -99,6 +120,8 @@ remote_or_cache(
         pattern
       )}) === ${JSON.stringify(expected)}`
     );
+
+    assert.equal(validate(rule), true, JSON.stringify(rule));
   }
 );
 
