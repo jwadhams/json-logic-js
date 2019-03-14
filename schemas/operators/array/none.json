@@ -9,7 +9,7 @@
   "required": ["none"],
   "properties": {
     "none": {
-      "$ref": "http://jsonlogic.com/schemas/common/any.json"
+      "$ref": "http://jsonlogic.com/schemas/common/binary-args.json"
     }
   }
 }

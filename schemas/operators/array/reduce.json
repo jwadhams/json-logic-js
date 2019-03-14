@@ -9,7 +9,7 @@
   "required": ["reduce"],
   "properties": {
     "reduce": {
-      "$ref": "http://jsonlogic.com/schemas/common/any.json"
+      "$ref": "http://jsonlogic.com/schemas/common/trinary-args.json"
     }
   }
 }
