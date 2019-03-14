@@ -6,11 +6,48 @@
   "description": "Any valid JSON Logic data source.",
 
   "oneOf": [
-    {
-      "$ref": "http://jsonlogic.com/schemas/common/all-types.json"
-    },
-    {
-      "$ref": "http://jsonlogic.com/schemas/operators/operators/variable.json"
-    }
+    { "$ref": "http://jsonlogic.com/schemas/common/all-types.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/operators/accessor/variable.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missing.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missingSome.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/add.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/divide.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/modulo.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/multiply.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/arithmethic/substract.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/all.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/filter.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/map.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/merge.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/none.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/reduce.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/some.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/and.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/equal.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/if.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/not.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/notEqual.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/notnot.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/or.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/strictEqual.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/logic/strictNotEqual.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/operators/misc/in.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/misc/log.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/misc/method.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/operators/numeric/greater.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/numeric/greaterEqual.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/numeric/less.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/numeric/lessEqual.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/numeric/max.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/numeric/min.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/operators/string/cat.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/string/substr.json" }
   ]
 }
