@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/misc/in.json",
+
+  "title": "in",
+  "description": "If the second argument is an array, tests that the first argument is a member of the array: {\"in\":[ \"Ringo\", [\"John\", \"Paul\", \"George\", \"Ringo\"] ]}.\nIf the second argument is a string, tests that the first argument is a substring: {\"in\":[\"Spring\", \"Springfield\"]}.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["in"],
+  "properties": {
+    "in": {
+      "$ref": "http://jsonlogic.com/schemas/common/binary-args.json"
+    }
+  }
+}
