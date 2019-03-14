@@ -42,6 +42,7 @@
   "scripts": {
     "lint": "eslint src tests",
     "lint-fix": "npm run lint -- --fix",
+    "lint:schemas": "ajv compile -s schemas/json-logic.json -r 'schemas/**/*.json'",
     "test": "cross-env NODE_ENV=test qunit 'tests/**/*.js' -r tap",
     "pretest": "npm run build-package",
     "build": "cross-env NODE_ENV=production npm run build-lib",
