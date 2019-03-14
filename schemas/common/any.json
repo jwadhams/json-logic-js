@@ -5,9 +5,7 @@
   "title": "All",
   "description": "Any valid JSON Logic data source.",
 
-  "oneOf": [
-    { "$ref": "http://jsonlogic.com/schemas/common/all-types.json" },
-
+  "anyOf": [
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/variable.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missing.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missingSome.json" },
@@ -48,6 +46,8 @@
     { "$ref": "http://jsonlogic.com/schemas/operators/numeric/min.json" },
 
     { "$ref": "http://jsonlogic.com/schemas/operators/string/cat.json" },
-    { "$ref": "http://jsonlogic.com/schemas/operators/string/substr.json" }
+    { "$ref": "http://jsonlogic.com/schemas/operators/string/substr.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/common/all-types.json" }
   ]
 }
