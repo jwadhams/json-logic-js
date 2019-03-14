@@ -1,4 +1,26 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/misc/indexOf.json"
+  "$id": "http://jsonlogic.com/schemas/operators/misc/indexOf.json",
+
+  "title": "in",
+  "description": "",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "in": {
+      "type": "array",
+      "items": [
+        {
+          "oneOf": [
+            {}
+          ]
+        },
+        {
+          "oneOf": [
+            {}
+          ]
+        }
+      ]
+    }
+  }
 }

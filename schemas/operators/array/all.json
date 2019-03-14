@@ -1,4 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/array/all.json"
+  "$id": "http://jsonlogic.com/schemas/operators/array/all.json",
+
+  "title": "all",
+  "description": "These operations take an array, and perform a test on each member of that array.\nThe most interesting part of these operations is that inside the test code, var operations are relative to the array element being tested.\nIt can be useful to use {\"var\":\"\"} to get the entire array element within the test.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "all": {
+      "$ref": "http://jsonlogic.com/schemas/common/any.json"
+    }
+  }
 }

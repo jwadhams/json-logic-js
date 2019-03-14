@@ -1,4 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/array/merge.json"
+  "$id": "http://jsonlogic.com/schemas/operators/array/merge.json",
+
+  "title": "merge",
+  "description": "Takes one or more arrays, and merges them into one array. If arguments aren’t arrays, they get cast to arrays.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "merge": {
+      "$ref": "http://jsonlogic.com/schemas/common/any.json"
+    }
+  }
 }

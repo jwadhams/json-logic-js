@@ -1,4 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "http://jsonlogic.com/schemas/operators/string/substr.json"
+  "$id": "http://jsonlogic.com/schemas/operators/string/substr.json",
+
+  "title": "cat",
+  "description": "Concatenate all the supplied arguments. Note that this is not a join or implode operation, there is no “glue” string.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "cat": {
+      "$ref": "http://jsonlogic.com/schemas/common/any.json"
+    }
+  }
 }
