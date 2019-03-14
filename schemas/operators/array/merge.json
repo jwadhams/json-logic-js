@@ -6,6 +6,7 @@
   "description": "Takes one or more arrays, and merges them into one array. If arguments aren’t arrays, they get cast to arrays.",
   "type": "object",
   "additionalProperties": false,
+  "required": ["merge"],
   "properties": {
     "merge": {
       "$ref": "http://jsonlogic.com/schemas/common/any.json"

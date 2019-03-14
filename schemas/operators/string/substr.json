@@ -6,6 +6,7 @@
   "description": "Get a portion of a string.\n\nGive a positive start position to return everything beginning at that index (Indexes of course start at zero).\nGive a negative start position to work backwards from the end of the string, then return everything.\nGive a positive length to express how many characters to return.\nGive a negative length to stop that many characters before the end.",
   "type": "object",
   "additionalProperties": false,
+  "required": ["substr"],
   "properties": {
     "substr": {
       "$ref": "http://jsonlogic.com/schemas/common/any.json"

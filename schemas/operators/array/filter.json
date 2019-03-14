@@ -6,6 +6,7 @@
   "description": "You can use filter to keep only elements of the array that pass a test. Note, that inside the logic being used to map, var operations are relative to the array element being worked on.",
   "type": "object",
   "additionalProperties": false,
+  "required": ["filter"],
   "properties": {
     "filter": {
       "$ref": "http://jsonlogic.com/schemas/common/any.json"

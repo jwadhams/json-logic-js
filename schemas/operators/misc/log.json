@@ -6,6 +6,7 @@
   "description": "Logs the first value to console, then passes it through unmodified.",
   "type": "object",
   "additionalProperties": false,
+  "required": ["log"],
   "properties": {
     "log": {
       "$ref": "http://jsonlogic.com/schemas/common/any.json"

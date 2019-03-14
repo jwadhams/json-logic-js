@@ -6,6 +6,7 @@
   "description": "",
   "type": "object",
   "additionalProperties": false,
+  "required": ["in"],
   "properties": {
     "in": {
       "type": "array",

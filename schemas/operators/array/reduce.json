@@ -6,6 +6,7 @@
   "description": "You can use reduce to combine all the elements in an array into a single value, like adding up a list of numbers. Note, that inside the logic being used to reduce, var operations only have access to an object like: {\n  \"current\" : // this element of the array,\n  \"accumulator\" : // progress so far, or the initial value\n}",
   "type": "object",
   "additionalProperties": false,
+  "required": ["reduce"],
   "properties": {
     "reduce": {
       "$ref": "http://jsonlogic.com/schemas/common/any.json"

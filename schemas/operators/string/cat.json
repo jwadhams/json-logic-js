@@ -6,6 +6,7 @@
   "description": "Concatenate all the supplied arguments. Note that this is not a join or implode operation, there is no “glue” string.",
   "type": "object",
   "additionalProperties": false,
+  "required": ["cat"],
   "properties": {
     "cat": {
       "$ref": "http://jsonlogic.com/schemas/common/any.json"
