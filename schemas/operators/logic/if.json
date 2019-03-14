@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/logic/if.json",
+
+  "title": "if",
+  "description": "The if statement typically takes 3 arguments: a condition (if), what to do if it’s true (then), and what to do if it’s false (else), like: {\"if\" : [ true, \"yes\", \"no\" ]}.\nIf can also take more than 3 arguments, and will pair up arguments like if/then elseif/then elseif/then else.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["if"],
+  "properties": {
+    "if": {
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
+    }
+  }
+}
