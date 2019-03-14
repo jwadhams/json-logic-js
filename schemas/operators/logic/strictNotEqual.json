@@ -10,21 +10,7 @@
   "required": ["!=="],
   "properties": {
     "!==": {
-      "title": "",
-      "description": "",
-      "type": "array",
-      "minItems": 2,
-      "maxItems": 2,
-      "items": {
-        "oneOf": [
-          {
-            "$ref": "http://jsonlogic.com/schemas/common/all-types.json"
-          },
-          {
-            "$ref": "http://jsonlogic.com/schemas/operators/accessor/variable.json"
-          }
-        ]
-      }
+      "$ref": "http://jsonlogic.com/schemas/common/binary-args.json"
     }
   }
 }
