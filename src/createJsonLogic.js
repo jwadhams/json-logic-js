@@ -23,6 +23,11 @@ function createJsonLogic(_operations) {
   }
 
   function removeOperation(name) {
+    if (isArray(name)) {
+      name.forEach(key => removeOperation(key));
+      return;
+    }
+
     delete operations[name];
   }
 
