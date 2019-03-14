@@ -15,4 +15,6 @@ function reduce(apply, data, values) {
   );
 }
 
+reduce.withApply = true;
+
 export default reduce;

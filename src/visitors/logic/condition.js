@@ -30,5 +30,6 @@ function condition(apply, data, values) {
 }
 
 condition.op = ['if', '?:'];
+condition.withApply = true;
 
 export default condition;

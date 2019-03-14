@@ -11,4 +11,6 @@ function map(apply, data, values) {
   return scopedData.map(datum => apply(scopedLogic, datum));
 }
 
+map.withApply = true;
+
 export default map;

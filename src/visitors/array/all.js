@@ -15,4 +15,6 @@ function all(apply, data, values) {
   return true; // All were truthy
 }
 
+all.withApply = true;
+
 export default all;

@@ -4,4 +4,6 @@ function none(apply, data, values) {
   return filtered.length === 0;
 }
 
+none.withApply = true;
+
 export default none;

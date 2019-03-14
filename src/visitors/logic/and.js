@@ -12,4 +12,6 @@ function and(apply, data, values) {
   return current; // Last
 }
 
+and.withApply = true;
+
 export default and;

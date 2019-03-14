@@ -12,4 +12,6 @@ function or(apply, data, values) {
   return current; // Last
 }
 
+or.withApply = true;
+
 export default or;
