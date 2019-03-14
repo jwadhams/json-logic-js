@@ -15,6 +15,6 @@ function reduce(apply, data, values) {
   );
 }
 
-reduce.withApply = true;
+reduce.deepFirst = false;
 
 export default reduce;

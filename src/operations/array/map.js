@@ -11,6 +11,6 @@ function map(apply, data, values) {
   return scopedData.map(datum => apply(scopedLogic, datum));
 }
 
-map.withApply = true;
+map.deepFirst = false;
 
 export default map;

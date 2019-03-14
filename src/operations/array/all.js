@@ -15,6 +15,6 @@ function all(apply, data, values) {
   return true; // All were truthy
 }
 
-all.withApply = true;
+all.deepFirst = false;
 
 export default all;

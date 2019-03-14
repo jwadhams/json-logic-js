@@ -30,6 +30,6 @@ function condition(apply, data, values) {
 }
 
 condition.op = ['if', '?:'];
-condition.withApply = true;
+condition.deepFirst = false;
 
 export default condition;

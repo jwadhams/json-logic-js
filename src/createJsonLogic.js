@@ -2,9 +2,8 @@ import isArray from './helpers/isArray';
 import isLogic from './helpers/isLogic';
 import getOperator from './helpers/getOperator';
 
-function createJsonLogic(_operations, _visitors) {
+function createJsonLogic(_operations) {
   const operations = {};
-  const visitors = {};
 
   if (_operations) {
     Object.keys(_operations).forEach(name => {
@@ -14,38 +13,17 @@ function createJsonLogic(_operations, _visitors) {
     });
   }
 
-  if (_visitors) {
-    Object.keys(_visitors).forEach(name => {
-      const visitor = _visitors[name];
-
-      addVisitor(visitor.op || name, visitor);
-    });
-  }
-
   function addOperation(name, op) {
+    if (isArray(name)) {
+      name.forEach(key => addOperation(key, op));
+      return;
+    }
+
     operations[name] = op;
   }
 
   function removeOperation(name) {
     delete operations[name];
-  }
-
-  function addVisitor(name, op) {
-    if (isArray(name)) {
-      name.forEach(key => addVisitor(key, op));
-      return;
-    }
-
-    visitors[name] = op;
-  }
-
-  function removeVisitor(name) {
-    if (isArray(name)) {
-      name.forEach(removeVisitor);
-      return;
-    }
-
-    delete visitors[name];
   }
 
   function apply(logic, data = {}) {
@@ -67,9 +45,14 @@ function createJsonLogic(_operations, _visitors) {
       values = [values];
     }
 
-    // apply matching visitors first
-    if (typeof visitors[op] === 'function') {
-      return visitors[op](apply, data, values);
+    const operator = operations[op];
+    if (typeof operator === 'function') {
+      const { deepFirst = true } = operator;
+
+      // apply matching visitors first
+      if (!deepFirst) {
+        return operator(apply, data, values);
+      }
     }
 
     // Everyone else gets immediate depth-first recursion
@@ -78,14 +61,16 @@ function createJsonLogic(_operations, _visitors) {
     // The operation is called with "data" bound to its "this" and "values" passed as arguments.
     // Structured commands like % or > can name formal arguments while flexible commands (like missing or merge) can operate on the pseudo-array arguments
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
-    const operator = operations[op];
     if (typeof operator === 'function') {
-      if (operator.withApply) {
+      const { withApply } = operator;
+
+      if (withApply) {
         values.unshift(apply);
       }
 
       return operator.apply(data, values);
     }
+
     if (op.indexOf('.') > 0) {
       // Contains a dot, and not in the 0th position
       const sub_ops = String(op).split('.');
@@ -112,8 +97,6 @@ function createJsonLogic(_operations, _visitors) {
     apply,
     add_operation: addOperation,
     rm_operation: removeOperation,
-    add_visitor: addVisitor,
-    rm_visitor: removeVisitor,
   };
 }
 

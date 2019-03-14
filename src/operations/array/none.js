@@ -4,6 +4,6 @@ function none(apply, data, values) {
   return filtered.length === 0;
 }
 
-none.withApply = true;
+none.deepFirst = false;
 
 export default none;

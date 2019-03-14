@@ -12,6 +12,6 @@ function and(apply, data, values) {
   return current; // Last
 }
 
-and.withApply = true;
+and.deepFirst = false;
 
 export default and;

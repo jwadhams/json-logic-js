@@ -14,6 +14,6 @@ function filter(apply, data, values) {
   return scopedData.filter(datum => truthy(apply(scopedLogic, datum)));
 }
 
-filter.withApply = true;
+filter.deepFirst = false;
 
 export default filter;
