@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/accessor/missing.json",
+
+  "title": "missing",
+  "description": "Takes an array of data keys to search for (same format as var). Returns an array of any keys that are missing from the data object, or an empty array.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["missing"],
+  "properties": {
+    "missing": {
+      "$ref": "http://jsonlogic.com/schemas/common/var.json"
+    }
+  }
+}

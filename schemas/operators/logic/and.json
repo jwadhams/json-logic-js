@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/logic/and.json",
+
+  "title": "and",
+  "description": "and can be used for simple boolean tests, with 1 or more arguments. At a more sophisticated level, and returns the first falsy argument, or the last argument.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["and"],
+  "properties": {
+    "and": {
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
+    }
+  }
+}

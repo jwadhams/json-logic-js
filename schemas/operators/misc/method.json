@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/misc/method.json",
+
+  "title": "method",
+  "description": "If your rule needs to call a method on an object, you can use the built-in method operation.\n You can also pass an array of arguments into the method.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["method"],
+  "properties": {
+    "method": {
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
+    }
+  }
+}

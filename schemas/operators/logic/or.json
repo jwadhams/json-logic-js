@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/logic/or.json",
+
+  "title": "or",
+  "description": "or can be used for simple boolean tests, with 1 or more arguments. At a more sophisticated level, or returns the first truthy argument, or the last argument.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["or"],
+  "properties": {
+    "or": {
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
+    }
+  }
+}

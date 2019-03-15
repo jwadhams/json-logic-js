@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/operators/arithmetic/add.json",
+
+  "title": "+",
+  "description": "Addition. Because addition is associative, it happily take as many args as you want. Passing just one argument to + casts it to a number.",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["+"],
+  "properties": {
+    "+": {
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
+    }
+  }
+}

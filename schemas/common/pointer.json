@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/common/pointer.json",
+
+  "title": "Pointer",
+  "description": "Schema to access properties of an object or items of an array by index.",
+
+  "oneOf": [
+    {
+      "type": "string",
+      "title": "Property",
+      "description": "The key passed to var can use dot-notation to get the property of a property (to any depth you need):"
+    },
+    {
+      "type": "number",
+      "title": "Index",
+      "description": "You can also use the var operator to access an array by numeric index."
+    }
+  ]
+}
