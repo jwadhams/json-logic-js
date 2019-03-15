@@ -74,6 +74,13 @@
     }
 
     function removeOperation(name) {
+      if (isArray(name)) {
+        name.forEach(function (key) {
+          return removeOperation(key);
+        });
+        return;
+      }
+
       delete operations[name];
     }
 
