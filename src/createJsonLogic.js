@@ -9,22 +9,22 @@ function createJsonLogic(_operations) {
     Object.keys(_operations).forEach(name => {
       const operation = _operations[name];
 
-      addOperation(operation.op || name, operation);
+      add_operation(operation.op || name, operation);
     });
   }
 
-  function addOperation(name, op) {
+  function add_operation(name, op) {
     if (isArray(name)) {
-      name.forEach(key => addOperation(key, op));
+      name.forEach(key => add_operation(key, op));
       return;
     }
 
     operations[name] = op;
   }
 
-  function removeOperation(name) {
+  function rm_operation(name) {
     if (isArray(name)) {
-      name.forEach(key => removeOperation(key));
+      name.forEach(key => rm_operation(key));
       return;
     }
 
@@ -100,8 +100,8 @@ function createJsonLogic(_operations) {
 
   return {
     apply,
-    add_operation: addOperation,
-    rm_operation: removeOperation,
+    add_operation,
+    rm_operation,
   };
 }
 
