@@ -2,5 +2,8 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "$id": "http://jsonlogic.com/schemas/json-logic.json",
 
+  "title": "JSON-Logic Schema",
+  "description": "Build complex rules, serialize them as JSON, share them between front-end and back-end.",
+
   "$ref": "http://jsonlogic.com/schemas/common/any.json"
 }
