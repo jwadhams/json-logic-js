@@ -4,4 +4,6 @@ function some(apply, data, values) {
   return filtered.length > 0;
 }
 
+some.deepFirst = false;
+
 export default some;

@@ -15,4 +15,6 @@ function reduce(apply, data, values) {
   );
 }
 
+reduce.deepFirst = false;
+
 export default reduce;

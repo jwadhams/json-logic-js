@@ -29,10 +29,9 @@ If the default bundle size is too big for you or you only need certain operation
 import createJsonLogic from './createJsonLogic';
 
 // pick just what you need, or create your own
-import { equal } from './operations';
-import { and, or } from './visitors';
+import { var, equal } from './operations';
 
-const jsonLogic = createJsonLogic({ equal }, { and, or });
+const jsonLogic = createJsonLogic({ var, equal });
 
 export default jsonLogic;
 ```
@@ -140,3 +139,10 @@ If you want to use JsonLogic *and* support deprecated browsers, you could easily
 It's not possible to include everyone's excellent ideas without the core library bloating, bringing in a ton of outside dependencies, or occasionally causing use case conflicts (some people need to safely execute untrusted rules, some people need to change outside state).
 
 Check out the [documentation for adding custom operations](http://jsonlogic.com/add_operation.html) and be sure to stop by the [Wiki page of custom operations](https://github.com/jwadhams/json-logic-js/wiki/Custom-Operations) to see if someone has already solved your problem or to share your solution.
+
+### Operator Meta Tags
+
+You can specify the following meta tags as properties of your operators function:
+- `op`: usefull if you operator name should be a reserver keyword, like `var`, `<`, `+`, etc., type **string**
+- `withApply`: usefull if you need more control over operator recursion, type **boolean**
+- `deepFirst`: usefull disable default deep-first recursion, type **boolean**

@@ -12,4 +12,6 @@ function or(apply, data, values) {
   return current; // Last
 }
 
+or.deepFirst = false;
+
 export default or;
