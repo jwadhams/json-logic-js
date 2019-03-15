@@ -1,13 +1,13 @@
 import isArray from './isArray';
-import isLogic from './isLogic';
-import getOperator from './getOperator';
+import is_logic from './is_logic';
+import get_operator from './get_operator';
 import arrayUnique from './arrayUnique';
 
-function usesData(logic) {
+function uses_data(logic) {
   const collection = [];
 
-  if (isLogic(logic)) {
-    const op = getOperator(logic);
+  if (is_logic(logic)) {
+    const op = get_operator(logic);
     let values = logic[op];
 
     if (!isArray(values)) {
@@ -20,7 +20,7 @@ function usesData(logic) {
     } else {
       // Recursion!
       values.forEach(val => {
-        collection.push(...usesData(val));
+        collection.push(...uses_data(val));
       });
     }
   }
@@ -28,4 +28,4 @@ function usesData(logic) {
   return arrayUnique(collection);
 }
 
-export default usesData;
+export default uses_data;

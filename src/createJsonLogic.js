@@ -1,6 +1,6 @@
 import isArray from './helpers/isArray';
-import isLogic from './helpers/isLogic';
-import getOperator from './helpers/getOperator';
+import is_logic from './helpers/is_logic';
+import get_operator from './helpers/get_operator';
 
 function createJsonLogic(_operations) {
   const operations = {};
@@ -37,11 +37,11 @@ function createJsonLogic(_operations) {
       return logic.map(l => apply(l, data));
     }
     // You've recursed to a primitive, stop!
-    if (!isLogic(logic)) {
+    if (!is_logic(logic)) {
       return logic;
     }
 
-    const op = getOperator(logic);
+    const op = get_operator(logic);
     let values = logic[op];
     let i;
 

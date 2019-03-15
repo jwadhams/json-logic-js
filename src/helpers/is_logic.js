@@ -1,6 +1,6 @@
 import isArray from './isArray';
 
-function isLogic(logic) {
+function is_logic(logic) {
   return (
     typeof logic === 'object' && // An object
     logic !== null && // but not null
@@ -9,4 +9,4 @@ function isLogic(logic) {
   );
 }
 
-export default isLogic;
+export default is_logic;

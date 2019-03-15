@@ -1,9 +1,9 @@
 import isArray from './isArray';
-import isLogic from './isLogic';
-import getOperator from './getOperator';
-import getValues from './getValues';
+import is_logic from './is_logic';
+import get_operator from './get_operator';
+import get_values from './get_values';
 
-function ruleLike(rule, pattern) {
+function rule_like(rule, pattern) {
   // console.log("Is ". JSON.stringify(rule) . " like " . JSON.stringify(pattern) . "?");
   if (pattern === rule) {
     return true;
@@ -19,17 +19,17 @@ function ruleLike(rule, pattern) {
   }
   if (pattern === 'array') {
     // !logic test might be superfluous in JavaScript
-    return isArray(rule) && !isLogic(rule);
+    return isArray(rule) && !is_logic(rule);
   }
 
-  if (isLogic(pattern)) {
-    if (isLogic(rule)) {
-      const pattern_op = getOperator(pattern);
-      const rule_op = getOperator(rule);
+  if (is_logic(pattern)) {
+    if (is_logic(rule)) {
+      const pattern_op = get_operator(pattern);
+      const rule_op = get_operator(rule);
 
       if (pattern_op === '@' || pattern_op === rule_op) {
         // echo "\nOperators match, go deeper\n";
-        return ruleLike(getValues(rule, false), getValues(pattern, false));
+        return rule_like(get_values(rule, false), get_values(pattern, false));
       }
     }
     return false; // pattern is logic, rule isn't, can't be eq
@@ -45,7 +45,7 @@ function ruleLike(rule, pattern) {
       */
       for (let i = 0; i < pattern.length; i += 1) {
         // If any fail, we fail
-        if (!ruleLike(rule[i], pattern[i])) {
+        if (!rule_like(rule[i], pattern[i])) {
           return false;
         }
       }
@@ -58,4 +58,4 @@ function ruleLike(rule, pattern) {
   return false;
 }
 
-export default ruleLike;
+export default rule_like;
