@@ -40,7 +40,7 @@
     throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
-  function isLogic(logic) {
+  function is_logic(logic) {
     return _typeof(logic) === 'object' && // An object
     logic !== null && // but not null
     !isArray(logic) && // and not an array
@@ -48,7 +48,7 @@
     ;
   }
 
-  function getOperator(logic) {
+  function get_operator(logic) {
     return Object.keys(logic)[0];
   }
 
@@ -58,14 +58,14 @@
     if (_operations) {
       Object.keys(_operations).forEach(function (name) {
         var operation = _operations[name];
-        addOperation(operation.op || name, operation);
+        add_operation(operation.op || name, operation);
       });
     }
 
-    function addOperation(name, op) {
+    function add_operation(name, op) {
       if (isArray(name)) {
         name.forEach(function (key) {
-          return addOperation(key, op);
+          return add_operation(key, op);
         });
         return;
       }
@@ -73,10 +73,10 @@
       operations[name] = op;
     }
 
-    function removeOperation(name) {
+    function rm_operation(name) {
       if (isArray(name)) {
         name.forEach(function (key) {
-          return removeOperation(key);
+          return rm_operation(key);
         });
         return;
       }
@@ -95,11 +95,11 @@
       } // You've recursed to a primitive, stop!
 
 
-      if (!isLogic(logic)) {
+      if (!is_logic(logic)) {
         return logic;
       }
 
-      var op = getOperator(logic);
+      var op = get_operator(logic);
       var values = logic[op];
       var i; // easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
 
@@ -157,8 +157,8 @@
 
     return {
       apply: apply,
-      add_operation: addOperation,
-      rm_operation: removeOperation
+      add_operation: add_operation,
+      rm_operation: rm_operation
     };
   }
 
@@ -221,7 +221,7 @@
 
   missing.withApply = true;
 
-  function missingSome(apply, need_count, options) {
+  function missing_some(apply, need_count, options) {
     // missing_some takes two arguments, how many (minimum) items must be present, and an array of keys (just like 'missing') to check for presence.
     var are_missing = apply({
       missing: options
@@ -234,8 +234,7 @@
     return are_missing;
   }
 
-  missingSome.op = 'missing_some';
-  missingSome.withApply = true;
+  missing_some.withApply = true;
 
   function add() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -566,7 +565,7 @@
   var operations = /*#__PURE__*/Object.freeze({
     variable: variable,
     missing: missing,
-    missingSome: missingSome,
+    missing_some: missing_some,
     add: add,
     divide: divide,
     modulo: modulo,
@@ -601,8 +600,8 @@
     substr: substr
   });
 
-  function getValues(logic) {
-    return logic[getOperator(logic)];
+  function get_values(logic) {
+    return logic[get_operator(logic)];
   }
 
   /**
@@ -622,11 +621,11 @@
     return a;
   }
 
-  function usesData(logic) {
+  function uses_data(logic) {
     var collection = [];
 
-    if (isLogic(logic)) {
-      var op = getOperator(logic);
+    if (is_logic(logic)) {
+      var op = get_operator(logic);
       var values = logic[op];
 
       if (!isArray(values)) {
@@ -639,7 +638,7 @@
       } else {
         // Recursion!
         values.forEach(function (val) {
-          collection.push.apply(collection, _toConsumableArray(usesData(val)));
+          collection.push.apply(collection, _toConsumableArray(uses_data(val)));
         });
       }
     }
@@ -647,7 +646,7 @@
     return arrayUnique(collection);
   }
 
-  function ruleLike(rule, pattern) {
+  function rule_like(rule, pattern) {
     // console.log("Is ". JSON.stringify(rule) . " like " . JSON.stringify(pattern) . "?");
     if (pattern === rule) {
       return true;
@@ -669,17 +668,17 @@
 
     if (pattern === 'array') {
       // !logic test might be superfluous in JavaScript
-      return isArray(rule) && !isLogic(rule);
+      return isArray(rule) && !is_logic(rule);
     }
 
-    if (isLogic(pattern)) {
-      if (isLogic(rule)) {
-        var pattern_op = getOperator(pattern);
-        var rule_op = getOperator(rule);
+    if (is_logic(pattern)) {
+      if (is_logic(rule)) {
+        var pattern_op = get_operator(pattern);
+        var rule_op = get_operator(rule);
 
         if (pattern_op === '@' || pattern_op === rule_op) {
           // echo "\nOperators match, go deeper\n";
-          return ruleLike(getValues(rule, false), getValues(pattern, false));
+          return rule_like(get_values(rule, false), get_values(pattern, false));
         }
       }
 
@@ -698,7 +697,7 @@
 
         for (var i = 0; i < pattern.length; i += 1) {
           // If any fail, we fail
-          if (!ruleLike(rule[i], pattern[i])) {
+          if (!rule_like(rule[i], pattern[i])) {
             return false;
           }
         }
@@ -715,12 +714,12 @@
 
   var jsonLogic = createJsonLogic(operations); // restore original public API
 
-  jsonLogic.is_logic = isLogic;
+  jsonLogic.is_logic = is_logic;
   jsonLogic.truthy = truthy;
-  jsonLogic.get_operator = getOperator;
-  jsonLogic.get_values = getValues;
-  jsonLogic.uses_data = usesData;
-  jsonLogic.rule_like = ruleLike;
+  jsonLogic.get_operator = get_operator;
+  jsonLogic.get_values = get_values;
+  jsonLogic.uses_data = uses_data;
+  jsonLogic.rule_like = rule_like;
 
   return jsonLogic;
 
