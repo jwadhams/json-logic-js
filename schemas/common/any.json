@@ -8,7 +8,7 @@
   "anyOf": [
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/variable.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missing.json" },
-    { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missingSome.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missing_some.json" },
 
     { "$ref": "http://jsonlogic.com/schemas/operators/arithmetic/add.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/arithmetic/divide.json" },
