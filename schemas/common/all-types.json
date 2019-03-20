@@ -12,7 +12,7 @@
       "minProperties": 1,
       "maxProperties": 1,
       "patternProperties": {
-        "^((?!(var|missing|missing_some|+|/|%|*|-|all|filter|map|merge|none|reduce|some|and|==|if|!|!=|!!|or|===|!===|in|log|method|>|>=|<|<=|max|min|cat|substr)).)*$": {}
+        "^((?!(var|missing|missing_some|\\+|\\/|%|\\*|-|all|filter|map|merge|none|reduce|some|and|==|if|!|!=|!!|or|===|!===|in|log|method|>|>=|<|<=|max|min|cat|substr)).)*$": {}
       }
     },
     {
