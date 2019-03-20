@@ -4,5 +4,20 @@
 
   "title": "All",
   "description": "Any valid JSON data type.",
-  "type": ["array", "boolean", "null", "number", "object", "string"]
+
+  "oneOf": [
+    { "type": ["array", "boolean", "null", "number", "string"] },
+    {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "patternProperties": {
+        "^((?!(var|missing|missing_some|+|/|%|*|-|all|filter|map|merge|none|reduce|some|and|==|if|!|!=|!!|or|===|!===|in|log|method|>|>=|<|<=|max|min|cat|substr)).)*$": {}
+      }
+    },
+    {
+      "type": "object",
+      "minProperties": 2
+    }
+  ]
 }
