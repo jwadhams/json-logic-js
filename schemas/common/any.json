@@ -5,7 +5,7 @@
   "title": "All",
   "description": "Any valid JSON Logic data source.",
 
-  "anyOf": [
+  "oneOf": [
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/variable.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missing.json" },
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/missing_some.json" },
