@@ -1,6 +1,6 @@
 {
   "name": "@axa-ch/json-logic-js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Build complex rules, serialize them as JSON, and execute them in JavaScript",
   "main": "dist/jsonLogic.js",
   "browser": "dist/jsonLogic.min.js",
