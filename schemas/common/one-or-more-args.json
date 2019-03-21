@@ -10,13 +10,12 @@
       "title": "Single Array",
       "description": "An array with 1 or more elements.",
       "type": "array",
-      "minItems": 1,
       "items": {
         "$ref": "http://jsonlogic.com/schemas/common/any.json"
       }
     },
     {
-      "$ref": "http://jsonlogic.com/schemas/common/any.json",
+      "$ref": "http://jsonlogic.com/schemas/common/any-wo-array.json",
       "title": "Single Arg",
       "description": "Note: 1 or more operators can also take a single, non array argument:"
     }
