@@ -9,12 +9,14 @@
     {
       "type": "string",
       "title": "Property",
-      "description": "The key passed to var can use dot-notation to get the property of a property (to any depth you need):"
+      "description": "The key passed to var can use dot-notation to get the property of a property (to any depth you need):",
+      "minLength": 1
     },
     {
-      "type": "number",
+      "type": "integer",
       "title": "Index",
-      "description": "You can also use the var operator to access an array by numeric index."
+      "description": "You can also use the var operator to access an array by numeric index.",
+      "minimum": 0
     }
   ]
 }
