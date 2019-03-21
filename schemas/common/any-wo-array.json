@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/common/any-wo-array.json",
+
+  "title": "All",
+  "description": "Any valid JSON Logic data source, except array primitive.",
+
+  "oneOf": [
+    { "$ref": "http://jsonlogic.com/schemas/common/all-operators.json" },
+
+    { "$ref": "http://jsonlogic.com/schemas/common/all-types-wo-array.json" }
+  ]
+}

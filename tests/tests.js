@@ -100,7 +100,7 @@ remote_or_cache(
       )}) === ${JSON.stringify(expected)}`
     );
 
-    assert.equal(validate(rule), true, JSON.stringify(rule) + JSON.stringify(validate.errors, null, 2));
+    assert.equal(validate(rule), true, JSON.stringify(rule) + '\n\n' + JSON.stringify(validate.errors, null, 2));
   }
 );
 

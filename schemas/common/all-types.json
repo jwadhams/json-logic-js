@@ -4,5 +4,9 @@
 
   "title": "All",
   "description": "Any valid JSON data type.",
-  "type": ["array", "boolean", "null", "number", "object", "string"]
+
+  "oneOf": [
+    { "type": ["boolean", "null", "number", "string", "array"] },
+    { "$ref": "http://jsonlogic.com/schemas/common/no-logic-object.json" }
+  ]
 }

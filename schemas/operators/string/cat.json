@@ -9,7 +9,7 @@
   "required": ["cat"],
   "properties": {
     "cat": {
-      "$ref": "http://jsonlogic.com/schemas/common/any.json"
+      "$ref": "http://jsonlogic.com/schemas/common/one-or-more-args.json"
     }
   }
 }

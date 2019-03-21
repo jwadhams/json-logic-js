@@ -9,7 +9,12 @@
     {
       "type": "array",
       "items": [
-        { "$ref": "http://jsonlogic.com/schemas/common/pointer.json" },
+        {
+          "oneOf": [
+            { "$ref": "http://jsonlogic.com/schemas/common/pointer.json" },
+            { "$ref": "http://jsonlogic.com/schemas/operators/logic/if.json" }
+          ]
+        },
         {
           "$ref": "http://jsonlogic.com/schemas/common/all-types.json",
           "title": "Default",
@@ -17,6 +22,10 @@
         }
       ]
     },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/map.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/merge.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/filter.json" },
+    { "$ref": "http://jsonlogic.com/schemas/operators/array/reduce.json" },
     {
       "$ref": "http://jsonlogic.com/schemas/common/pointer.json",
       "title": "Shortcut",
@@ -27,6 +36,11 @@
       "enum": [""],
       "title": "Entire data object",
       "description": "You can also use var with an empty string to get the entire data object – which is really useful in map, filter, and reduce rules."
+    },
+    {
+      "type": "null",
+      "title": "Null",
+      "description": "Unknown null."
     }
   ]
 }
