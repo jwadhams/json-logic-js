@@ -3,7 +3,7 @@
   "$id": "http://jsonlogic.com/schemas/common/any-wo-array.json",
 
   "title": "All",
-  "description": "Any valid JSON Logic data source.",
+  "description": "Any valid JSON Logic data source, except array primitive.",
 
   "oneOf": [
     { "$ref": "http://jsonlogic.com/schemas/operators/accessor/variable.json" },

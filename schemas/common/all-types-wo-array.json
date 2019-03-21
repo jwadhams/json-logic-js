@@ -3,7 +3,7 @@
   "$id": "http://jsonlogic.com/schemas/common/all-types-wo-array.json",
 
   "title": "All",
-  "description": "Any valid JSON data type.",
+  "description": "Any valid JSON data type, except array primitive.",
 
   "oneOf": [
     { "type": ["boolean", "null", "number", "string"] },
