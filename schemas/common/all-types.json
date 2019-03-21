@@ -7,9 +7,6 @@
 
   "oneOf": [
     { "type": ["boolean", "null", "number", "string", "array"] },
-    {
-      "type": "object",
-      "minProperties": 2
-    }
+    { "$ref": "http://jsonlogic.com/schemas/common/no-logic-object.json" }
   ]
 }

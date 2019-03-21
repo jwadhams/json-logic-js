@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "http://jsonlogic.com/schemas/common/no-logic-object.json",
+
+  "title": "No-Logic",
+  "description": "Any valid JSON object which is not a logic rule.",
+
+  "oneOf": [
+    {
+      "title": "Empty object.",
+      "type": "object",
+      "maxProperties": 0
+    },
+    {
+      "title": "Non-Logic single key object.",
+      "allOf": [
+        {
+          "type": "object",
+          "minProperties": 1,
+          "maxProperties": 1
+        },
+        {
+          "not": {
+            "type": "object",
+            "minProperties": 1,
+            "maxProperties": 1,
+            "oneOf": [
+              { "required": ["var"] },
+              { "required": ["missing"] },
+              { "required": ["missing_some"] },
+              { "required": ["+"] },
+              { "required": ["/"] },
+              { "required": ["%"] },
+              { "required": ["*"] },
+              { "required": ["-"] },
+              { "required": ["all"] },
+              { "required": ["filter"] },
+              { "required": ["map"] },
+              { "required": ["merge"] },
+              { "required": ["none"] },
+              { "required": ["reduce"] },
+              { "required": ["some"] },
+              { "required": ["and"] },
+              { "required": ["=="] },
+              { "required": ["if"] },
+              { "required": ["?:"] },
+              { "required": ["!"] },
+              { "required": ["!="] },
+              { "required": ["!!"] },
+              { "required": ["or"] },
+              { "required": ["==="] },
+              { "required": ["!=="] },
+              { "required": ["in"] },
+              { "required": ["log"] },
+              { "required": ["method"] },
+              { "required": [">"] },
+              { "required": [">="] },
+              { "required": ["<"] },
+              { "required": ["<="] },
+              { "required": ["max"] },
+              { "required": ["min"] },
+              { "required": ["cat"] },
+              { "required": ["substr"] }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Non-Logic multiple key object.",
+      "type": "object",
+      "minProperties": 2
+    }
+  ]
+}
