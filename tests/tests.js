@@ -317,3 +317,47 @@ QUnit.test("Control structures don't eval depth-first", function(assert) {
   jsonLogic.apply({"or": [{"push": [true]}, {"push": [true]}]});
   assert.deepEqual(i, [true]);
 });
+
+
+QUnit.test("Each JSONLogic instance can have its own custom operations", function(assert) {
+
+  // This function is just here to ensure that we're calling
+  // the JSONLogic instances in exactly the same way each time.
+  function callOperationOn(instance) {
+    return instance.apply({"join": [["one", "two"], ","]});
+  }
+
+
+  var foo = new jsonLogic.JSONLogic();
+  foo.add_operation("join", function(ary, glue) {
+    return ary.join(glue);
+  });
+
+
+
+  var bar = new jsonLogic.JSONLogic();
+  bar.add_operation("join", function(ary, glue) {
+    return "Nope.";
+  });
+
+
+  assert.equal(callOperationOn(foo), "one,two");
+  assert.equal(callOperationOn(bar), "Nope.");
+  assert.throws(function() {
+    // This custom operator was never defined within the default
+    // jsonLogic instance.  Therefore, it will throw an exception.
+    callOperationOn(jsonLogic);
+  });
+
+
+  bar.rm_operation("join");
+  assert.throws(function() {
+    // This line throws an exception now because we removed the custom
+    // operation from bar.
+    callOperationOn(bar);
+  });
+
+  // Calling bar.rm_operation(...) didn't somehow magically change foo's state.
+  assert.equal(callOperationOn(foo), "one,two");
+
+});
