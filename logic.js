@@ -11,7 +11,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   } else {
     root.jsonLogic = factory();
   }
-}(this, function createInstance() {
+}(this, function JSONLogic() {
   "use strict";
   /* globals console:false */
 
@@ -460,7 +460,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return false;
   };
 
-  jsonLogic.createInstance = createInstance;
+  jsonLogic.JSONLogic = JSONLogic;
 
   return jsonLogic;
 }));
