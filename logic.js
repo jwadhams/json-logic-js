@@ -318,7 +318,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       );
 
     }else if(op === "all") {
-      scopedData = jsonLogic.apply(values[0], data);
+      scopedData = jsonLogic.apply(values[0], data) || [];
       scopedLogic = values[1];
       // All of an empty set is false. Note, some and none have correct fallback after the for loop
       if( ! scopedData.length) {
