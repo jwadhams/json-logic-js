@@ -35,7 +35,16 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     }
     return a;
   }
-
+  
+  /**
+   * Return a boolean that represnts value is not empty
+   * @param  {any} value  The value to check.
+   * @return {boolean}    Returns true if value is not empty, else false
+   */
+    function exist(value) {
+      return value != null && value != undefined;
+    }
+  
   var jsonLogic = {};
   var operations = {
     "==": function(a, b) {
@@ -217,9 +226,9 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     if( ! jsonLogic.is_logic(logic) ) {
       return logic;
     }
-
-    data = data || {};
-
+    
+    data = exist(data) ? data : {};
+    
     var op = jsonLogic.get_operator(logic);
     var values = logic[op];
     var i;
