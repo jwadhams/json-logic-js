@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^3.9.1",
+    "eslint": "^6.6.0",
     "eslint-config-google": "^0.7.0",
     "gulp": "^3.9.0",
     "qunit": "^0.7.7",
