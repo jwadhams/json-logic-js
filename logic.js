@@ -252,7 +252,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       if(values.length === i+1) return jsonLogic.apply(values[i], data);
-      return null;
+      return undefined;
     }else if(op === "and") { // Return first falsy, or last
       for(i=0; i < values.length; i+=1) {
         current = jsonLogic.apply(values[i], data);
