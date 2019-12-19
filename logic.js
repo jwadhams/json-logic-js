@@ -74,6 +74,9 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "log": function(a) {
       console.log(a); return a;
     },
+    "comment": function(a) {
+      return a;
+    },
     "in": function(a, b) {
       if(!b || typeof b.indexOf === "undefined") return false;
       return (b.indexOf(a) !== -1);
