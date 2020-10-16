@@ -218,7 +218,9 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       return logic;
     }
 
-    data = data || {};
+    if (data === null || data === undefined) {
+      data = {};
+    }
 
     var op = jsonLogic.get_operator(logic);
     var values = logic[op];
