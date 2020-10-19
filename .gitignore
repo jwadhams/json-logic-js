@@ -1,5 +1,7 @@
 node_modules
 tests/*.json
+yarn-error.log
+yarn.lock
 
 # editor and IDE remnants
 *~
