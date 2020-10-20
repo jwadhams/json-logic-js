@@ -74,6 +74,9 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     "log": function(a) {
       console.log(a); return a;
     },
+    "comment": function(a) {
+      return a;
+    },
     "in": function(a, b) {
       if(!b || typeof b.indexOf === "undefined") return false;
       return (b.indexOf(a) !== -1);
@@ -250,7 +253,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       if(values.length === i+1) return jsonLogic.apply(values[i], data);
-      return null;
+      return undefined;
     }else if(op === "and") { // Return first falsy, or last
       for(i=0; i < values.length; i+=1) {
         current = jsonLogic.apply(values[i], data);
@@ -316,7 +319,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       );
 
     }else if(op === "all") {
-      scopedData = jsonLogic.apply(values[0], data);
+      scopedData = jsonLogic.apply(values[0], data) || [];
       scopedLogic = values[1];
       // All of an empty set is false. Note, some and none have correct fallback after the for loop
       if( ! scopedData.length) {
