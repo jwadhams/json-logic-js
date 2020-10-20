@@ -120,6 +120,12 @@ QUnit.test( "logging", function( assert ) {
 
 QUnit.test( "edge cases", function( assert ) {
   assert.equal( jsonLogic.apply(), undefined, "Called with no arguments" );
+
+  assert.equal( jsonLogic.apply({ var: "" }, 0), 0, "Var when data is 'falsy'" );
+  assert.equal( jsonLogic.apply({ var: "" }, null), null, "Var when data is null" );
+  assert.equal( jsonLogic.apply({ var: "" }, undefined), undefined, "Var when data is undefined" );
+
+  assert.equal( jsonLogic.apply({ var: ["a", "fallback"] }, undefined), "fallback", "Fallback works when data is a non-object" );
 });
 
 QUnit.test( "Expanding functionality with add_operator", function( assert) {

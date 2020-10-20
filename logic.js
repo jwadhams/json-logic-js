@@ -128,7 +128,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
       var sub_props = String(a).split(".");
       for(var i = 0; i < sub_props.length; i++) {
-        if(data === null) {
+        if(data === null || data === undefined) {
           return not_found;
         }
         // Descending into data
@@ -217,8 +217,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     if( ! jsonLogic.is_logic(logic) ) {
       return logic;
     }
-
-    data = data || {};
 
     var op = jsonLogic.get_operator(logic);
     var values = logic[op];
