@@ -7,7 +7,7 @@ var download = function(url, dest, cb) {
   http.get(url, function(response) {
     response.pipe(file);
     file.on("finish", function() {
-      file.close(cb);  // close() is async, call cb after close completes.
+      file.close(cb); // close() is async, call cb after close completes.
     });
   }).on("error", function(err) { // Handle errors
     fs.unlink(dest); // Delete the file async. (But we don't check the result)
@@ -15,18 +15,20 @@ var download = function(url, dest, cb) {
   });
 };
 
-var remote_or_cache = function (remote_url, local_file, description, runner){
-  var parse_and_iterate = function(local_file, description, runner){
+var remote_or_cache = function(remote_url, local_file, description, runner) {
+  var parse_and_iterate = function(local_file, description, runner) {
     fs.readFile(local_file, "utf8", function(error, body) {
       var tests;
-      try{
+      try {
         tests = JSON.parse(body);
-      }catch(e) {
+      } catch (e) {
         throw new Error("Trouble parsing " + description + ": " + e.message);
       }
 
       // Remove comments
-      tests = tests.filter(function(test){ return typeof test !== 'string'; });
+      tests = tests.filter(function(test) {
+        return typeof test !== "string";
+      });
 
       console.log("Including "+tests.length+" "+description);
 
@@ -36,31 +38,29 @@ var remote_or_cache = function (remote_url, local_file, description, runner){
 
       start();
     });
-
   };
 
-	// Only waiting on the request() is async
+  // Only waiting on the request() is async
   stop();
 
   fs.stat(local_file, function(err, stats) {
-    if(err) {
+    if (err) {
       console.log("Downloading " + description + " from JsonLogic.com");
       download(remote_url, local_file, function() {
         parse_and_iterate(local_file, description, runner);
       });
-    }else{
+    } else {
       console.log("Using cached " + description);
       parse_and_iterate(local_file, description, runner);
     }
   });
-
 };
 
 remote_or_cache(
   "http://jsonlogic.com/tests.json",
   "tests.json",
   "applies() tests",
-  function(test){
+  function(test) {
     var rule = test[0];
     var data = test[1];
     var expected = test[2];
@@ -79,7 +79,7 @@ remote_or_cache(
   "http://jsonlogic.com/rule_like.json",
   "rule_like.json",
   "rule_like() tests",
-  function(test){
+  function(test) {
     var rule = test[0];
     var pattern = test[1];
     var expected = test[2];
@@ -93,10 +93,6 @@ remote_or_cache(
     );
   }
 );
-
-
-
-
 
 
 QUnit.test( "Bad operator", function( assert ) {
@@ -140,7 +136,7 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
   // Set up some outside data, and build a basic function operator
   var a = 0;
   var add_to_a = function(b) {
-    if(b === undefined) {
+    if (b === undefined) {
       b=1;
     } return a += b;
   };
@@ -178,12 +174,12 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     42
   );
 
-  //Remove operation:
+  // Remove operation:
   jsonLogic.rm_operation("times");
 
   assert.throws(
     function() {
-      jsonLogic.apply({"times": [2,2]});
+      jsonLogic.apply({"times": [2, 2]});
     },
     /Unrecognized operation/
   );
@@ -199,9 +195,6 @@ QUnit.test( "Expanding functionality with add_operator", function( assert) {
     ),
     42
   );
-
-
-
 });
 
 QUnit.test("Control structures don't eval depth-first", function(assert) {
