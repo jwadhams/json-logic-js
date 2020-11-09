@@ -170,10 +170,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         return are_missing;
       }
     },
-    "method": function(obj, method, args) {
-      return obj[method].apply(obj, args);
-    },
-
   };
 
   jsonLogic.is_logic = function(logic) {
