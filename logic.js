@@ -172,6 +172,30 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     },
   };
 
+	var alias = {
+		equal: '==',
+		strictEqual: '===',
+		notEqual: '!=',
+		strictNotEqual: '!==',
+		greater: '>',
+		greaterOrEqual: '>=',
+		less: '<',
+		lessOrEqual: '<=',
+		booleanCasting: '!!',
+		not: '!',
+		modulo: '%',
+		add: '+',
+		multiply: '*',
+		substract: '-',
+		divide: '/',
+	}
+	
+	for (var key in alias) {
+		if (alias.hasOwnProperty(key)) {
+			operations[key] = operations[alias[key]]
+		}
+	}
+	
   jsonLogic.is_logic = function(logic) {
     return (
       typeof logic === "object" && // An object
