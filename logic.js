@@ -196,6 +196,10 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 		}
 	}
 	
+  jsonLogic.list_operators = function() {
+    return Object.keys(operations)
+  };
+	
   jsonLogic.is_logic = function(logic) {
     return (
       typeof logic === "object" && // An object
