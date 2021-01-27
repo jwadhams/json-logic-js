@@ -1,0 +1,82 @@
+[
+  "Pattern checks for type",
+  [ 1, "number", true ],
+  [ "falafel", "number", false ],
+  [ [], "number", false ],
+  [ {"var":"a"}, "number", false],
+
+  [ 1, "string", false ],
+  [ "falafel", "string", true ],
+  [ [], "string", false],
+  [ {"var":"a"}, "string", false],
+
+  [ 1, "array", false ],
+  [ "falafel", "array", false],
+  [ [], "array", true],
+  [ [1], "array", true],
+  [ [1,2], "array", true],
+  [ {"var":"a"}, "array", false],
+
+  "Wildcards",
+  [ 1, "@", true ],
+  [ "falafel", "@", true],
+  [ [], "@", true],
+  [ {"var":"a"}, "@", true],
+  [ {"cat":"falafel"}, {"@":"falafel"}, true],
+  [ {"cat":"kebab"}, {"@":"falafel"}, false],
+  [ {"cat":"kebab"}, {"@":"@"}, true],
+
+
+  "Pattern literally matches a primitive in the rule",
+  [1,1,true],
+  [1,2,false],
+  [1,"falafel", false],
+  ["falafel", "falafel", true],
+  ["falafel", "kebab", false],
+
+  "Array content matches",
+  [ [1,2,3], [1,2,3], true],
+  [ [1,2,69], [1,2,3], false],
+  "Array order matters",
+  [ [1,2,3], [3,2,1], false],
+
+  "Arrays of types",
+  [ [1], ["number"], true],
+  [ [1], ["string"], false],
+  [ ["falafel"], ["string"], true],
+  [ [1,"falafel",[]], ["number","string","array"], true],
+
+  "Taxes, rules of different specificity",
+  [
+    {"*" : [0.01, {"var":"goods"}]},
+    {"*":["number", "@"]},
+    true
+  ],
+  [
+    {"*" : [0.01, {"var":"goods"}]},
+    {"*":["number", {"@":"@"}]},
+    true
+  ],
+  [
+    {"*" : [0.01, {"var":"goods"}]},
+    {"*":["number", {"var":"@"}]},
+    true
+  ],
+  [
+    {"*" : [0.01, 5000]},
+    {"*":["number", {"var":"@"}]},
+    false
+  ],
+  [
+    {"*" : [0.01, {"+":[{"var":"goods"}, {"var":"services"}]}]},
+    {"*":["number", {"+":"@"}]},
+    true
+  ],
+  [
+    {"*" : [0.01, {"+":[{"var":"goods"}, {"var":"services"}]}]},
+    {"*":["number", {"+":"array"}]},
+    true
+  ],
+
+  "EOF, I like this so I don't have to think about trailing commas"
+]
