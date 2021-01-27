@@ -1,10 +1,10 @@
 var jsonLogic = require("../logic.js");
-var http = require("http");
+var https = require("https");
 var fs = require("fs");
 
 var download = function(url, dest, cb) {
   var file = fs.createWriteStream(dest);
-  http.get(url, function(response) {
+  https.get(url, function(response) {
     response.pipe(file);
     file.on("finish", function() {
       file.close(cb); // close() is async, call cb after close completes.
@@ -57,7 +57,7 @@ var remote_or_cache = function(remote_url, local_file, description, runner) {
 };
 
 remote_or_cache(
-  "http://jsonlogic.com/tests.json",
+  "https://jsonlogic.com/tests.json",
   "tests.json",
   "applies() tests",
   function(test) {
@@ -76,7 +76,7 @@ remote_or_cache(
 );
 
 remote_or_cache(
-  "http://jsonlogic.com/rule_like.json",
+  "https://jsonlogic.com/rule_like.json",
   "rule_like.json",
   "rule_like() tests",
   function(test) {
