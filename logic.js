@@ -340,18 +340,19 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     // The operation is called with "data" bound to its "this" and "values" passed as arguments.
     // Structured commands like % or > can name formal arguments while flexible commands (like missing or merge) can operate on the pseudo-array arguments
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
-    if (typeof operations[op] === "function") {
+    if (operations.hasOwnProperty(op) && typeof operations[op] === "function") {
       return operations[op].apply(data, values);
     } else if (op.indexOf(".") > 0) { // Contains a dot, and not in the 0th position
       var sub_ops = String(op).split(".");
       var operation = operations;
       for (i = 0; i < sub_ops.length; i++) {
-        // Descending into operations
-        operation = operation[sub_ops[i]];
-        if (operation === undefined) {
+
+        if (!operation.hasOwnProperty(sub_ops[i])) {
           throw new Error("Unrecognized operation " + op +
             " (failed at " + sub_ops.slice(0, i+1).join(".") + ")");
         }
+        // Descending into operations
+        operation = operation[sub_ops[i]];
       }
 
       return operation.apply(data, values);
