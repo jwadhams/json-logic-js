@@ -1,4 +1,30 @@
-# json-logic-js
+# json-logic-js-graphql
+
+
+This package adds support for GraphQL Query variables! Operators like `>` `===` etc doent supported as keys in GraphQL Query
+
+## Operation Alias:
+
+| Name 	| Operation 	|
+|-	|-	|
+| equal 	| == 	|
+| strictEqual 	| === 	|
+| notEqual 	| != 	|
+| strictNotEqual 	| !== 	|
+| greater 	| > 	|
+| greaterOrEqual 	| >= 	|
+| less 	| < 	|
+| lessOrEqual 	| <= 	|
+| booleanCasting 	| !! 	|
+| not 	| ! 	|
+| modulo 	| % 	|
+| add 	| + 	|
+| multiply 	| * 	|
+| substract 	| - 	|
+| divide 	| / 	|
+
+
+Original Readme:
 
 This parser accepts [JsonLogic](http://jsonlogic.com) rules and executes them in JavaScript.
 
