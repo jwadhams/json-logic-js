@@ -298,7 +298,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
 
       return scopedData.map(function(datum){
-          return jsonLogic.apply(scopedLogic, datum);
+          return jsonLogic.apply(scopedLogic, Object.assign({}, datum, { 'ROOT_DATA': data }));
       });
 
   }else if(op === 'reduce'){
