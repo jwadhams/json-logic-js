@@ -298,7 +298,19 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
 
       return scopedData.map(function(datum){
-          return jsonLogic.apply(scopedLogic, Object.assign({}, datum, { 'ROOT_DATA': data }));
+          return jsonLogic.apply(scopedLogic, datum);
+      });
+
+  }else if(op === 'mapWithScope'){
+      scopedData = jsonLogic.apply(values[0], data);
+      scopedLogic = values[1];
+
+      if ( ! Array.isArray(scopedData)) {
+          return [];
+      }
+
+      return scopedData.map(function(datum){
+          return jsonLogic.apply(scopedLogic, Object.assign({}, { 'LOOP_VAR': datum }, { 'ROOT_DATA': data }));
       });
 
   }else if(op === 'reduce'){
