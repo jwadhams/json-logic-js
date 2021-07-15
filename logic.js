@@ -310,7 +310,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
 
       return scopedData.map(function(datum){
-          return jsonLogic.apply(scopedLogic, Object.assign({}, { 'LOOP_VAR': datum }, { 'ROOT_DATA': data }));
+          return jsonLogic.apply(scopedLogic, Object.assign({}, { 'LOOP_VAR': datum }, { 'ROOT_DATA': data, 'CURRENT_LOOP_INDEX': index }));
       });
 
   }else if(op === 'reduce'){
