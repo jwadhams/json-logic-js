@@ -220,7 +220,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     var current;
     var scopedLogic;
     var scopedData;
-    var filtered;
     var initial;
 
     // easy syntax for unary operators, like {"var" : "x"} instead of strict {"var" : ["x"]}
@@ -314,7 +313,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
       // All of an empty set is false. Note, some and none have correct fallback after the for loop
-      if ( ! scopedData.length) {
+      if ( ! Array.isArray(scopedData) || ! scopedData.length) {
         return false;
       }
       for (i=0; i < scopedData.length; i+=1) {
@@ -324,11 +323,31 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       }
       return true; // All were truthy
     } else if (op === "none") {
-      filtered = jsonLogic.apply({filter: values}, data);
-      return filtered.length === 0;
+      scopedData = jsonLogic.apply(values[0], data);
+      scopedLogic = values[1];
+
+      if ( ! Array.isArray(scopedData) || ! scopedData.length) {
+        return true;
+      }
+      for (i=0; i < scopedData.length; i+=1) {
+        if ( jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
+          return false; // First truthy, short circuit
+        }
+      }
+      return true; // None were truthy
     } else if (op === "some") {
-      filtered = jsonLogic.apply({filter: values}, data);
-      return filtered.length > 0;
+      scopedData = jsonLogic.apply(values[0], data);
+      scopedLogic = values[1];
+
+      if ( ! Array.isArray(scopedData) || ! scopedData.length) {
+        return false;
+      }
+      for (i=0; i < scopedData.length; i+=1) {
+        if ( jsonLogic.truthy( jsonLogic.apply(scopedLogic, scopedData[i]) )) {
+          return true; // First truthy, short circuit
+        }
+      }
+      return false; // None were truthy
     }
 
     // Everyone else gets immediate depth-first recursion
@@ -346,7 +365,6 @@ http://ricostacruz.com/cheatsheets/umdjs.html
       var sub_ops = String(op).split(".");
       var operation = operations;
       for (i = 0; i < sub_ops.length; i++) {
-
         if (!operation.hasOwnProperty(sub_ops[i])) {
           throw new Error("Unrecognized operation " + op +
             " (failed at " + sub_ops.slice(0, i+1).join(".") + ")");
@@ -377,7 +395,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         collection.push(values[0]);
       } else {
         // Recursion!
-        values.map(function(val) {
+        values.forEach(function(val) {
           collection.push.apply(collection, jsonLogic.uses_data(val) );
         });
       }
