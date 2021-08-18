@@ -6,16 +6,13 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
   "devDependencies": {
-    "eslint": "^7.11.0",
+    "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
-    "gulp": "^3.9.0",
-    "qunit": "^0.7.7",
-    "request": "^2.65.0"
+    "qunit": "^2.16.0"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "qunit ./tests/tests.js"
   },
   "repository": {
     "type": "git",
