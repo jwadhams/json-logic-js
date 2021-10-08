@@ -309,7 +309,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
           return [];
       }
 
-      return scopedData.map(function(datum){
+      return scopedData.map(function(datum, index){
           return jsonLogic.apply(scopedLogic, Object.assign({}, { 'LOOP_VAR': datum }, { 'ROOT_DATA': data, 'CURRENT_LOOP_INDEX': index }));
       });
 
