@@ -120,8 +120,6 @@ jsonLogic.apply(false, i_wasnt_even_supposed_to_be_here);
 // false
 ```
 
-
-
 ## Compatibility
 
 This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
