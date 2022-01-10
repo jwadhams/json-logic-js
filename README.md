@@ -120,10 +120,21 @@ jsonLogic.apply(false, i_wasnt_even_supposed_to_be_here);
 // false
 ```
 
-### Registering methods
-Sometimes you want to perform custom operations on your dataset.  This can be done using `add_operation`
 
-```
+
+## Compatibility
+
+This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
+
+If you want to use JsonLogic *and* support deprecated browsers, you could easily use [BabelJS's polyfill](https://babeljs.io/docs/usage/polyfill/) or directly incorporate the polyfills documented on MDN for [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) and [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
+
+## Customization
+
+It's not possible to include everyone's excellent ideas without the core library bloating, bringing in a ton of outside dependencies, or occasionally causing use case conflicts (some people need to safely execute untrusted rules, some people need to change outside state).
+
+You can perform custom operations on your dataset using `add_operation`
+
+```js
 function lessThanNumber(age) {
   return age < 65;
 }
@@ -135,18 +146,8 @@ function greatherThanNumber(age) {
 jsonLogic.add_operation('greatherThanNumber', greatherThanNumber);
 jsonLogic.add_operation('lessThanNumber', lessThanNumber);
 
-var rule = JSON.parse('{"greatherThanNumber":[{"var":"age"}]}');
-var data = JSON.parse('{"age": "62"}');
+jsonLogic.apply({"greatherThanNumber":[{"var":"age"}]}, {"age":62}); // false
+jsonLogic.apply({"lessThanNumber":[{"var":"age"}]}, {"age":62}); // true
 ```
-
-## Compatibility
-
-This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
-
-If you want to use JsonLogic *and* support deprecated browsers, you could easily use [BabelJS's polyfill](https://babeljs.io/docs/usage/polyfill/) or directly incorporate the polyfills documented on MDN for [map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) and [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce).
-
-## Customization
-
-It's not possible to include everyone's excellent ideas without the core library bloating, bringing in a ton of outside dependencies, or occasionally causing use case conflicts (some people need to safely execute untrusted rules, some people need to change outside state).
 
 Check out the [documentation for adding custom operations](http://jsonlogic.com/add_operation.html) and be sure to stop by the [Wiki page of custom operations](https://github.com/jwadhams/json-logic-js/wiki/Custom-Operations) to see if someone has already solved your problem or to share your solution.
