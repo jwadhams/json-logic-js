@@ -130,4 +130,22 @@ If you want to use JsonLogic *and* support deprecated browsers, you could easily
 
 It's not possible to include everyone's excellent ideas without the core library bloating, bringing in a ton of outside dependencies, or occasionally causing use case conflicts (some people need to safely execute untrusted rules, some people need to change outside state).
 
+You can perform custom operations on your dataset using `add_operation`
+
+```js
+function lessThanNumber(age) {
+  return age < 65;
+}
+
+function greatherThanNumber(age) {
+  return age >= 65;
+}
+
+jsonLogic.add_operation('greatherThanNumber', greatherThanNumber);
+jsonLogic.add_operation('lessThanNumber', lessThanNumber);
+
+jsonLogic.apply({"greatherThanNumber":[{"var":"age"}]}, {"age":62}); // false
+jsonLogic.apply({"lessThanNumber":[{"var":"age"}]}, {"age":62}); // true
+```
+
 Check out the [documentation for adding custom operations](http://jsonlogic.com/add_operation.html) and be sure to stop by the [Wiki page of custom operations](https://github.com/jwadhams/json-logic-js/wiki/Custom-Operations) to see if someone has already solved your problem or to share your solution.
