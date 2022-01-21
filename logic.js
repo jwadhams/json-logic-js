@@ -11,7 +11,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   } else {
     root.jsonLogic = factory();
   }
-}(this, function() {
+}(this, function JSONLogic() {
   "use strict";
   /* globals console:false */
 
@@ -470,6 +470,8 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     // Not logic, not array, not a === match for rule.
     return false;
   };
+
+  jsonLogic.JSONLogic = JSONLogic;
 
   return jsonLogic;
 }));
