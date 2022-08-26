@@ -7,6 +7,13 @@
 	<link rel="shortcut icon" type="image/png" href="http://jsonlogic.com/images/favicon.png?v=1445437254" />
 
 	<title>Test JsonLogic in the Browser</title>
+
+	<!-- CodeMirror5 for code editor -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/codemirror.min.js" integrity="sha512-x6DoCPSTG2j4jstyagAfMB/e4gi9CWZaiv9EpjGzx9hnzEMxxwi9Qgxgb2t0EH0b5OfjJiN+c1iuXC4lVcsPew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/addon/edit/closebrackets.min.js" integrity="sha512-tsjcYO5hFvViRssxiM7Jhd8601epWOx1He3Hl4yuI5dKKPxr43KxkOhc9GZeeqzlYJm9ABb7UPA9697NiqZZ7Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.8/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -17,6 +24,8 @@
 			height:300px;
 			margin:0 0 10px;
 		}
+		.CodeMirror { border: 1px solid darkgray; border-radius:4px}
+		.CodeMirror-focused { border: 1px solid darkblue}
 	</style>
 </head>
 <body>
@@ -58,13 +67,24 @@
 	</div>
 
 	<!-- Latest compiled and minified JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="logic.js"></script>
 	<script>
+		const settings = {
+			autoCloseBrackets: true,
+			lineNumbers: true,
+			matchBrackets: true,
+			border: true,
+			mode: 'application/json'
+		}
+		editors = [];
+		editors["#rule"] = CodeMirror.fromTextArea(document.querySelector('#rule'), settings);
+		editors["#data"] = CodeMirror.fromTextArea(document.querySelector('#data'), settings);
+
 		function lint(element){
 			var $element = $(element),
-				text = $element.val(),
+				text = editors[element].getValue(),
 				output,
 				$message = $("#message-" + $element.attr("id") );
 
@@ -92,8 +112,8 @@
 
 		$("#compute").click(function(){
 			if(lint("#rule") && lint("#data")){
-				var rule = JSON.parse($("#rule").val()),
-					data = $("#data").val() === "" ? null : JSON.parse($("#data").val()),
+				var rule = JSON.parse(editors["#rule"].getValue()),
+					data = editors["#data"].getValue() === "" ? null : JSON.parse(editors["#data"].getValue()),
 					output;
 				try{
 					output = jsonLogic.apply(rule, data);
