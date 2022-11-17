@@ -310,14 +310,14 @@ QUnit.module('basic', () => {
 
   QUnit.test("Expanding functionality with add_operator - controlledExecution", function(assert) {
     // assert that controlled execution doesn't do pre-evaluation
-    var customOp = function(values, data, jsonLogic) {
-      return jsonLogic.apply(values[0], data);
+    var customOp = function(values) {
+      return values[0];
     }
 
     jsonLogic.add_operation('customOp', customOp, { controlledExecution: true });
 
-    assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "" }, { "var": "test" }]}, { test: 123 }), { test: 123 });
-    assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "test" }, { "var": "" }]}, { test: 123 }), 123);
+    assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "" }, { "var": "test" }]}, { test: 123 }), { var: "" });
+    assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "test" }, { "var": "" }]}, { test: 123 }), { var: "test" });
 
     // assert that controlled execution custom operators can be removed as normal
     jsonLogic.rm_operation('customOp');
