@@ -37,6 +37,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   }
 
   var jsonLogic = {};
+  var runOperationAsControlled = {};
   var operations = {
     "==": function(a, b) {
       return a == b;
@@ -348,6 +349,8 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return false; // None were truthy
+    } else if (runOperationAsControlled[op]) {
+      return operations[op](values, data, jsonLogic);
     }
 
     // Everyone else gets immediate depth-first recursion
@@ -404,12 +407,16 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     return arrayUnique(collection);
   };
 
-  jsonLogic.add_operation = function(name, code) {
+  jsonLogic.add_operation = function(name, code, options) {
     operations[name] = code;
+
+    var controlledExecution = Boolean(options && options.controlledExecution);
+    runOperationAsControlled[name] = controlledExecution;
   };
 
   jsonLogic.rm_operation = function(name) {
     delete operations[name];
+    delete runOperationAsControlled[name];
   };
 
   jsonLogic.rule_like = function(rule, pattern) {

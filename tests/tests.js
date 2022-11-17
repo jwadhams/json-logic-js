@@ -307,4 +307,49 @@ QUnit.module('basic', () => {
     jsonLogic.apply({"or": [{"push": [true]}, {"push": [true]}]});
     assert.deepEqual(i, [true]);
   });
+
+  QUnit.test("Expanding functionality with add_operator - controlledExecution", function(assert) {
+    // assert that controlled execution doesn't do pre-evaluation
+    var customOp = function(values) {
+      return values[0];
+    }
+
+    jsonLogic.add_operation('customOp', customOp, { controlledExecution: true });
+
+    assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "" }, { "var": "test" }]}, { test: 123 }), { var: "" });
+    assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "test" }, { "var": "" }]}, { test: 123 }), { var: "test" });
+
+    // assert that controlled execution custom operators can be removed as normal
+    jsonLogic.rm_operation('customOp');
+
+    assert.throws(() => jsonLogic.apply({ customOp: [] }), Error, "Unrecognized operation customOp");
+
+    // assert that controlled-execution custom operators have access to jsonLogic object
+    // and can run on external data
+    const externalData = {
+      specialReference: 'external reference'
+    };
+    customOp = function(values, data, jsonLogic) {
+      return jsonLogic.apply(values[0], externalData);
+    }
+
+    jsonLogic.add_operation('customOp', customOp, { controlledExecution: true });
+
+    assert.deepEqual(jsonLogic.apply({ customOp: [{ var: "specialReference" }] }, { specialReference: 'pre-evaluation value' }), 'external reference');
+
+    // assert that operators are added with normal functionality when options is omitted
+    jsonLogic.add_operation('customOp', customOp);
+
+    assert.throws(() => jsonLogic.apply({ customOp: [{ var: "specialReference" }] }, { specialReference: 'pre-evaluation value' }), TypeError, "Cannot read property 'apply' of undefined");
+
+    // assert that adding a custom operator without controlled-execution still 
+    // results in pre-evaluation
+    customOp = function(value) {
+      return value;
+    }
+
+    jsonLogic.add_operation('customOp', customOp);
+
+    assert.deepEqual(jsonLogic.apply({ customOp: [{ var: "specialReference" }] }, { specialReference: 'pre-evaluation value' }), 'pre-evaluation value');
+  });
 });
