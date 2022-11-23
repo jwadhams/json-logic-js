@@ -294,7 +294,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     } else if (op === "reduce") {
       scopedData = jsonLogic.apply(values[0], data);
       scopedLogic = values[1];
-      initial = typeof values[2] !== "undefined" ? values[2] : null;
+      initial = typeof values[2] !== "undefined" ? jsonLogic.apply(values[2], data) : null;
 
       if ( ! Array.isArray(scopedData)) {
         return initial;
