@@ -37,7 +37,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
   }
 
   var jsonLogic = {};
-  var runOperationAsControlled = {};
+  var opOptions = {};
   var operations = {
     "==": function(a, b) {
       return a == b;
@@ -349,7 +349,7 @@ http://ricostacruz.com/cheatsheets/umdjs.html
         }
       }
       return false; // None were truthy
-    } else if (runOperationAsControlled[op]) {
+    } else if (opOptions.hasOwnProperty(op) && !opOptions[op].traverse) {
       return operations[op](values, data, jsonLogic);
     }
 
@@ -409,14 +409,14 @@ http://ricostacruz.com/cheatsheets/umdjs.html
 
   jsonLogic.add_operation = function(name, code, options) {
     operations[name] = code;
-
-    var controlledExecution = Boolean(options && options.controlledExecution);
-    runOperationAsControlled[name] = controlledExecution;
+    opOptions[name] = {
+      traverse: Boolean(!options || options.traverse),
+    };
   };
 
   jsonLogic.rm_operation = function(name) {
     delete operations[name];
-    delete runOperationAsControlled[name];
+    delete opOptions[name];
   };
 
   jsonLogic.rule_like = function(rule, pattern) {

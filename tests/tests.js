@@ -308,13 +308,13 @@ QUnit.module('basic', () => {
     assert.deepEqual(i, [true]);
   });
 
-  QUnit.test("Expanding functionality with add_operator - controlledExecution", function(assert) {
+  QUnit.test("Expanding functionality with add_operator - traverse", function(assert) {
     // assert that controlled execution doesn't do pre-evaluation
     var customOp = function(values) {
       return values[0];
     }
 
-    jsonLogic.add_operation('customOp', customOp, { controlledExecution: true });
+    jsonLogic.add_operation('customOp', customOp, { traverse: false });
 
     assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "" }, { "var": "test" }]}, { test: 123 }), { var: "" });
     assert.deepEqual(jsonLogic.apply({ customOp: [{ "var": "test" }, { "var": "" }]}, { test: 123 }), { var: "test" });
@@ -333,7 +333,7 @@ QUnit.module('basic', () => {
       return jsonLogic.apply(values[0], externalData);
     }
 
-    jsonLogic.add_operation('customOp', customOp, { controlledExecution: true });
+    jsonLogic.add_operation('customOp', customOp, { traverse: false });
 
     assert.deepEqual(jsonLogic.apply({ customOp: [{ var: "specialReference" }] }, { specialReference: 'pre-evaluation value' }), 'external reference');
 
