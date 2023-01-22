@@ -181,6 +181,29 @@ http://ricostacruz.com/cheatsheets/umdjs.html
     );
   };
 
+  jsonLogic.is_operation = function(op) {
+    if (typeof op !== "string") {
+      return false;
+    }
+    if (operations.hasOwnProperty(op) && typeof operations[op] === "function") {
+      return true;
+    } else if (["if", "?:", "and", "or", "filter", "map", "reduce", "all", "none", "some", "@"].indexOf(op) !== -1) {
+      return true;
+    } else if (op.indexOf(".") > 0) {
+      var sub_ops = String(op).split(".");
+      var operation = operations;
+      for (var i = 0; i < sub_ops.length; i++) {
+        if (!operation.hasOwnProperty(sub_ops[i])) {
+          return false;
+        }
+        // Descending into operations
+        operation = operation[sub_ops[i]];
+      }
+      return true;
+    }
+    return false;
+  };
+
   /*
   This helper will defer to the JsonLogic spec as a tie-breaker when different language interpreters define different behavior for the truthiness of primitives.  E.g., PHP considers empty arrays to be falsy, but Javascript considers them to be truthy. JsonLogic, as an ecosystem, needs one consistent answer.
 
