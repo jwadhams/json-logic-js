@@ -1,0 +1,562 @@
+{	"$id": "schema.logics",
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"anyOf": [
+		{"$ref": "#/$defs/logicaloperations"},
+		{"$ref": "#/$defs/numberoperations"},
+		{"$ref": "#/$defs/arrayoperations"},
+		{"$ref": "#/$defs/stringoperations"},
+		{"$ref": "#/$defs/extendedboolean"},
+		{"$ref": "#/$defs/extendednumeral"},
+		{"$ref": "#/$defs/extendedstring"},
+		{"$ref": "#/$defs/extendedarray"},
+		{"$ref": "#/$defs/valuereference"}
+	],
+	"$defs": {
+		"logicaloperations": {
+			"description": "any operation whose outcome is a boolean",
+			"type": "object",
+			"properties": {
+				"and": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendedboolean"
+					},
+					"minItems": 1
+				},
+				"or": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendedboolean"
+					},
+					"minItems": 1
+				},
+				"!": {
+					"oneOf": [
+						{
+							"type": "array",
+							"items": {
+								"$ref": "#/$defs/extendedboolean"
+							},
+							"minItems": 1,
+							"maxItems": 1
+						},
+						{
+							"$ref": "#/$defs/extendedboolean"
+						}
+					]
+				},
+				"!!": {
+					"oneOf": [
+						{
+							"type": "array",
+							"items": {
+								"$ref": "#/$defs/extendedboolean"
+							},
+							"minItems": 1,
+							"maxItems": 1
+						},
+						{
+							"$ref": "#/$defs/extendedboolean"
+						}
+					]
+				},
+				"in": {
+					"type": "array",
+					"prefixItems": [
+						{		
+							"anyOf": [
+								{"$ref": "#/$defs/extendedstring"},
+								{"$ref": "#/$defs/extendednumeral"},
+								{"$ref": "#/$defs/extendedboolean"},
+								{"$ref": "#/$defs/extendedarray"}
+							]
+						},
+						{
+							"anyOf": [
+								{"$ref": "#/$defs/extendedarray"},
+								{"$ref": "#/$defs/extendedstring"}
+							]
+						}
+					],
+					"items": false
+				},
+				"==": { 
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{"$ref": "#/$defs/extendedstring"},
+							{"$ref": "#/$defs/extendednumeral"},
+							{"$ref": "#/$defs/extendedboolean"},
+							{"$ref": "#/$defs/extendedarray"}
+						]
+					},
+					"minItems": 2,
+					"maxItems": 2
+				},
+				"!=": {
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{"$ref": "#/$defs/extendedstring"},
+							{"$ref": "#/$defs/extendednumeral"},
+							{"$ref": "#/$defs/extendedboolean"},
+							{"$ref": "#/$defs/extendedarray"}
+						]
+					},
+					"minItems": 2,
+					"maxItems": 2				
+				},
+				"===": {
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{"$ref": "#/$defs/extendedstring"},
+							{"$ref": "#/$defs/extendednumeral"},
+							{"$ref": "#/$defs/extendedboolean"},
+							{"$ref": "#/$defs/extendedarray"}
+						]
+					},
+					"minItems": 2,
+					"maxItems": 2
+				},
+				"!==": {
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{"$ref": "#/$defs/extendedstring"},
+							{"$ref": "#/$defs/extendednumeral"},
+							{"$ref": "#/$defs/extendedboolean"},
+							{"$ref": "#/$defs/extendedarray"}
+						]
+					},
+					"minItems": 2,
+					"maxItems": 2
+				},
+				"<=": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2,
+					"maxItems": 3
+				},
+				">=": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2,
+					"maxItems": 3
+				},
+				"<": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2,
+					"maxItems": 3
+				},
+				">": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2,
+					"maxItems": 3
+				},
+				"if": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendedboolean"
+					},
+					"minItems": 3
+				},
+				"all": {
+					"type": "array",
+					"prefixItems": [
+						{
+							"$ref": "#/$defs/extendedarray"
+						},
+						{
+							"anyOf": [
+								{"$ref": "#/$defs/extendedarray"},
+								{"$ref": "#/$defs/extendedstring"},
+								{"$ref": "#/$defs/extendednumeral"},
+								{"$ref": "#/$defs/extendedboolean"}
+							]
+						}
+					],
+					"items": false
+				},
+				"none": {
+					"type": "array",
+					"prefixItems": [
+						{
+							"$ref": "#/$defs/extendedarray"
+						},
+						{
+							"anyOf": [
+								{"$ref": "#/$defs/extendedarray"},
+								{"$ref": "#/$defs/extendedstring"},
+								{"$ref": "#/$defs/extendednumeral"},
+								{"$ref": "#/$defs/extendedboolean"}
+							]
+						}
+					],
+					"items": false
+				}	,
+				"some": {
+					"type": "array",
+					"prefixItems": [
+						{
+							"$ref": "#/$defs/extendedarray"
+						},
+						{
+							"anyOf": [
+								{"$ref": "#/$defs/extendedarray"},
+								{"$ref": "#/$defs/extendedstring"},
+								{"$ref": "#/$defs/extendednumeral"},
+								{"$ref": "#/$defs/extendedboolean"}
+							]
+						}
+					],
+					"items": false
+				}		
+			},
+			"additionalProperties": false,
+			"minProperties": 1,
+			"maxProperties": 1
+		},
+		"numberoperations": {
+			"description": "any operation whose outcome is a number",
+			"type": "object",
+			"properties": {
+				"and": {
+					"type": "array",
+					"contains": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 1
+				},
+				"or": {
+					"type": "array",
+					"contains": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 1
+				},
+				"+": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 1
+				},
+				"-": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 1,
+					"maxItems": 2
+				},
+				"*": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2
+				},
+				"/": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2,
+					"maxItems": 2
+				},
+				"%": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2,
+					"maxItems": 2
+				},
+				"min": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2
+				},
+				"max": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2
+				},
+				"reduce": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					}
+				}
+			},
+			"additionalProperties": false,
+			"minProperties": 1,
+			"maxProperties": 1
+		},
+		"arrayoperations": {
+			"description": "any operation whose outcome is an array",
+			"type": "object",
+			"properties": {
+				"and": {
+					"type": "array",
+					"contains": {
+						"$ref": "#/$defs/extendedarray"
+					},
+					"minItems": 1
+				},
+				"or": {
+					"type": "array",
+					"contains": {
+						"$ref": "#/$defs/extendedarray"
+					},
+					"minItems": 1
+				},
+				"map": {
+					"type": "array",
+					"prefixItems": [
+						{
+							"$ref": "#/$defs/extendedarray"
+						},
+						{
+							"anyOf": [
+								{"$ref": "#/$defs/numberoperations"},
+								{"$ref": "#/$defs/stringoperations"},
+								{"$ref": "#/$defs/arrayoperations"},
+								{"$ref": "#/$defs/logicaloperations"}
+							]
+						}
+					],
+					"items": false
+				},
+				"filter": {
+					"type": "array",
+					"prefixItems": [
+						{
+							"$ref": "#/$defs/extendedarray"
+						},
+						{
+							"anyOf": [
+								{"$ref": "#/$defs/extendedarray"},
+								{"$ref": "#/$defs/extendedstring"},
+								{"$ref": "#/$defs/extendednumeral"},
+								{"$ref": "#/$defs/extendedboolean"}
+							]
+						}
+					],
+					"items": false
+				},
+				"merge": {
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{"$ref": "#/$defs/extendedarray"},
+							{"$ref": "#/$defs/extendedstring"},
+							{"$ref": "#/$defs/extendednumeral"},
+							{"$ref": "#/$defs/extendedboolean"}
+						]
+					}
+				},
+				"missing": {
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{"$ref": "#/$defs/extendedarray"},
+							{"$ref": "#/$defs/extendedstring"},
+							{"$ref": "#/$defs/extendednumeral"},
+							{"$ref": "#/$defs/extendedboolean"}
+						]
+					}
+				}
+			},
+			"additionalProperties": false,
+			"minProperties": 1,
+			"maxProperties": 1
+		},
+		"stringoperations": {
+			"description": "any operation whose outcome is a string",
+			"type": "object",
+			"properties": {
+				"and": {
+					"type": "array",
+					"contains": {
+						"$ref": "#/$defs/extendedstring"
+					},
+					"minItems": 1
+				},
+				"or": {
+					"type": "array",
+					"contains": {
+						"$ref": "#/$defs/extendedstring"
+					},
+					"minItems": 1
+				},
+				"cat": {
+					"type": "array",
+					"items": {
+						"anyOf": [
+							{"$ref": "#/$defs/extendedarray"},
+							{"$ref": "#/$defs/extendedstring"},
+							{"$ref": "#/$defs/extendednumeral"},
+							{"$ref": "#/$defs/extendedboolean"}
+						]
+					}
+				},
+				"substr": {
+					"type": "array",
+					"prefixItems": [
+						{
+							"$ref": "#/$defs/extendedstring"
+						}
+					],
+					"items": {
+						"$ref": "#/$defs/extendednumeral"
+					},
+					"minItems": 2,
+					"maxItems": 3
+				}
+			},
+			"additionalProperties": false,
+			"minProperties": 1,
+			"maxProperties": 1
+		},
+		"valuereference": {
+			"description": "dynamic reference to a value",
+			"type": "object",
+			"properties": {
+				"var": {
+					"type": "string"
+				}
+			},
+			"additionalProperties": false
+		},
+		"extendedboolean": {
+			"description": "any value, function or reference that behaves like a boolean when resolved",
+			"oneOf": [
+				{
+					"type": "boolean"
+				},
+				{
+					"$ref": "#/$defs/logicaloperations"
+				},
+				{
+					"$ref": "#/$defs/valuereference"
+				}
+			]
+		},
+		"extendednumeral": {
+			"description": "any value, function or reference that behaves like a number when resolved",
+			"oneOf": [
+				{
+					"type": "number"
+				},
+				{
+					"type": "string",
+					"pattern": "^[0-9]+([,.][0-9]+)?$"
+				},
+				{
+					"$ref": "#/$defs/valuereference"
+				},
+				{
+					"$ref": "#/$defs/numberoperations"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"if": {
+							"type": "array",
+							"prefixItems": [
+								{
+									"$ref": "#/$defs/extendedboolean"
+								}
+							],
+							"items": {
+								"$ref": "#/$defs/extendednumeral"
+							},
+							"minItems": 3
+						}
+					},
+					"additionalProperties": false
+				}
+			]
+		},
+		"extendedstring": {
+			"description": "any value, function or reference that behaves like a string when resolved",
+			"oneOf": [
+				{
+					"type": "string"
+				},
+				{
+					"$ref": "#/$defs/stringoperations"
+				},
+				{
+					"$ref": "#/$defs/valuereference"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"if": {
+							"type": "array",
+							"prefixItems": [
+								{
+									"$ref": "#/$defs/extendedboolean"
+								}
+							],
+							"items": {
+								"$ref": "#/$defs/extendedstring"
+							},
+							"minItems": 3
+						}
+					},
+					"additionalProperties": false
+				}
+			]
+		},
+		"extendedarray": {
+			"description": "any value, function or reference that behaves like an array when resolved",
+			"oneOf": [
+				{
+					"type": "array"
+				},
+				{
+					"$ref": "#/$defs/arrayoperations"
+				},
+				{
+					"$ref": "#/$defs/valuereference"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"if": {
+							"type": "array",
+							"prefixItems": [
+								{
+									"$ref": "#/$defs/extendedboolean"
+								}
+							],
+							"items": {
+								"$ref": "#/$defs/extendedarray"
+							},
+							"minItems": 3
+						}
+					},
+					"additionalProperties": false
+				}
+			]
+		}
+	}
+}
