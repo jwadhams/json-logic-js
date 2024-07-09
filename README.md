@@ -8,13 +8,7 @@ The same format can also be executed in PHP by the library [json-logic-php](http
 
 ## Installation
 
-To parse JsonLogic rules in a JavaScript frontend, install this library is via [Bower](http://bower.io/):
-
-```bash
-bower install --save json-logic-js
-```
-
-To parse JsonLogic rules in a JavaScript backend (like Node.js), install this library via [NPM](https://www.npmjs.com/):
+We recommend that you install this library with a package manager, like [NPM](https://www.npmjs.com/) (or Yarn, etc):
 
 ```bash
 npm install json-logic-js
