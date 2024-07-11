@@ -22,6 +22,20 @@ If that doesn't suit you, and you want to manage updates yourself, the entire li
 curl -O https://raw.githubusercontent.com/jwadhams/json-logic-js/master/logic.js
 ```
 
+### TypeScript Support
+
+In addition to installing the `json-logic-js` package you may also install the types:
+
+```bash
+npm install --save-dev @types/json-logic-js
+```
+
+You may import the package like so:
+
+```ts
+import * as jsonLogic from 'json-logic-js';
+```
+
 ## Examples
 
 ### Simple
