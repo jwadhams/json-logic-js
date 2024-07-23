@@ -307,4 +307,48 @@ QUnit.module('basic', () => {
     jsonLogic.apply({"or": [{"push": [true]}, {"push": [true]}]});
     assert.deepEqual(i, [true]);
   });
+
+  QUnit.test( "Expanding functionality with is_operation ", function(assert) {
+    // Operations that are set directly on the operations variable.
+    var declaredOperations = ["!!", "!", "!=", "!==", "%", "*", "+", "-", "/", "<", "<=", "==", "===", ">", ">=", "cat", "in", "log", "max", "merge", "min", "missing", "missing_some", "substr", "var"];
+    declaredOperations.forEach((operationName) => {
+      assert.equal(jsonLogic.is_operation(operationName), true, `is_operation should consider this an operation but it is NOT: ${operationName}`);
+    });
+
+    // Operations that are NOT set directly on the operations variable.
+    var undeclaredOperations = ["if", "?:", "and", "or", "filter", "map", "reduce", "all", "none", "some", "@"];
+    undeclaredOperations.forEach((operationName) => {
+      assert.equal(jsonLogic.is_operation(operationName), true, `is_operation should consider this an operation but it is NOT: ${operationName}`);
+    });
+
+    // Handle all the absurd inputs.
+    var notOperations = [[], undefined, null, NaN, '', true, false, {}, {"var":"value"}, new Error(), Error];
+    notOperations.forEach((operationName) => {
+      assert.equal(jsonLogic.is_operation(operationName), false, `is_operation should NOT consider this an operation but it is: ${operationName}`);
+    });
+
+    // A custom operation should not exist before it should, then it should exist.
+    var custom_operation = function(a) {
+      return a;
+    };
+    assert.equal(jsonLogic.is_operation('custom_operation'), false, 'is_operation should NOT consider this an operation but it is: custom_operation');
+    jsonLogic.add_operation("custom_operation", custom_operation);
+    assert.equal(jsonLogic.is_operation('custom_operation'), true, 'is_operation should consider this an operation but it is NOT: custom_operation');
+
+    // A custom operation using dot notation should not exist before it should,
+    // then it should exist. And, non-existing dot notation operations should
+    // not be considered operations.
+    var nested_operation = function(a) {
+      return a;
+    };
+    nested_operation.sub_operation = function(a) {
+      return a;
+    };
+    assert.equal(jsonLogic.is_operation('nested_operation'), false, 'is_operation should NOT consider this an operation but it is: nested_operation');
+    assert.equal(jsonLogic.is_operation('nested_operation.sub_operation'), false, 'is_operation should NOT consider this an operation but it is: nested_operation.sub_operation');
+    jsonLogic.add_operation("nested_operation", nested_operation);
+    assert.equal(jsonLogic.is_operation('nested_operation'), true, 'is_operation should consider this an operation but it is NOT: nested_operation');
+    assert.equal(jsonLogic.is_operation('nested_operation.sub_operation'), true, 'is_operation should consider this an operation but it is NOT: nested_operation.sub_operation');
+    assert.equal(jsonLogic.is_operation('nested_operation.not_an_operation'), false, 'is_operation should NOT consider this an operation but it is: nested_operation.not_an_operation');
+  });
 });
